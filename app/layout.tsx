@@ -8,6 +8,10 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header/Header";
+import Pagination from "@/components/layout/Pagination/pagination";
+import { ToastContainer, toast } from "react-toastify";
+import Footer from "@/components/layout/footer/Footer";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,10 +36,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} relative  antialiased`}
       >
         <Header />
+        <ToastContainer theme="dark" />
         {children}
+        <Footer />
       </body>
     </html>
   );
