@@ -1,5 +1,6 @@
 import React from "react";
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Disc, Github, Linkedin, Twitter } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -30,14 +31,32 @@ const Footer = () => {
         >
           <Linkedin size={24} />
         </a>
-
         <a
-          href="https://twitter.com/yourusername"
+          href="https://discord.com/users/khalidchouhan._71684"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-teal transition-colors"
         >
-          <Twitter size={24} />
+          <Image
+            src="/images/hero/discord-logo-icon-social-media-icon-free-png.webp"
+            alt="Discord"
+            width={24}
+            height={24}
+          />
+        </a>
+
+        <a
+          href="https://x.com/Mkhalidcho8520M"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-teal transition-colors"
+        >
+          <Image
+            src="/images/hero/Xlogo.png"
+            alt="Discord"
+            width={24}
+            height={24}
+          />
         </a>
       </div>
     </footer>

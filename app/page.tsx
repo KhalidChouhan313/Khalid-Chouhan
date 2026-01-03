@@ -59,7 +59,7 @@ export default function Home() {
           ></div>
 
           <div
-            className="absolute -inset-0 bg-black/85 top-0
+            className="absolute inset-0 bg-black/85 top-0
            bottom-0 h-full "
           ></div>
           <div

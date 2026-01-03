@@ -36,8 +36,8 @@ const Projects = () => {
           className="h-[38vh] absolute z-10 object-fill  left-[46.5%] right-0"
         />
         <div className="absolute top-[15%] right-4/12">
-          <Link href={"/projects"} className="text-3xl text-teal">
-            View  Projects
+          <Link href="/projects/seeMore" className="text-3xl text-teal">
+            View Projects
           </Link>
           <div className="w-[100%] h-1 bg-amber-50"></div>
         </div>
