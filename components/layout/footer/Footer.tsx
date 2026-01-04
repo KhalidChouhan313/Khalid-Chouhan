@@ -1,6 +1,7 @@
 import React from "react";
 import { Disc, Github, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
+import { discordLogo, githuLogo, Linkedinlogo, Xlogo } from "@/Utils/BaseUrl";
 
 const Footer = () => {
   return (
@@ -18,45 +19,36 @@ const Footer = () => {
           href="https://github.com/KhalidChouhan313"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-teal transition-colors"
+          className="hover:text-teal transition-colors rounded"
         >
-          <Github size={24} />
+          <Image src={githuLogo} alt="Discord" width={24} height={24} />{" "}
         </a>
 
         <a
           href="https://www.linkedin.com/in/muhammad-khalid-chouhan-68b24738b"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-teal transition-colors"
+          className="hover:text-teal transition-colors rounded"
         >
-          <Linkedin size={24} />
+          {" "}
+          <Image src={Linkedinlogo} alt="Discord" width={24} height={24} />
         </a>
         <a
           href="https://discord.com/users/khalidchouhan._71684"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-teal transition-colors"
+          className="hover:text-teal transition-colors rounded"
         >
-          <Image
-            src="/images/hero/discord-logo-icon-social-media-icon-free-png.webp"
-            alt="Discord"
-            width={24}
-            height={24}
-          />
+          <Image src={discordLogo} alt="Discord" width={24} height={24} />
         </a>
 
         <a
           href="https://x.com/Mkhalidcho8520M"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-teal transition-colors"
+          className="hover:text-teal transition-colors rounded"
         >
-          <Image
-            src="/images/hero/Xlogo.png"
-            alt="Discord"
-            width={24}
-            height={24}
-          />
+          <Image src={Xlogo} alt="Discord" width={24} height={24} />
         </a>
       </div>
     </footer>
