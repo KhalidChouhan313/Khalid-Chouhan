@@ -6,6 +6,7 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
+import { ProfileImage } from "@/Utils/BaseUrl";
 import { Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,7 +40,7 @@ const IntroCard = () => {
       <div className="flex justify-center mb-4">
         <div className="w-28 h-28 bg-white rounded-full p-1 shadow-md overflow-hidden flex items-center justify-center">
           <Image
-            src="/images/hero/Gemini_Generated_Image_bk4elibk4elibk4e.png"
+            src={ProfileImage}
             alt="Developer"
             width={112}
             height={112}

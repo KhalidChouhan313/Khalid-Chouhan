@@ -1,3 +1,4 @@
+export const ProfileImage = "/images/hero/Gemini_Generated_Image_bk4elibk4elibk4e.png"
 export const githuLogo = "/images/hero/GithubLogo.png"
 export const discordLogo = "/images/hero/discord-logo-icon-social-media-icon-free-png.webp"
 export const Xlogo = "/images/hero/Xlogo.png"
