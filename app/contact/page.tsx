@@ -2,6 +2,7 @@
 
 import SectionHeading from "@/components/common/SectionHeading";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 import { Send } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -18,8 +19,13 @@ const Contact = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      const res = await axios.post("/api/contact", data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -87,6 +93,7 @@ const Contact = () => {
           )}
         </label>
         <div className="flex items-center justify-center w-full">
+          
           <Button
             type="submit"
             className="bg-teal flex items-center px-12 py-5 
