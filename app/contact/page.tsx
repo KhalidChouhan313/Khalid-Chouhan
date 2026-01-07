@@ -2,9 +2,11 @@
 
 import SectionHeading from "@/components/common/SectionHeading";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
+import { apiWrapper } from "@/lib/api/apiWrapper";
+import { useMutation } from "@tanstack/react-query";
 import { Send } from "lucide-react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 type FormValues = {
   name: string;
@@ -16,16 +18,30 @@ const Contact = () => {
   const {
     register,
     handleSubmit,
+    reset,
+
     formState: { errors },
   } = useForm<FormValues>();
 
+  const ContactMutation = useMutation({
+    mutationFn: (data: FormValues) =>
+      apiWrapper<{ success: boolean; message: string }>({
+        endpoint: "/api/contact",
+        method: "POST",
+        payload: data,
+        isPublic: true,
+      }),
+    onSuccess: (data) => {
+      toast.success("Message sent successfully!");
+      reset();
+    },
+    onError: (error: Error) => {
+      toast.success("Failed to send message. Try again.");
+      console.error(error);
+    },
+  });
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    try {
-      const res = await axios.post("/api/contact", data);
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
+    ContactMutation.mutate(data);
   };
 
   return (
@@ -93,14 +109,15 @@ const Contact = () => {
           )}
         </label>
         <div className="flex items-center justify-center w-full">
-          
           <Button
             type="submit"
+            disabled={ContactMutation.isPending}
             className="bg-teal flex items-center px-12 py-5 
              rounded-full font-bold cursor-pointer mt-10 hover:translate-0.5 
              text-black shadow-md transition-all ease-in-out duration-300"
           >
-            Send Message <Send size={0} />
+            {ContactMutation.isPending ? "Sending..." : "Send Message"}{" "}
+            <Send size={16} />
           </Button>
         </div>{" "}
       </form>

@@ -11,6 +11,7 @@ import Header from "@/components/layout/header/Header";
 import Pagination from "@/components/layout/Pagination/pagination";
 import { ToastContainer, toast } from "react-toastify";
 import Footer from "@/components/layout/footer/Footer";
+import Providers from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,8 +40,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} relative  antialiased`}
       >
         <Header />
-        <ToastContainer theme="dark" />
-        {children}
+        <Providers>
+          {children}
+          <ToastContainer theme="dark" />
+        </Providers>
         <Footer />
       </body>
     </html>
