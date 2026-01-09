@@ -23,7 +23,7 @@ const Contact = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const ContactMutation = useMutation({
+  const { mutate, data, error, isSuccess, isError, isPending } = useMutation({
     mutationFn: (data: FormValues) =>
       apiWrapper<{ success: boolean; message: string }>({
         endpoint: "/api/contact",
@@ -36,12 +36,11 @@ const Contact = () => {
       reset();
     },
     onError: (error: Error) => {
-      toast.success("Failed to send message. Try again.");
       console.error(error);
     },
   });
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    ContactMutation.mutate(data);
+    mutate(data);
   };
 
   return (
@@ -111,15 +110,21 @@ const Contact = () => {
         <div className="flex items-center justify-center w-full">
           <Button
             type="submit"
-            disabled={ContactMutation.isPending}
+            disabled={isPending}
             className="bg-teal flex items-center px-12 py-5 
              rounded-full font-bold cursor-pointer mt-10 hover:translate-0.5 
              text-black shadow-md transition-all ease-in-out duration-300"
           >
-            {ContactMutation.isPending ? "Sending..." : "Send Message"}{" "}
+            {isPending ? "Sending..." : "Send Message"}{" "}
             <Send size={16} />
           </Button>
         </div>{" "}
+        {isSuccess && <p className="text-green-600">{data?.message}</p>}
+        {isError && (
+          <p className="text-red-600">
+            {(error as any)?.message || "Something went wrong"}
+          </p>
+        )}
       </form>
     </div>
   );

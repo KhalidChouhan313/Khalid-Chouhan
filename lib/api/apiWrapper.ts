@@ -34,7 +34,12 @@ export const apiWrapper = async <T>({
     });
     return response.data;
   } catch (err: any) {
-    console.error("API Error:", err.response?.data || err.message);
-    throw err.response?.data || err;
+    const message =
+      err?.response?.data?.message ||
+      err?.response?.data?.error ||
+      err.message ||
+      "Something went wrong";
+    console.error("API Error:", message);
+    throw new Error(message);
   }
 };
