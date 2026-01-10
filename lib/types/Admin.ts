@@ -32,3 +32,34 @@ export interface SocialLinks {
   twitter: string;
   instagram: string;
 }
+
+export interface ProjectFormValues {
+  title: string;
+  description: string;
+  images: FileList;
+  technologies: string;
+  link?: string;
+  github?: string;
+}
+export interface ProjectsUploadProps {
+  setEditingProject: (project: Project | null) => void;
+  setShowProjectForm: (val: boolean) => void;
+  editingProject: Project | null;
+  showProjectForm: boolean;
+  projects: Project[];
+}
+export interface BlogFormValues {
+  title: string;
+  excerpt: string;
+  content: string;
+  category?: string;
+}
+
+export interface BlogsUploadProps {
+  blogs: Blog[];
+  editingBlog: Blog | null;
+  showBlogForm: boolean;
+  setEditingBlog: (blog: Blog | null) => void;
+  setShowBlogForm: (val: boolean) => void;
+  saveBlogs: (blogs: Blog[]) => Promise<void>;
+}

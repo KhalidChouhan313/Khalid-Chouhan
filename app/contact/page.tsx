@@ -2,7 +2,7 @@
 
 import SectionHeading from "@/components/common/SectionHeading";
 import { Button } from "@/components/ui/button";
-import { apiWrapper } from "@/lib/api/apiWrapper";
+import { apiWrapper } from "@/helper/apiWrapper";
 import { useMutation } from "@tanstack/react-query";
 import { Send } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";

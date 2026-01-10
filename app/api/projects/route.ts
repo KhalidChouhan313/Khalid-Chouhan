@@ -21,12 +21,13 @@ export const POST = async (req: Request) => {
   try {
     await connectDB();
     const body = await req.json();
-    const { title, description, images, links } = body;
+    const { title, description, images, links, technologies } = body;
     if (
       !title ||
       !description ||
       images.length === 0 ||
-      !links.line ||
+      !Array.isArray(technologies) ||
+      !links.live ||
       !links.github
     ) {
       return NextResponse.json(
@@ -38,6 +39,7 @@ export const POST = async (req: Request) => {
       title,
       description,
       images,
+      technologies,
       links: {
         live: links.live,
         github: links.github,

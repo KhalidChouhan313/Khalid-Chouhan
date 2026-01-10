@@ -15,6 +15,10 @@ const ProjectSchema = new Schema(
       type: [String],
       required: true,
     },
+    technologies: {
+      type: [String],
+      required: true,
+    },
     links: {
       live: {
         type: String,
