@@ -34,7 +34,7 @@ export const POST = async (req: Request) => {
         { status: 400 }
       );
     }
-    const projects = SchemaProject.create({
+    const projects = await SchemaProject.create({
       title,
       description,
       images,

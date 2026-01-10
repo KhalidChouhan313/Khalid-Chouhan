@@ -1,17 +1,12 @@
-import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  Inter,
-  Roboto,
-  Short_Stack,
-} from "next/font/google";
-import "./globals.css";
-import Header from "@/components/layout/header/Header";
-import Pagination from "@/components/layout/Pagination/pagination";
-import { ToastContainer, toast } from "react-toastify";
+
 import Footer from "@/components/layout/footer/Footer";
+import Header from "@/components/layout/header/Header";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "./globals.css";
 import Providers from "./providers";
+import ClientLayout from "@/components/layout/ClientLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,9 +34,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} relative  antialiased`}
       >
-        <Header />
         <Providers>
-          {children}
+          <ClientLayout>{children}</ClientLayout>
           <ToastContainer theme="dark" />
         </Providers>
         <Footer />
