@@ -9,6 +9,7 @@ import {
   ProjectFormValues,
   ProjectsUploadProps,
 } from "@/lib/types/Admin";
+import { useState } from "react";
 
 const ProjectsUpload = ({
   setEditingProject,
@@ -25,6 +26,8 @@ const ProjectsUpload = ({
   } = useForm<ProjectFormValues>();
 
   const queryClient = useQueryClient();
+  const [techInput, setTechInput] = useState("");
+  const [technologies, setTechnologies] = useState<string[]>([]);
 
   const createMutation = useMutation({
     mutationFn: async (data: ProjectFormValues) => {
@@ -34,16 +37,12 @@ const ProjectsUpload = ({
         const res = await uploadImage(data.images[i]);
         imageUrls.push(res.url);
       }
-      const technologiesArray = data.technologies
-        .split(",")
-        .map((t) => t.trim())
-        .filter((t) => t.length > 0);
 
       const payload = {
         title: data.title,
         description: data.description,
         images: imageUrls,
-        technologies: technologiesArray,
+        technologies,
         links: {
           live: data.link,
           github: data.github,
@@ -171,18 +170,45 @@ const ProjectsUpload = ({
             <label className="block text-sm font-medium text-white mb-1">
               Technologies
             </label>
+
+            <div className="flex flex-wrap gap-2 mb-2">
+              {technologies.map((tech, index) => (
+                <span
+                  key={index}
+                  className="bg-teal text-white font-black  px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                >
+                  {tech}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setTechnologies(
+                        technologies.filter((_, i) => i !== index)
+                      )
+                    }
+                    className="text-white cursor-pointer hover:text-red-300"
+                  >
+                    <X />
+                  </button>
+                </span>
+              ))}
+            </div>
+
             <input
-              {...register("technologies", {
-                required: "Technologies required hain",
-              })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="e.g., React, Node.js, MongoDB"
+              value={techInput}
+              onChange={(e) => setTechInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  if (!techInput.trim()) return;
+                  if (technologies.includes(techInput.trim())) return;
+
+                  setTechnologies([...technologies, techInput.trim()]);
+                  setTechInput("");
+                }
+              }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              placeholder="Type technology and press Enter"
             />
-            {errors.technologies && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.technologies.message}
-              </p>
-            )}
           </div>
 
           <div>
