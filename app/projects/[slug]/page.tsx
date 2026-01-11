@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { allProjects } from "../seeMore/Details";
 import { ChevronLeft } from "lucide-react";
+import { getProjectBySlug } from "@/lib/api/project";
 
 export default async function Page({
   params,
@@ -9,9 +9,7 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  console.log("URL slug:", slug);
-
-  const project = allProjects.find((p) => p.slug === slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     return (
@@ -31,11 +29,11 @@ export default async function Page({
           <ChevronLeft /> Back to Projects
         </Link>
 
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">{project.title}</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">{project?.title}</h1>
         <div className="relative w-full h-[400px] rounded-2xl overflow-hidden mb-10 border border-gray-700">
           <Image
-            src={project.image}
-            alt={project.title}
+            src={project?.images?.[0] ?? "/placeholder.png"} 
+            alt={project?.title}
             fill
             unoptimized
             className="object-cover"
@@ -43,13 +41,13 @@ export default async function Page({
         </div>
 
         <p className="text-gray-300 text-lg leading-relaxed mb-8">
-          {project.description}
+          {project?.description}
         </p>
 
         <div className="mb-10">
           <h2 className="text-2xl font-semibold mb-4">Tech Stack</h2>
           <div className="flex flex-wrap gap-3">
-            {project.tech.map((item, index) => (
+            {project?.technologies.map((item, index) => (
               <span
                 key={index}
                 className="px-4 py-2 text-sm rounded-full bg-gray-800 border border-gray-700"
@@ -62,14 +60,14 @@ export default async function Page({
 
         <div className="flex gap-4">
           <a
-            href={project.live}
+            href={project?.live}
             target="_blank"
             className="px-6 py-3 rounded-lg bg-teal text-black font-semibold hover:bg-teal-300 transition"
           >
             Live Preview
           </a>
           <a
-            href={project.github}
+            href={project?.github}
             target="_blank"
             className="px-6 py-3 rounded-lg border border-gray-600 hover:border-teal transition"
           >

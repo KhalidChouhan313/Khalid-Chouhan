@@ -10,6 +10,7 @@ import {
   ProjectsUploadProps,
 } from "@/lib/types/Admin";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const ProjectsUpload = ({
   setEditingProject,
@@ -48,7 +49,7 @@ const ProjectsUpload = ({
           github: data.github,
         },
       };
-
+      toast.success("Project Created Succesfully");
       return createProject(payload);
     },
     onSuccess: () => {

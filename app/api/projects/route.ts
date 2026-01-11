@@ -44,6 +44,7 @@ export const POST = async (req: Request) => {
         live: links.live,
         github: links.github,
       },
+      
     });
     return NextResponse.json(
       { success: true, data: projects },
