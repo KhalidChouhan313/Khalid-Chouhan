@@ -23,12 +23,13 @@ export const AdminPanel = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [socialLinks, setSocialLinks] = useState({
+  const [socialLinks, setSocialLinks] = useState<SocialLinks>({
     github: "",
     linkedin: "",
     twitter: "",
     instagram: "",
   });
+
   const [editingProject, setEditingProject] = useState(null);
   const [editingBlog, setEditingBlog] = useState(null);
   const [showProjectForm, setShowProjectForm] = useState(false);
@@ -46,10 +47,10 @@ export const AdminPanel = () => {
       const blogsData = localStorage.getItem("admin_blogs");
       const linksData = localStorage.getItem("admin_social_links");
 
-      if (messagesData) setMessages(JSON.parse(messagesData.value));
-      if (projectsData) setProjects(JSON.parse(projectsData.value));
-      if (blogsData) setBlogs(JSON.parse(blogsData.value));
-      if (linksData) setSocialLinks(JSON.parse(linksData.value));
+      if (messagesData) setMessages(JSON.parse(messagesData));
+      if (projectsData) setProjects(JSON.parse(projectsData));
+      if (blogsData) setBlogs(JSON.parse(blogsData));
+      if (linksData) setSocialLinks(JSON.parse(linksData));
     } catch (error) {
       console.log("Loading initial data...");
     }
@@ -58,11 +59,6 @@ export const AdminPanel = () => {
   const saveMessages = async (data: Message[]): Promise<void> => {
     localStorage.setItem("admin_messages", JSON.stringify(data));
     setMessages(data);
-  };
-
-  const saveProjects = async (data: Project[]): Promise<void> => {
-    localStorage.setItem("admin_projects", JSON.stringify(data));
-    setProjects(data);
   };
 
   const saveBlogs = async (data: Blog[]): Promise<void> => {
@@ -76,12 +72,12 @@ export const AdminPanel = () => {
   };
 
   const MessagesTab = () => {
-    const deleteMessage = async (id) => {
+    const deleteMessage = async (id: number) => {
       const updated = messages.filter((m) => m.id !== id);
       saveMessages(updated);
     };
 
-    const markAsRead = async (id) => {
+    const markAsRead = async (id: number) => {
       const updated = messages.map((m) =>
         m.id === id ? { ...m, read: true } : m
       );
