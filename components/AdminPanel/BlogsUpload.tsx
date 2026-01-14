@@ -2,9 +2,7 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Plus, Edit2, Trash2, Save, X } from "lucide-react";
-import { Blog } from "@/lib/types/Admin";
-
-
+import { Blog, BlogFormValues, BlogsUploadProps } from "@/lib/types/Admin";
 
 export const BlogsUpload = ({
   editingBlog,
@@ -24,24 +22,19 @@ export const BlogsUpload = ({
   const onSubmit: SubmitHandler<BlogFormValues> = async (data) => {
     if (editingBlog) {
       const updated = blogs.map((b) =>
-        b.id === editingBlog.id
-          ? { ...b, ...data }
-          : b
+        b.id === editingBlog.id ? { ...b, ...data } : b
       );
       await saveBlogs(updated);
       setEditingBlog(null);
     } else {
-      await saveBlogs([
-        ...blogs,
-        {
-          ...data,
-          id: Date.now(),
-          date: new Date().toLocaleDateString("ur-PK"),
-        },
-      ]);
+      const newBlog: Blog = {
+        ...data,
+        id: Number(Date.now()),
+        date: new Date().toLocaleDateString("ur-PK"),
+      };
+
+      await saveBlogs([...blogs, newBlog]);
     }
-    reset();
-    setShowBlogForm(false);
   };
 
   const deleteBlog = async (id: number) => {

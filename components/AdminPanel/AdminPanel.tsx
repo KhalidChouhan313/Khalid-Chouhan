@@ -1,25 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import {
-  Mail,
-  Plus,
-  Edit2,
-  Trash2,
-  Save,
-  X,
-  MessageSquare,
-  Briefcase,
-  Link2,
-  FileText,
-} from "lucide-react";
 import { Blog, Message, Project, SocialLinks } from "@/lib/types/Admin";
-import ProjectsUpload from "./ProjectsUpload";
+import {
+  Briefcase,
+  FileText,
+  Link2,
+  MessageSquare,
+  Save,
+  Trash2
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { BlogsUpload } from "./BlogsUpload";
+import ProjectsUpload from "./ProjectsUpload";
 
-export const AdminPanel = () => {
-  const [activeTab, setActiveTab] = useState("messages");
+export const AdminPanel: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<"messages" | "projects" | "blogs" | "social">("messages");
   const [messages, setMessages] = useState<Message[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -30,8 +26,8 @@ export const AdminPanel = () => {
     instagram: "",
   });
 
-  const [editingProject, setEditingProject] = useState(null);
-  const [editingBlog, setEditingBlog] = useState(null);
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [showBlogForm, setShowBlogForm] = useState(false);
 
@@ -42,17 +38,16 @@ export const AdminPanel = () => {
   const loadData = async () => {
     try {
       const messagesData = localStorage.getItem("admin_messages");
-
       const projectsData = localStorage.getItem("admin_projects");
       const blogsData = localStorage.getItem("admin_blogs");
       const linksData = localStorage.getItem("admin_social_links");
 
-      if (messagesData) setMessages(JSON.parse(messagesData));
-      if (projectsData) setProjects(JSON.parse(projectsData));
-      if (blogsData) setBlogs(JSON.parse(blogsData));
-      if (linksData) setSocialLinks(JSON.parse(linksData));
+      if (messagesData) setMessages(JSON.parse(messagesData) as Message[]);
+      if (projectsData) setProjects(JSON.parse(projectsData) as Project[]);
+      if (blogsData) setBlogs(JSON.parse(blogsData) as Blog[]);
+      if (linksData) setSocialLinks(JSON.parse(linksData) as SocialLinks);
     } catch (error) {
-      console.log("Loading initial data...");
+      console.log("Loading initial data failed:", error);
     }
   };
 
@@ -71,7 +66,8 @@ export const AdminPanel = () => {
     setSocialLinks(data);
   };
 
-  const MessagesTab = () => {
+  // ---------------- Messages Tab ----------------
+  const MessagesTab: React.FC = () => {
     const deleteMessage = async (id: number) => {
       const updated = messages.filter((m) => m.id !== id);
       saveMessages(updated);
@@ -138,7 +134,7 @@ export const AdminPanel = () => {
 
         <button
           onClick={async () => {
-            const newMsg = {
+            const newMsg: Message = {
               id: Date.now(),
               name: "Test User",
               email: "test@example.com",
@@ -156,20 +152,14 @@ export const AdminPanel = () => {
     );
   };
 
-  const SocialLinksTab = () => {
-    const {
-      register,
-      handleSubmit: handleSocialSubmit,
-      reset,
-    } = useForm({
+  const SocialLinksTab: React.FC = () => {
+    const { register, handleSubmit, reset } = useForm<SocialLinks>({
       defaultValues: socialLinks,
     });
 
-    useEffect(() => {
-      reset(socialLinks);
-    }, [socialLinks, reset]);
 
-    const onSubmit = async (data) => {
+
+    const onSubmit: SubmitHandler<SocialLinks> = async (data) => {
       await saveSocialLinks(data);
       alert("Social links updated successfully!");
     };
@@ -191,7 +181,6 @@ export const AdminPanel = () => {
               placeholder="https://github.com/username"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               LinkedIn
@@ -203,7 +192,6 @@ export const AdminPanel = () => {
               placeholder="https://linkedin.com/in/username"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Twitter
@@ -215,7 +203,6 @@ export const AdminPanel = () => {
               placeholder="https://twitter.com/username"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Instagram
@@ -230,7 +217,7 @@ export const AdminPanel = () => {
 
           <button
             type="button"
-            onClick={handleSocialSubmit(onSubmit)}
+            onClick={handleSubmit(onSubmit)}
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2"
           >
             <Save className="h-4 w-4" />
