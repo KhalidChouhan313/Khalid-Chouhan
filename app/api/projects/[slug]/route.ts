@@ -1,16 +1,16 @@
 import { connectDB } from "@/lib/api/db";
 import { SchemaProject } from "@/models/Projects";
-import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
     await connectDB();
 
-    const { slug } = params;
+    const { slug } = await context.params;
 
     if (!mongoose.Types.ObjectId.isValid(slug)) {
       return NextResponse.json(
@@ -19,10 +19,13 @@ export async function GET(
       );
     }
 
-    const project = await SchemaProject.findOne({ slug });
+    const project = await SchemaProject.findById(slug);
 
     if (!project) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Project not found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(project, { status: 200 });
