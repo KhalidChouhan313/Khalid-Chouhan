@@ -26,16 +26,19 @@ export const getProjects = async (): Promise<Project[]> => {
     method: "GET",
   });
 };
-const BASE_URL =  "http://localhost:3000" ||process.env.NEXT_PUBLIC_BASE_URL 
 
-export const getProjectBySlug = async (slug: string) => {
+const BASE_URL = "http://localhost:3000" || process.env.NEXT_PUBLIC_BASE_URL;
+
+export const getProjectBySlug = async (
+  slug: string
+): Promise<Project | null> => {
   try {
-    const isServer = typeof window === "undefined"; 
+    const isServer = typeof window === "undefined";
     const url = isServer
       ? `${BASE_URL}/api/projects/${slug}`
       : `/api/projects/${slug}`;
 
-    const project = await apiWrapper({
+    const project: Project = await apiWrapper<Project>({
       endpoint: url,
       method: "GET",
       isPublic: true,
@@ -47,7 +50,6 @@ export const getProjectBySlug = async (slug: string) => {
     return null;
   }
 };
-
 export const deleteProjectById = async (id: string) => {
   return apiWrapper({
     endpoint: `/api/projects/${id}`,
