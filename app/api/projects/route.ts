@@ -1,6 +1,6 @@
 import { connectDB } from "@/lib/api/db";
 import { SchemaProject } from "@/models/Projects";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async () => {
   try {
@@ -17,7 +17,7 @@ export const GET = async () => {
   }
 };
 
-export const POST = async (req: Request) => {
+export const POST = async (req: NextRequest) => {
   try {
     await connectDB();
     const body = await req.json();
@@ -44,7 +44,6 @@ export const POST = async (req: Request) => {
         live: links.live,
         github: links.github,
       },
-      
     });
     return NextResponse.json(
       { success: true, data: projects },

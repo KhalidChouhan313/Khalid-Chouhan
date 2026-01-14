@@ -1,18 +1,25 @@
 import { connectDB } from "@/lib/api/db";
 import { SchemaProject } from "@/models/Projects";
-import { NextResponse } from "next/server";
+import mongoose from "mongoose";
+import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: Request, { params }: { params: { id: string } }) => {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { slug: string } }
+) {
   try {
     await connectDB();
 
-    const { id } = params;
+    const { slug } = params;
 
-    if (!id) {
-      return NextResponse.json({ error: "Project ID is required" }, { status: 400 });
+    if (!mongoose.Types.ObjectId.isValid(slug)) {
+      return NextResponse.json(
+        { error: "Invalid project id" },
+        { status: 400 }
+      );
     }
 
-    const project = await SchemaProject.findById(id);
+    const project = await SchemaProject.findOne({ slug });
 
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
@@ -21,6 +28,9 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json(project, { status: 200 });
   } catch (error) {
     console.error("projects API Error:", error);
-    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
   }
-};
+}
