@@ -26,14 +26,26 @@ export const getProjects = async (): Promise<Project[]> => {
     method: "GET",
   });
 };
-export const getProjectBySlug = async (
-  slug: string
-): Promise<Project | null> => {
-  return apiWrapper({
-    endpoint: `/api/projects/${slug}`,
-    method: "GET",
-    isPublic: true,
-  });
+const BASE_URL =  "http://localhost:3000" ||process.env.NEXT_PUBLIC_BASE_URL 
+
+export const getProjectBySlug = async (slug: string) => {
+  try {
+    const isServer = typeof window === "undefined"; 
+    const url = isServer
+      ? `${BASE_URL}/api/projects/${slug}`
+      : `/api/projects/${slug}`;
+
+    const project = await apiWrapper({
+      endpoint: url,
+      method: "GET",
+      isPublic: true,
+    });
+
+    return project;
+  } catch (err) {
+    console.error("getProjectBySlug error:", err);
+    return null;
+  }
 };
 
 export const deleteProjectById = async (id: string) => {

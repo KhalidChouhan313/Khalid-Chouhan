@@ -29,10 +29,12 @@ export default async function Page({
           <ChevronLeft /> Back to Projects
         </Link>
 
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">{project?.title}</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">
+          {project?.title}
+        </h1>
         <div className="relative w-full h-[400px] rounded-2xl overflow-hidden mb-10 border border-gray-700">
           <Image
-            src={project?.images?.[0] ?? "/placeholder.png"} 
+            src={project?.images?.[0] ?? "/placeholder.png"}
             alt={project?.title}
             fill
             unoptimized
@@ -60,14 +62,14 @@ export default async function Page({
 
         <div className="flex gap-4">
           <a
-            href={project?.live}
+            href={project?.links?.live}
             target="_blank"
             className="px-6 py-3 rounded-lg bg-teal text-black font-semibold hover:bg-teal-300 transition"
           >
             Live Preview
           </a>
           <a
-            href={project?.github}
+            href={project?.links?.github}
             target="_blank"
             className="px-6 py-3 rounded-lg border border-gray-600 hover:border-teal transition"
           >
