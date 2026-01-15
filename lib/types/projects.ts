@@ -11,3 +11,12 @@ export interface Project {
   createdAt?: string;
   updatedAt?: string;
 }
+export interface CreateProjectPayload {
+  title: string;
+  description: string;
+  techStack: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+  image?: string;
+  images?: string;
+}

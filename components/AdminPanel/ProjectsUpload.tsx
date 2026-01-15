@@ -11,6 +11,16 @@ import {
 } from "@/lib/types/Admin";
 import { useState } from "react";
 import { toast } from "react-toastify";
+ interface CreateProjectPayload {
+  title: string;
+  description: string;
+  images: string[];
+  technologies: string[];
+  links: {
+    live?: string;
+    github?: string;
+  };
+}
 
 const ProjectsUpload = ({
   setEditingProject,
@@ -39,7 +49,7 @@ const ProjectsUpload = ({
         imageUrls.push(res.url);
       }
 
-      const payload = {
+      const payload:any = {
         title: data.title,
         description: data.description,
         images: imageUrls,

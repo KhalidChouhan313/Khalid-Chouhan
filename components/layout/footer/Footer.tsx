@@ -1,7 +1,5 @@
-import React from "react";
-import { Disc, Github, Linkedin, Twitter } from "lucide-react";
-import Image from "next/image";
 import { discordLogo, githuLogo, Linkedinlogo, Xlogo } from "@/Utils/BaseUrl";
+import Image from "next/image";
 
 const Footer = () => {
   return (

@@ -1,5 +1,5 @@
 import { apiWrapper } from "@/helper/apiWrapper";
-import { Project } from "../types/projects";
+import { CreateProjectPayload, Project } from "../types/projects";
 
 export const uploadImage = async (file: File) => {
   const formData = new FormData();
@@ -12,7 +12,7 @@ export const uploadImage = async (file: File) => {
     isFormData: true,
   });
 };
-export const createProject = async (payload) => {
+export const createProject = async (payload: CreateProjectPayload) => {
   return apiWrapper({
     endpoint: "/api/projects",
     method: "POST",
