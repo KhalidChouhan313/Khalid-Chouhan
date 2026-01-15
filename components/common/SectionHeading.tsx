@@ -1,19 +1,38 @@
-import React from 'react'
-import DownArrow from './DownArrow'
+import React from "react";
+import DownArrow from "./DownArrow";
+import { SectionHeadingProps } from "@/types/HeroSection";
 
-const SectionHeading = ({ heading, paragraph, isShow }) => {
+const SectionHeading = ({
+  heading,
+  paragraph,
+  isShow,
+}: SectionHeadingProps) => {
   return (
     <div className="h-auto w-full flex flex-col items-center gap-8 justify-center ">
       <div className="h-auto w-full flex  items-center justify-center ">
-        <div className={`w-[30%] flex items-center justify-center ${isShow ? "ml-[10%]" : "ml-[0%]"}`}><DownArrow /></div>
-        {isShow &&
+        <div
+          className={`w-[30%] flex items-center justify-center ${
+            isShow ? "ml-[10%]" : "ml-[0%]"
+          }`}
+        >
+          <DownArrow />
+        </div>
+        {isShow && (
           <div className="w-auto h-auto ">
             <h1 className="text-[5rem] font-black flex items-center justify-center ">
-              <span className=" text-teal">&lt;<span className="text-[6rem] inline-block" style={{ transform: "scaleY(1.3)" }}>/</span>
-                &gt;</span>
+              <span className=" text-teal">
+                &lt;
+                <span
+                  className="text-[6rem] inline-block"
+                  style={{ transform: "scaleY(1.3)" }}
+                >
+                  /
+                </span>
+                &gt;
+              </span>
             </h1>
           </div>
-        }
+        )}
       </div>
       <div className="h-auto w-full flex  flex-col items-center justify-center ">
         <div className="h-auto w-full flex flex-col items-center justify-center">
@@ -31,10 +50,9 @@ const SectionHeading = ({ heading, paragraph, isShow }) => {
 
           <p className="font-mono mt-10 font-semibold text-lg">{paragraph}</p>
         </div>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SectionHeading
+export default SectionHeading;
