@@ -27,8 +27,8 @@ export const getProjects = async (): Promise<Project[]> => {
   });
 };
 
-const BASE_URL = "http://localhost:3000" || process.env.NEXT_PUBLIC_BASE_URL;
-
+const BASE_URL = "http://localhost:3000" 
+// || process.env.NEXT_PUBLIC_BASE_URL;
 export const getProjectBySlug = async (
   slug: string
 ): Promise<Project | null> => {
