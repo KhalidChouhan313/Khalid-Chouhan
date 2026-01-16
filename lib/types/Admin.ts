@@ -48,12 +48,7 @@ export interface ProjectsUploadProps {
   showProjectForm: boolean;
   projects: Project[];
 }
-export interface BlogFormValues {
-  title: string;
-  excerpt: string;
-  content: string;
-  category?: string;
-}
+
 
 export interface BlogsUploadProps {
   blogs: Blog[];

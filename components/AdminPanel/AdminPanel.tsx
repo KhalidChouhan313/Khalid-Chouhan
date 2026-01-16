@@ -7,7 +7,7 @@ import {
   Link2,
   MessageSquare,
   Save,
-  Trash2
+  Trash2,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -15,7 +15,9 @@ import { BlogsUpload } from "./BlogsUpload";
 import ProjectsUpload from "./ProjectsUpload";
 
 export const AdminPanel: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"messages" | "projects" | "blogs" | "social">("messages");
+  const [activeTab, setActiveTab] = useState<
+    "messages" | "projects" | "blogs" | "social"
+  >("messages");
   const [messages, setMessages] = useState<Message[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -119,6 +121,8 @@ export const AdminPanel: React.FC = () => {
                     </button>
                   )}
                   <button
+                    aria-label="delete message"
+                    title="delete"
                     onClick={() => deleteMessage(msg.id)}
                     className="text-red-600 hover:text-red-800"
                   >
@@ -156,8 +160,6 @@ export const AdminPanel: React.FC = () => {
     const { register, handleSubmit, reset } = useForm<SocialLinks>({
       defaultValues: socialLinks,
     });
-
-
 
     const onSubmit: SubmitHandler<SocialLinks> = async (data) => {
       await saveSocialLinks(data);

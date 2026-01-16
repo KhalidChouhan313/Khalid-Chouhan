@@ -5,20 +5,15 @@ import BlogSchema from "@/models/BlogSchema";
 export const GET = async (req: NextRequest) => {
   try {
     await connectDB();
-
     const { searchParams } = new URL(req.url);
     const search = searchParams.get("search");
-
     let query: any = {};
-
     if (search) {
       query = {
         title: { $regex: search, $options: "i" },
       };
     }
-
     const blogs = await BlogSchema.find(query).sort({ createdAt: -1 });
-
     return NextResponse.json(
       {
         success: true,
@@ -29,7 +24,45 @@ export const GET = async (req: NextRequest) => {
     );
   } catch (error) {
     console.error("Blog API Error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Something went wrong",
+      },
+      { status: 500 }
+    );
+  }
+};
 
+export const POST = async (req: NextRequest) => {
+  try {
+    await connectDB();
+    const body = await req.json();
+    const { title, description, image, } = body;
+    if (!title || !description || !image) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "All fields are required",
+        },
+        { status: 400 }
+      );
+    }
+    const blog = await BlogSchema.create({
+      title,
+      description,
+      image,
+    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Blog created successfully",
+        data: blog,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Blog API Error:", error);
     return NextResponse.json(
       {
         success: false,

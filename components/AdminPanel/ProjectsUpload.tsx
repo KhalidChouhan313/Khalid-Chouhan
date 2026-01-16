@@ -11,16 +11,6 @@ import {
 } from "@/lib/types/Admin";
 import { useState } from "react";
 import { toast } from "react-toastify";
- interface CreateProjectPayload {
-  title: string;
-  description: string;
-  images: string[];
-  technologies: string[];
-  links: {
-    live?: string;
-    github?: string;
-  };
-}
 
 const ProjectsUpload = ({
   setEditingProject,
@@ -49,7 +39,7 @@ const ProjectsUpload = ({
         imageUrls.push(res.url);
       }
 
-      const payload:any = {
+      const payload: any = {
         title: data.title,
         description: data.description,
         images: imageUrls,
@@ -113,6 +103,8 @@ const ProjectsUpload = ({
               {editingProject ? "Edit Project" : "New Project"}
             </h3>
             <button
+              aria-label="close here"
+              title="close"
               type="button"
               onClick={() => {
                 setShowProjectForm(false);
@@ -189,6 +181,8 @@ const ProjectsUpload = ({
                 >
                   {tech}
                   <button
+                    aria-label="close here"
+                    title="close"
                     type="button"
                     onClick={() =>
                       setTechnologies(
@@ -269,12 +263,16 @@ const ProjectsUpload = ({
               </h3>
               <div className="flex gap-2">
                 <button
+                  aria-label="Edit project"
+                  title="Edit project"
                   onClick={() => startEdit(project)}
                   className="text-blue-600 hover:text-blue-800"
                 >
                   <Edit2 className="h-4 w-4" />
                 </button>
                 <button
+                  aria-label="delete here"
+                  title="delete"
                   //   onClick={() => deleteProject(project.id)}
                   className="text-red-600 hover:text-red-800"
                 >
