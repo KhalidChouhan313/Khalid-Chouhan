@@ -15,3 +15,20 @@ export const GetBlog = async (): Promise<BlogResponse> => {
     method: "GET",
   });
 };
+export const DeleteBlog = async (slug: string): Promise<BlogResponse> => {
+  return apiWrapper({
+    endpoint: `/api/blog?id=${slug}`,
+    method: "DELETE",
+  });
+};
+
+export const EditBlog = async (
+  slug: string,
+  payload: BlogPayload,
+): Promise<BlogResponse> => {
+  return apiWrapper({
+    endpoint: `/api/blog?id=${slug}`,
+    method: "PUT",
+    payload,
+  });
+};

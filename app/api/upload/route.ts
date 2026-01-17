@@ -9,20 +9,19 @@ export const POST = async (req: Request) => {
     if (!file) {
       return NextResponse.json(
         { success: false, message: "No file provided" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
 
     const result: any = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
-        { folder: "projects" },
-        (error, result) => {
+      cloudinary.uploader
+        .upload_stream({ folder: "Portfolio_images" }, (error, result) => {
           if (error) reject(error);
           resolve(result);
-        }
-      ).end(buffer);
+        })
+        .end(buffer);
     });
 
     return NextResponse.json({
@@ -33,7 +32,7 @@ export const POST = async (req: Request) => {
     console.error("Upload error:", error);
     return NextResponse.json(
       { success: false, message: "Upload failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };

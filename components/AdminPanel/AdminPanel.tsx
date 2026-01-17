@@ -1,6 +1,6 @@
 "use client";
 
-import { Blog, Message, Project, SocialLinks } from "@/lib/types/Admin";
+import { Message, Project, SocialLinks } from "@/lib/types/Admin";
 import {
   Briefcase,
   FileText,
@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BlogsUpload } from "./BlogsUpload";
 import ProjectsUpload from "./ProjectsUpload";
+import { BlogTypes } from "@/lib/types/blogs";
 
 export const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -29,7 +30,7 @@ export const AdminPanel: React.FC = () => {
   });
 
   const [editingProject, setEditingProject] = useState<Project | null>(null);
-  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+  const [editingBlog, setEditingBlog] = useState<BlogTypes | null>(null);
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [showBlogForm, setShowBlogForm] = useState(false);
 
@@ -58,7 +59,7 @@ export const AdminPanel: React.FC = () => {
     setMessages(data);
   };
 
-  const saveBlogs = async (data: Blog[]): Promise<void> => {
+  const saveBlogs = async (data: BlogTypes[]): Promise<void> => {
     localStorage.setItem("admin_blogs", JSON.stringify(data));
     setBlogs(data);
   };
@@ -77,7 +78,7 @@ export const AdminPanel: React.FC = () => {
 
     const markAsRead = async (id: number) => {
       const updated = messages.map((m) =>
-        m.id === id ? { ...m, read: true } : m
+        m.id === id ? { ...m, read: true } : m,
       );
       saveMessages(updated);
     };
@@ -308,7 +309,6 @@ export const AdminPanel: React.FC = () => {
             <BlogsUpload
               editingBlog={editingBlog}
               blogs={blogs}
-              saveBlogs={saveBlogs}
               setEditingBlog={setEditingBlog}
               setShowBlogForm={setShowBlogForm}
               showBlogForm={showBlogForm}

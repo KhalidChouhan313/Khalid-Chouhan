@@ -1,23 +1,33 @@
-export interface BlogPayload {
+export interface Blog {
+  _id: string;
   title: string;
   description: string;
   image: string;
-  data: [];
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
 }
+
 export interface BlogFormValues {
   title: string;
   content: string;
   image: FileList;
 }
-export interface BlogTypes {
-  _id: string;
+
+export interface BlogPayload {
   title: string;
   description: string;
   image: string;
-  views: number;
-  createdAt: string;
 }
 
 export interface BlogResponse {
-  data: BlogTypes[];
+  success: boolean;
+  message?: string;
+  data?: Blog[];
+}
+export interface BlogsUploadProps {
+  editingBlog: Blog | null;
+  setEditingBlog: (blog: Blog | null) => void;
+  showBlogForm: boolean;
+  setShowBlogForm: (val: boolean) => void;
 }

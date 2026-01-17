@@ -17,14 +17,7 @@ export interface Project {
   github?: string;
 }
 
-export interface Blog {
-  id: number;
-  title: string;
-  excerpt: string;
-  content: string;
-  category?: string;
-  date: string;
-}
+
 
 export interface SocialLinks {
   github: string;
@@ -50,11 +43,3 @@ export interface ProjectsUploadProps {
 }
 
 
-export interface BlogsUploadProps {
-  blogs: Blog[];
-  editingBlog: Blog | null;
-  showBlogForm: boolean;
-  setEditingBlog: (blog: Blog | null) => void;
-  setShowBlogForm: (val: boolean) => void;
-  saveBlogs: (blogs: Blog[]) => Promise<void>;
-}

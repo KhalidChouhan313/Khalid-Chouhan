@@ -1,9 +1,9 @@
 "use client";
 
-import { PostBlog } from "@/lib/api/blogs";
+import { useBlogs } from "@/hooks/useBlog";
+import { DeleteBlog, EditBlog, PostBlog } from "@/lib/api/blogs";
 import { uploadImage } from "@/lib/api/project";
-import { Blog, BlogsUploadProps } from "@/lib/types/Admin";
-import { BlogFormValues } from "@/lib/types/blogs";
+import { Blog, BlogFormValues, BlogsUploadProps } from "@/lib/types/blogs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit2, Plus, Save, Trash2, X } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -11,8 +11,6 @@ import { toast } from "react-toastify";
 
 export const BlogsUpload = ({
   editingBlog,
-  blogs,
-  saveBlogs,
   setEditingBlog,
   setShowBlogForm,
   showBlogForm,
@@ -24,8 +22,9 @@ export const BlogsUpload = ({
     formState: { errors },
   } = useForm<BlogFormValues>();
   const queryClient = useQueryClient();
-
-  const blogMutation = useMutation({
+  const { data, isLoading, isError } = useBlogs();
+  const allBlogs = data?.data || [];
+  const createBlogMutation = useMutation({
     mutationFn: async (data: BlogFormValues) => {
       const imageFile = data.image[0];
       const uploadRes = await uploadImage(imageFile);
@@ -45,24 +44,47 @@ export const BlogsUpload = ({
       setShowBlogForm(false);
     },
   });
-
-  const onSubmit: SubmitHandler<BlogFormValues> = async (data) => {
-    await blogMutation.mutateAsync(data);
-    reset();
+  const deleteBlogHandler = async (slug: string) => {
+    await DeleteBlog(slug);
+    toast.success("Blog deleted successfully");
+    queryClient.invalidateQueries({ queryKey: ["blogs"] });
   };
 
-  const deleteBlog = async (id: number) => {
-    const updated = blogs.filter((b) => b.id !== id);
-    await saveBlogs(updated);
+  const editcreateBlogMutation = useMutation({
+    mutationFn: async (data: BlogFormValues) => {
+      if (!editingBlog) return;
+      let imageUrl = editingBlog?.image;
+      if (data.image?.[0]) {
+        const uploadRes = await uploadImage(data.image[0]);
+        imageUrl = uploadRes.url;
+      }
+      return EditBlog(editingBlog?._id, {
+        title: data.title,
+        description: data.content,
+        image: imageUrl,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Blog updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      setEditingBlog(null);
+      reset();
+      setShowBlogForm(false);
+    },
+  });
+
+  const onSubmit: SubmitHandler<BlogFormValues> = async (data) => {
+    if (editingBlog) {
+      await editcreateBlogMutation.mutateAsync(data);
+    } else {
+      await createBlogMutation.mutateAsync(data);
+    }
   };
 
   const startEdit = (blog: Blog) => {
     setEditingBlog(blog);
     setShowBlogForm(true);
-    reset({
-      title: blog.title,
-      content: blog.content,
-    });
+    reset({ title: blog?.title, content: blog?.description });
   };
 
   return (
@@ -154,11 +176,14 @@ export const BlogsUpload = ({
 
             <button
               type="submit"
-              disabled={blogMutation.isPending}
+              disabled={
+                createBlogMutation.isPending ||
+                editcreateBlogMutation?.isPending
+              }
               className={`flex items-center justify-center gap-2
     py-3 rounded-lg font-medium transition
     ${
-      blogMutation.isPending
+      createBlogMutation.isPending
         ? "bg-gray-400 cursor-not-allowed"
         : "bg-teal-600 hover:bg-teal-700 text-white"
     }
@@ -166,35 +191,39 @@ export const BlogsUpload = ({
             >
               <Save size={18} />
               {editingBlog
-                ? "Update Blog"
-                : blogMutation.isPending
-                ? "Posting..."
-                : "Post Blog"}
+                ? editcreateBlogMutation?.isPending
+                  ? "Updating..."
+                  : "Update Blog"
+                : createBlogMutation.isPending
+                  ? "Posting..."
+                  : "Post Blog"}
             </button>
           </form>
         </div>
       )}
-
       <div className="grid gap-4">
-        {blogs.map((blog) => (
-          <div key={blog.id} className="bg-white p-4 rounded">
-            <h3>{blog.title}</h3>
-            <p>{blog.excerpt}</p>
-            <button
-              aria-label="Edit blog"
-              title="Edit blog"
-              onClick={() => startEdit(blog)}
-            >
-              <Edit2 />
-            </button>
-
-            <button
-              aria-label="Delete blog"
-              title="Delete blog"
-              onClick={() => deleteBlog(blog.id)}
-            >
-              <Trash2 />
-            </button>
+        {allBlogs.map((blog) => (
+          <div
+            key={blog?._id}
+            className="bg-white text-black font-bold p-4 rounded flex justify-between items-center"
+          >
+            <h3>{blog?.title}</h3>
+            <div className="flex gap-2">
+              <button
+                aria-label="Edit blog"
+                title="Edit blog"
+                onClick={() => startEdit(blog)}
+              >
+                <Edit2 />
+              </button>
+              <button
+                aria-label="Delete blog"
+                title="Delete blog"
+                onClick={() => deleteBlogHandler(blog._id)}
+              >
+                <Trash2 />
+              </button>
+            </div>
           </div>
         ))}
       </div>
