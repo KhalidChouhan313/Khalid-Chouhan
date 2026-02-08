@@ -32,7 +32,7 @@ const Skills = () => {
           className="h-auto flex 
       flex-col items-center 
       justify-center
-     gap-5 md:w-[90%] w-[80%] py-12"
+     gap-5 md:w-[90%] w-full py-12"
         >
           <SkillSection1 />
           <SkillSection2 />

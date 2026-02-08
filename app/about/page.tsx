@@ -14,7 +14,7 @@ const About = () => {
         <DownArrow />
 
         <div className="flex w-full items-end md:flex-row flex-col justify-between gap-10">
-          <div className="md:w-[55%] w-[90%] md:h-[70vh] h-auto 
+          <div className="md:w-[55%] w-full md:h-[70vh] h-auto 
           flex flex-col justify-between items-start md:gap-0 gap-5 md:mt-0 mt-10 ">
             <div className="w-full flex items-start">
               <Button
@@ -32,7 +32,7 @@ const About = () => {
             width={350}
             height={350}
             alt="Portfolio Illustration"
-            className="md:w-[30%] w-[90%]  md:h-[70vh] h-[30vh] object-cover rounded-xl shadow-xl border border-white/10"
+            className="md:w-[30%] w-full  md:h-[70vh] h-[30vh] object-cover rounded-xl shadow-xl border border-white/10"
           />
         </div>
       </div>

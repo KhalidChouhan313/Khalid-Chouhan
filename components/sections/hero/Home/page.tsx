@@ -8,14 +8,14 @@ const HomeContent = () => {
         <h1 className="md:text-6xl text-4xl font-bold uppercase ">Developer</h1>
       </div>
       <div className="w-full flex items-center justify-between md:flex-row flex-col">
-        <div className="md:w-[30%] w-[80%] ">
+        <div className="md:w-[30%] w-full ">
           <IntroCard />
         </div>
 
-        <div className="md:w-[30%] w-[80%]  ">
+        <div className="md:w-[30%] w-full  ">
           <IntroMain />
         </div>
-        <div className="md:w-[30%] w-[80%] md:mb-0 mb-10 ">
+        <div className="md:w-[30%] w-full md:mb-0 mb-10 ">
           <div className="w-auto h-[1-0%] flex items-center justify-between 
         bg-transparent flex-col rounded-full p-6 px-8 py-10 shadow-2xl space-y-6 ">
           <div className="flex items-center gap-4 border-b">
