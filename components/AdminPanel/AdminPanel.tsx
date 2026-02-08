@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BlogsUpload } from "./BlogsUpload";
 import ProjectsUpload from "./ProjectsUpload";
-import { Blog as BlogTypes } from "@/lib/types/blogs";
+import { Blog, Blog as BlogTypes } from "@/lib/types/blogs";
 
 export const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -303,7 +303,6 @@ export const AdminPanel: React.FC = () => {
           {activeTab === "blogs" && (
             <BlogsUpload
               editingBlog={editingBlog}
-              blogs={blogs}
               setEditingBlog={setEditingBlog}
               setShowBlogForm={setShowBlogForm}
               showBlogForm={showBlogForm}

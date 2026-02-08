@@ -6,6 +6,7 @@ export interface Blog {
   slug: string;
   createdAt: string;
   updatedAt: string;
+  views:string
 }
 
 export interface BlogFormValues {
