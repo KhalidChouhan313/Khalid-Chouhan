@@ -13,7 +13,7 @@ const Blog = () => {
         heading="Blogs"
         paragraph="My thoughts on technology and business, welcome to subscribe"
       />
-      <div className="w-[70%] flex items-center justify-center flex-col">
+      <div className="md:w-[70%] w-[90%] flex items-center justify-center flex-col">
         {blogs?.slice(0, 1)?.map((data: BlogTypes, index: number)=> {
           return <BlogCard key={index} data={data} />;
         })}

@@ -7,7 +7,7 @@ interface BlogCardProps {
 
 const BlogCard = ({ data }: BlogCardProps) => {
   return (
-    <div className="w-full flex flex-row items-start justify-start border-t border-b border-gray-700 py-6 gap-6">
+    <div className="w-full flex lg:flex-row flex-col items-start justify-start border-t border-b border-gray-700 py-6 gap-6">
       <div className="flex-shrink-0 w-auto h-[15vh] relative">
         <Image
           src={data.image}

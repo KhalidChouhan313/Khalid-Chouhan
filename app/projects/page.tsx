@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Projects = () => {
   return (
-    <div className="w-full flex flex-col items-center justify-center py-20">
+    <div className="w-full flex flex-col items-center justify-center py-20 ">
       <SectionHeading
         isShow={false}
         heading="Works"
@@ -18,7 +18,7 @@ const Projects = () => {
             width={300}
             height={500}
             alt="Project Image"
-            className="h-[60vh] absolute z-10 object-fill top-[13%] left-18 right-10"
+            className="lg:block hidden lg:h-[60vh] absolute z-10 object-fill top-[13%] left-18 right-10"
           />
         </div>
         <Image
@@ -26,14 +26,14 @@ const Projects = () => {
           width={1200}
           height={800}
           alt="Project Image"
-          className="rounded-xl object-cover w-full h-auto shadow-lg relative z-0"
+          className=" lg:block hidden rounded-xl object-cover w-full h-auto shadow-lg relative z-0"
         />
         <Image
           src="/images/projects/image.jpg"
           width={412}
           height={800}
           alt="Project Image"
-          className="h-[38vh] absolute z-10 object-fill  left-[46.5%] right-0"
+          className="lg:block hidden lg:h-[38vh] absolute z-10 object-fill  left-[46.5%] right-0"
         />
         <div className="absolute top-[15%] right-4/12">
           <Link href="/projects/seeMore" className="text-3xl text-teal">

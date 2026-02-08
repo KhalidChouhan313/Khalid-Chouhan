@@ -48,7 +48,7 @@ const SectionHeading = ({
             </div>
           </div>
 
-          <p className="font-mono mt-10 font-semibold text-lg">{paragraph}</p>
+          <p className="font-mono mt-10 font-semibold text-lg px-10 lg:px-0">{paragraph}</p>
         </div>
       </div>
     </div>

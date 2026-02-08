@@ -61,10 +61,10 @@ const Contact = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 w-[90%] md:w-[50%] lg:w-[40%] mt-10"
       >
-        <div className="flex w-full gap-5">
+        <div className="flex md:flex-row flex-col lg:w-full w-auto gap-5">
           <label
             htmlFor="Name"
-            className="w-full text-teal flex flex-col  mt-5  italic font-bold"
+            className="lg:w-full w-auto text-teal flex flex-col  mt-5  italic font-bold"
           >
             your Name
             <input
@@ -78,7 +78,7 @@ const Contact = () => {
           </label>
           <label
             htmlFor="Email"
-            className="w-full text-teal flex flex-col  mt-5  italic font-bold"
+            className="lg:w-full w-auto text-teal flex flex-col  mt-5  italic font-bold"
           >
             Your Email
             <input
@@ -93,7 +93,7 @@ const Contact = () => {
         </div>
         <label
           htmlFor="Message"
-          className="w-full text-teal flex flex-col  mt-5  italic font-bold"
+          className=" lg:w-full text-teal flex flex-col  mt-5  italic font-bold"
         >
           Your Message
           <textarea

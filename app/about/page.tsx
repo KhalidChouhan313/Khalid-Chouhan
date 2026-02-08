@@ -18,7 +18,7 @@ const About = () => {
           flex flex-col justify-between items-start md:gap-0 gap-5 md:mt-0 mt-10 ">
             <div className="w-full flex items-start">
               <Button
-                className="border border-teal bg-[#1e242b] px-6 py-3 
+                className="md:w-auto w-full border border-teal bg-[#1e242b] px-6 py-3 
           rounded-tl-2xl rounded-br-2xl font-bold text-teal shadow-md
           hover:bg-teal hover:text-black transition-all duration-300"
               >

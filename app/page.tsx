@@ -9,7 +9,7 @@ import Contact from "./contact/page";
 export default function Home() {
   return (
     <div
-      className=" min-h-screen w-full flex justify-center
+      className=" h-full w-full flex justify-center
      items-center relative "
     >
       <Pagination />
@@ -17,7 +17,7 @@ export default function Home() {
       <main className="w-full flex flex-col items-center ">
         <section
           id="home"
-          className="h-screen bg-transparent w-full 
+          className="lg:h-screen h-auto bg-transparent w-full 
           flex items-center justify-center "
         >
           <HomeHomeContent />

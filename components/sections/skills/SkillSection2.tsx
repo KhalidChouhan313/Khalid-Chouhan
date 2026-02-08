@@ -29,7 +29,7 @@ export default function SkillSection2() {
                                 className="basis-1/2 lg:basis-1/4 p-5 bg-[#1c252b] rounded-xl flex flex-col items-center gap-3 shadow-lg"
                             >
                                     {icons[skill.icon]}
-                                    <h3 className="text-lg font-semibold">{skill.title}</h3>
+                                    <h3 className="lg:text-lg text-xs lg:font-semibold font-normal">{skill.title}</h3>
                             </CarouselItem>
 
                         ))}

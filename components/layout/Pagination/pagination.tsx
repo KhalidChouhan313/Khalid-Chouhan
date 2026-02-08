@@ -24,7 +24,7 @@ const Pagination = () => {
     });
   }, []);
   return (
-    <div className="fixed md:left-5 left-0 top-[50%] translate-y-[-50%] z-10">
+    <div className="lg:block hidden fixed md:left-5 left-0 top-[50%] translate-y-[-50%] z-10">
       <ul
         className="w-auto h-full border-2 hover:border-teal px-0.5 py-4 
         flex flex-col items-center shadow-md hover:shadow-teal
