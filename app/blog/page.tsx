@@ -2,7 +2,7 @@
 import SectionHeading from "@/components/common/SectionHeading";
 import BlogCard from "@/components/sections/Blog/BlogCard";
 import { useBlogs } from "@/hooks/useBlog";
-import { BlogTypes } from "@/lib/types/blogs";
+import { Blog as BlogTypes } from "@/lib/types/blogs";
 const Blog = () => {
   const { data, isLoading, isError } = useBlogs();
   const blogs = data?.data || [];
@@ -13,8 +13,8 @@ const Blog = () => {
         heading="Blogs"
         paragraph="My thoughts on technology and business, welcome to subscribe"
       />
-      <div className="md:w-[70%] w-[90%] flex items-center justify-center flex-col">
-        {blogs?.slice(0, 1)?.map((data: BlogTypes, index: number)=> {
+      <div className="md:w-[70%] w-[90] flex items-center justify-center flex-col">
+        {blogs?.slice(0, 1)?.map((data: BlogTypes, index: number) => {
           return <BlogCard key={index} data={data} />;
         })}
       </div>
