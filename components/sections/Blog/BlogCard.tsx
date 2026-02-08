@@ -1,4 +1,4 @@
-import { BlogTypes } from "@/lib/types/blogs";
+import { Blog as BlogTypes  } from "@/lib/types/blogs";
 import { ChevronsRight } from "lucide-react";
 import Image from "next/image";
 interface BlogCardProps {

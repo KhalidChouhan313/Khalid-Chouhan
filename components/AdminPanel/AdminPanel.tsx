@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BlogsUpload } from "./BlogsUpload";
 import ProjectsUpload from "./ProjectsUpload";
-import { BlogTypes } from "@/lib/types/blogs";
+import { Blog as BlogTypes } from "@/lib/types/blogs";
 
 export const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -101,11 +101,10 @@ export const AdminPanel: React.FC = () => {
           messages.map((msg) => (
             <div
               key={msg.id}
-              className={`p-4 rounded-lg border-2 ${
-                msg.read
-                  ? "bg-gray-50 border-gray-200"
-                  : "bg-blue-50 border-blue-200"
-              }`}
+              className={`p-4 rounded-lg border-2 ${msg.read
+                ? "bg-gray-50 border-gray-200"
+                : "bg-blue-50 border-blue-200"
+                }`}
             >
               <div className="flex justify-between items-start mb-2">
                 <div>
@@ -244,11 +243,10 @@ export const AdminPanel: React.FC = () => {
           <div className="flex border-b overflow-x-auto">
             <button
               onClick={() => setActiveTab("messages")}
-              className={`flex items-center gap-2 px-6 py-3 font-medium transition-colors ${
-                activeTab === "messages"
-                  ? "border-b-2 border-blue-600 text-blue-600"
-                  : "cursor-pointer"
-              }`}
+              className={`flex items-center gap-2 px-6 py-3 font-medium transition-colors ${activeTab === "messages"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "cursor-pointer"
+                }`}
             >
               <MessageSquare className="h-4 w-4" />
               Messages
@@ -260,33 +258,30 @@ export const AdminPanel: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab("projects")}
-              className={`flex items-center gap-2 px-6 py-3 font-medium transition-colors ${
-                activeTab === "projects"
-                  ? "border-b-2 border-blue-600 text-blue-600"
-                  : ""
-              }`}
+              className={`flex items-center gap-2 px-6 py-3 font-medium transition-colors ${activeTab === "projects"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : ""
+                }`}
             >
               <Briefcase className="h-4 w-4" />
               Projects
             </button>
             <button
               onClick={() => setActiveTab("blogs")}
-              className={`flex items-center gap-2 px-6 py-3 font-medium transition-colors ${
-                activeTab === "blogs"
-                  ? "border-b-2 border-blue-600 text-blue-600"
-                  : "cursor-pointer"
-              }`}
+              className={`flex items-center gap-2 px-6 py-3 font-medium transition-colors ${activeTab === "blogs"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "cursor-pointer"
+                }`}
             >
               <FileText className="h-4 w-4" />
               Blogs
             </button>
             <button
               onClick={() => setActiveTab("social")}
-              className={`flex items-center gap-2 px-6 py-3 font-medium transition-colors ${
-                activeTab === "social"
-                  ? "border-b-2 border-blue-600 text-white"
-                  : "cursor-pointer"
-              }`}
+              className={`flex items-center gap-2 px-6 py-3 font-medium transition-colors ${activeTab === "social"
+                ? "border-b-2 border-blue-600 text-white"
+                : "cursor-pointer"
+                }`}
             >
               <Link2 className="h-4 w-4" />
               Social Links
