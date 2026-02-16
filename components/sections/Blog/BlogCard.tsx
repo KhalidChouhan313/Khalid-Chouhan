@@ -1,4 +1,4 @@
-import { Blog as BlogTypes  } from "@/lib/types/blogs";
+import { Blog as BlogTypes } from "@/lib/types/blogs";
 import { ChevronsRight } from "lucide-react";
 import Image from "next/image";
 interface BlogCardProps {
@@ -8,22 +8,21 @@ interface BlogCardProps {
 const BlogCard = ({ data }: BlogCardProps) => {
   return (
     <div className="w-full flex lg:flex-row flex-col items-start justify-start border-t border-b border-gray-700 py-6 gap-6">
-      <div className="flex-shrink-0 w-auto h-[15vh] relative">
+      <div className="w-full lg:w-64 h-48 relative shrink-0">
         <Image
           src={data.image}
           alt={data.title}
-          width={200}
-          height={200}
-          className="object-cover "
+          fill
+          style={{ objectFit: "cover" }}
+          className="rounded-md"
         />
       </div>
-
-      <div className="flex flex-col justify-between gap-3">
+      <div className="flex flex-col justify-between gap-6 ">
         <h2 className="text-teal font-mono text-xl font-semibold ">
           {data.title}
         </h2>
         <p className="text-gray-400  line-clamp-3 text-wrap ">
-          {data.description}
+          {data.description.slice(0,250)}...
         </p>
         <span
           className="text-teal cursor-pointer underline font-mono decoration-white

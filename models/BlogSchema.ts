@@ -12,11 +12,11 @@ const BlogSchema = new Schema(
     description: {
       type: String,
       required: true,
-      maxlength: 300,
+      maxlength: 10000
     },
 
     image: {
-      type: String, 
+      type: String,
       required: true,
     },
 
