@@ -59,17 +59,13 @@ export const AdminPanel: React.FC = () => {
     setMessages(data);
   };
 
-  const saveBlogs = async (data: BlogTypes[]): Promise<void> => {
-    localStorage.setItem("admin_blogs", JSON.stringify(data));
-    setBlogs(data);
-  };
+
 
   const saveSocialLinks = async (data: SocialLinks): Promise<void> => {
     localStorage.setItem("admin_social_links", JSON.stringify(data));
     setSocialLinks(data);
   };
 
-  // ---------------- Messages Tab ----------------
   const MessagesTab: React.FC = () => {
     const deleteMessage = async (id: number) => {
       const updated = messages.filter((m) => m.id !== id);

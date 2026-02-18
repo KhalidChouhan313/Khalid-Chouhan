@@ -6,7 +6,8 @@ export interface Blog {
   slug: string;
   createdAt: string;
   updatedAt: string;
-  views:string
+  views: string
+  readTime: string
 }
 
 export interface BlogFormValues {
@@ -31,4 +32,9 @@ export interface BlogsUploadProps {
   setEditingBlog: (blog: Blog | null) => void;
   showBlogForm: boolean;
   setShowBlogForm: (val: boolean) => void;
+}
+export interface SingBlogResponse {
+  success: boolean;
+  message?: string;
+  data?: Blog;
 }

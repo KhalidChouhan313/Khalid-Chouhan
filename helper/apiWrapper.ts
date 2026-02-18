@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 interface ApiWrapperOptions extends AxiosRequestConfig {
   endpoint: string;
-  method?: "GET" | "POST" | "PUT" | "DELETE";
+  method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   payload?: any;
   isPublic?: boolean;
   isEncrypted?: boolean;

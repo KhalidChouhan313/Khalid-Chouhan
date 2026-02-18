@@ -48,10 +48,17 @@ export const POST = async (req: NextRequest) => {
         { status: 400 },
       );
     }
+    const wordsPerMinute = 200;
+    const cleanText = description
+      .replace(/<[^>]*>/g, "")
+      .trim();
+    const wordCount = cleanText.split(/\s+/).length;
+    const readTime = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
     const blog = await BlogSchema.create({
       title,
       description,
       image,
+      readTime,
     });
     return NextResponse.json(
       {
@@ -122,7 +129,7 @@ export const PUT = async (req: NextRequest) => {
     }
 
     const updatedBlog = await BlogSchema.findByIdAndUpdate(
-      id, 
+      id,
       { $set: body },
       { new: true },
     );
@@ -150,3 +157,34 @@ export const PUT = async (req: NextRequest) => {
     );
   }
 };
+
+export const PATCH = async (req: NextRequest) => {
+  try {
+    await connectDB();
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    if (!id) {
+      return NextResponse.json({ success: false }, { status: 400 });
+    }
+    const blog = await BlogSchema.findById(id);
+    if (!blog) {
+      return NextResponse.json({ success: false, message: "Blog not found" }, { status: 404 });
+    }
+    blog.views = (blog.views || 0) + 1;
+
+    const wordsPerMinute = 200;
+    const cleanText = blog.description.replace(/<[^>]*>/g, "").trim();
+    const wordCount = cleanText.split(/\s+/).length;
+    blog.readTime = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+
+    await blog.save();
+
+    return NextResponse.json({ success: true, data: blog });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { success: false, error: "Something went wrong" },
+      { status: 500 },
+    );
+  }
+}

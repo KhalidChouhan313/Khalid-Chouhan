@@ -1,5 +1,5 @@
 import { apiWrapper } from "@/helper/apiWrapper";
-import { BlogPayload, BlogResponse } from "../types/blogs";
+import { Blog, BlogPayload, BlogResponse, SingBlogResponse, } from "../types/blogs";
 
 export const PostBlog = async (payload: BlogPayload) => {
   return apiWrapper({
@@ -32,3 +32,26 @@ export const EditBlog = async (
     payload,
   });
 };
+export const PatchBlog = async (
+  slug: string,
+): Promise<BlogResponse> => {
+  return apiWrapper({
+    endpoint: `/api/blog?id=${slug}`,
+    method: "PATCH",
+  });
+};
+export const GetBlogById = async (
+  slug: string
+): Promise<Blog> => {
+  return apiWrapper({
+    endpoint: `/api/blog/${slug}`,
+    method: "GET",
+  });
+};
+export const IncrementView = async (id: string) => {
+  return apiWrapper({
+    endpoint: `/api/blog?id=${id}`,
+    method: "PATCH",
+  });
+};
+

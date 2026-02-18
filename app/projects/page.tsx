@@ -39,7 +39,7 @@ const Projects = () => {
           <Link href="/projects/seeMore" className="text-3xl text-teal">
             View Projects
           </Link>
-          <div className="w-[100%] h-1 bg-amber-50"></div>
+          <div className="w-full h-1 bg-amber-50"></div>
         </div>
       </div>
     </div>

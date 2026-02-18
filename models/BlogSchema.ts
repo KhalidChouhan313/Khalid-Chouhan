@@ -24,6 +24,7 @@ const BlogSchema = new Schema(
       type: Number,
       default: 0,
     },
+    readTime: { type: Number, default: 0 },
   },
   {
     timestamps: true,
