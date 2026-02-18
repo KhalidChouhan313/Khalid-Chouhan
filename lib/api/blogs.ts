@@ -1,5 +1,5 @@
 import { apiWrapper } from "@/helper/apiWrapper";
-import { Blog, BlogPayload, BlogResponse, SingBlogResponse, } from "../types/blogs";
+import { Blog, BlogPayload, BlogResponse } from "../types/blogs";
 
 export const PostBlog = async (payload: BlogPayload) => {
   return apiWrapper({

@@ -3,14 +3,30 @@ import SectionHeading from "@/components/common/SectionHeading";
 import BlogCard from "@/components/sections/Blog/BlogCard";
 import { Button } from "@/components/ui/button";
 import { useBlogs } from "@/hooks/useBlog";
+import { useCreateSubscriber } from "@/hooks/useSubscriber";
 import { Blog as BlogTypes } from "@/lib/types/blogs";
 import { usePathname, useRouter } from "next/navigation";
 const Blog = () => {
+  const { mutate, isPending } = useCreateSubscriber();
+
   const { data, isLoading, isError } = useBlogs();
   const blogs = data?.data || [];
   const router = useRouter();
   const pathname = usePathname();
-
+  const handleSubscribe = () => {
+    mutate(
+      { email: "khalidchuhan7886@gmail.com" },
+      {
+        onSuccess: (data) => {
+          alert("Subscribed successfully");
+          console.log(data)
+        },
+        onError: (error) => {
+          alert("Something went wrong");
+        },
+      }
+    );
+  };
   const blogsToShow = pathname === "/" ? blogs.slice(0, 1) : blogs;
   return (
     <div className="w-full flex flex-col items-center justify-center gap-5 py-20 bg-black">
@@ -52,6 +68,7 @@ const Blog = () => {
           >
             View More        </Button>
           <Button
+            onClick={handleSubscribe}
             className="md:w-auto w-full border border-teal bg-[#1e242b] px-6 py-3 
                 rounded font-bold text-teal shadow-md cursor-pointer
                 hover:bg-teal hover:text-black transition-all duration-300"
