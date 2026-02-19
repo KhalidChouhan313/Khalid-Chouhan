@@ -4,12 +4,15 @@ import BlogCard from "@/components/sections/Blog/BlogCard";
 import { Button } from "@/components/ui/button";
 import { useBlogs } from "@/hooks/useBlog";
 import { useCreateSubscriber } from "@/hooks/useSubscriber";
+import { useCheckSubscriber } from "@/lib/api/subscribe";
 import { Blog as BlogTypes } from "@/lib/types/blogs";
 import { usePathname, useRouter } from "next/navigation";
 const Blog = () => {
   const { mutate, isPending } = useCreateSubscriber();
+  const { data: isSubscriber } = useCheckSubscriber();
 
   const { data, isLoading, isError } = useBlogs();
+  const isSubscribed = isSubscriber?.subscribed;
   const blogs = data?.data || [];
   const router = useRouter();
   const pathname = usePathname();
@@ -38,6 +41,8 @@ const Blog = () => {
       {
         pathname === "/blog" && (
           <Button
+            onClick={handleSubscribe}
+            disabled={isPending || isSubscribed}
             className="md:w-auto w-full border border-teal bg-[#1e242b] px-6 py-3 
                  rounded font-bold text-teal shadow-md cursor-pointer
                  relative overflow-hidden
@@ -45,7 +50,7 @@ const Blog = () => {
                  hover:scale-105 hover:bg-teal hover:text-black
                  transition-all duration-300"
           >
-            <span className="relative z-10">Subscribe My Blogs</span>
+            <span className="relative z-10">{isSubscribed ? "Subscribed" : "Subscribe My Blogs"}</span>
 
             <span className="absolute inset-0 rounded-md bg-teal opacity-10 blur-xl animate-ping"></span>
           </Button>
@@ -69,11 +74,14 @@ const Blog = () => {
             View More        </Button>
           <Button
             onClick={handleSubscribe}
+            disabled={isPending || isSubscribed}
             className="md:w-auto w-full border border-teal bg-[#1e242b] px-6 py-3 
                 rounded font-bold text-teal shadow-md cursor-pointer
                 hover:bg-teal hover:text-black transition-all duration-300"
           >
-            Subscribe
+            {
+              isSubscribed ? "Subscribed" : "Subscribe"
+            }
           </Button>
 
         </div>

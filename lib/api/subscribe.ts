@@ -1,5 +1,6 @@
 import { apiWrapper } from "@/helper/apiWrapper";
-import { subscriber } from "../types/subscribers";
+import { CheckSubscriberResponse, subscriber } from "../types/subscribers";
+import { useQuery } from "@tanstack/react-query";
 
 export const CreateSubscriber = async (payload: subscriber) => {
   return apiWrapper({
@@ -7,5 +8,16 @@ export const CreateSubscriber = async (payload: subscriber) => {
     method: "POST",
     payload,
     isPublic: false,
+  });
+};
+export const useCheckSubscriber = () => {
+  return useQuery<CheckSubscriberResponse>({
+    queryKey: ["checkSubscriber"],
+    queryFn: async () => {
+      return apiWrapper({
+        endpoint: "/api/subscriber/check",
+        method: "GET",
+      });
+    },
   });
 };

@@ -4,33 +4,33 @@ import nodemailer from "nodemailer";
 import Subscriber from "@/models/Subscribe";
 
 export const POST = async (req: NextRequest) => {
-    try {
-        await connectDB
-        const { email } = await req.json();
-        if (!email) {
-            return NextResponse.json({ success: false, message: "Email is required" },
-                { status: 400 })
-        }
-        const existing = await Subscriber.findOne({ email });
-        if (existing) {
-            return NextResponse.json(
-                { success: false, message: "Already subscribed" },
-                { status: 400 }
-            );
-        }
-        await Subscriber.create({ email });
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        })
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: "Subscribed Successfully 🎉",
-            html: `
+  try {
+    await connectDB
+    const { email } = await req.json();
+    if (!email) {
+      return NextResponse.json({ success: false, message: "Email is required" },
+        { status: 400 })
+    }
+    const existing = await Subscriber.findOne({ email });
+    if (existing) {
+      return NextResponse.json(
+        { success: false, message: "Already subscribed" },
+        { status: 400 }
+      );
+    }
+    await Subscriber.create({ email });
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    })
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Subscribed Successfully 🎉",
+      html: `
   <div style="margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, sans-serif;">
     <table align="center" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; margin:40px auto; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
       
@@ -66,19 +66,25 @@ export const POST = async (req: NextRequest) => {
     </table>
   </div>
   `,
-        });
+    });
 
-        return NextResponse.json({
-            success: true,
-            message: "Subscribed successfully",
-        });
-    } catch (error) {
-        console.log(error)
-        return NextResponse.json(
-            {
-                success: false, error: "somthing gone wrong while subscribing"
-            },
-            { status: 500 }
-        )
-    }
+    const response =   NextResponse.json({
+      success: true,
+      message: "Subscribed successfully",
+    });
+    response.cookies.set("subscribed_email", email, {
+      httpOnly: true,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+    });
+    return response
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json(
+      {
+        success: false, error: "somthing gone wrong while subscribing"
+      },
+      { status: 500 }
+    )
+  }
 }
