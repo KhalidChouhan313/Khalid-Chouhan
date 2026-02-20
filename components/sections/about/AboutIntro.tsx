@@ -15,9 +15,10 @@ const AboutIntro = () => {
         </p>
 
         <p className="mt-3 font-mono text-[15px] leading-relaxed text-gray-300">
-          Exploring new technologies, solving impactful problems, and turning
-          ideas into functional products is what drives my growth. Har din nayi
-          cheezen seekhna aur unhe implement karna meri routine ka hissa hai.
+          Exploring new technologies, solving meaningful problems, and transforming
+           ideas into functional products is what fuels my growth. Continuously
+            learning and putting new knowledge into practice is an
+             essential part of my daily routine.
         </p>
 
         <p className="mt-3 font-mono text-[15px] leading-relaxed text-gray-300">

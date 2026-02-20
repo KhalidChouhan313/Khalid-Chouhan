@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { getProjectBySlug } from "@/lib/api/project";
+import BlogDetailSkeleton from "@/components/common/Loading/BlogDetailsSkeleton";
 
 export default async function Page({
   params,
@@ -14,7 +15,7 @@ export default async function Page({
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
-        Project not found
+      <BlogDetailSkeleton />
       </div>
     );
   }

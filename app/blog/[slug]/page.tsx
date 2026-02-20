@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useBlogById, useIncrementView } from "@/hooks/useBlog";
 import { useEffect } from "react";
+import BlogDetailsSkeleton from "@/components/common/Loading/BlogDetailsSkeleton";
 
 export default function Page() {
   const params = useParams();
@@ -30,6 +31,14 @@ export default function Page() {
     }
   }, [blog, mutate]);
 
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen px-6 py-16 bg-linear-to-b from-black to-gray-900
+       text-white">
+        <BlogDetailsSkeleton />      </main>
+    );
+  }
   if (isError || !blog) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white text-xl font-medium">
@@ -37,7 +46,6 @@ export default function Page() {
       </div>
     );
   }
-
   return (
     <main className="min-h-screen px-6 py-16 bg-linear-to-b from-black to-gray-900 text-white">
       <div className="max-w-4xl mx-auto">
