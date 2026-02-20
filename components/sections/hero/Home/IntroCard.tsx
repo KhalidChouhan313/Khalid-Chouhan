@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
 } from "@/components/ui/carousel";
 import { ProfileImage } from "@/Utils/BaseUrl";
 import { Download } from "lucide-react";
@@ -27,6 +27,12 @@ const IntroCard = () => {
     "Git",
     "Figma",
   ];
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/Muhammad_Khalid_Resume.pdf";
+    link.download = "Muhammad_Khalid_Resume.pdf";
+    link.click();
+  };
   const linkCopy = () => {
     navigator.clipboard.writeText("https://www.devkhalidchouhan.com");
     toast.success("Website link copied to clipboard!");
@@ -81,9 +87,8 @@ const IntroCard = () => {
             {techs.map((tech, index) => (
               <CarouselItem key={index} className="flex-none cursor-pointer">
                 <span
-                  className={`px-3 py-1 rounded-full text-black text-xs ${
-                    tech === "NodeJS" ? "bg-teal" : "bg-teal"
-                  }`}
+                  className={`px-3 py-1 rounded-full text-black text-xs ${tech === "NodeJS" ? "bg-teal" : "bg-teal"
+                    }`}
                 >
                   {tech}
                 </span>
@@ -94,7 +99,9 @@ const IntroCard = () => {
       </div>
 
       <div className="flex justify-center mt-5">
-        <Button className="bg-white text-black px-6 py-2 rounded-full flex items-center gap-2 shadow-md hover:bg-gray-100 cursor-pointer">
+        <Button 
+        onClick={handleDownload}
+        className="bg-white text-black px-6 py-2 rounded-full flex items-center gap-2 shadow-md hover:bg-gray-100 cursor-pointer">
           Download CV <Download size={20} className="font-black" />
         </Button>
       </div>

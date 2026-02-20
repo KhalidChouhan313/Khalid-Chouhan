@@ -40,27 +40,24 @@ const SectionHeading = ({
           </div>
         )}
       </div>
-      <div className="h-auto w-full flex  flex-col items-center justify-center ">
-        <div className="h-auto w-full flex flex-col items-center justify-center">
+      <div className="text-center max-w-4xl mx-auto space-y-6">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal tracking-tight">
+          {heading}
+        </h2>
 
-          {
-            pathname === "/" && (
-              <div className="inline-block text-center">
-                <h1 className="scroll-m-20 tracking-tight text-5xl text-teal font-mono">
-                  {heading}
-                </h1>
+        {pathname === "/" && (
+          <div className="flex items-center justify-center gap-2 mt-2">
+            <span className="w-3 h-3 bg-teal rounded-full animate-pulse"></span>
+            <span className="flex-1 h-1 bg-teal rounded-full"></span>
+            <span className="w-3 h-3 bg-teal rounded-full animate-pulse"></span>
+          </div>
+        )}
 
-                <div className="w-full flex flex-row items-center justify-center">
-                  <span className="w-3 h-3 bg-teal rounded-full"></span>
-                  <span className="flex-1 h-1 bg-teal rounded-full"></span>
-                  <span className="w-3 h-3 bg-teal rounded-full"></span>
-                </div>
-              </div>
-            )}
-
-
-          <p className={`font-mono mt-10 font-semibold  px-10 lg:px-0 ${pathname === "/" ? "text-lg" : "text-[1.5rem]"}`}>{paragraph}</p>
-        </div>
+        <p
+          className={`font-mono text-gray-300 text-base sm:text-lg md:text-xl font-medium px-6 sm:px-0`}
+        >
+          {paragraph}
+        </p>
       </div>
     </div>
   );
