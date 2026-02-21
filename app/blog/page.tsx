@@ -83,6 +83,7 @@ const Blog = () => {
         pathname === "/blog" && !showEmailInput && (
           <Button
             onClick={() => setShowEmailInput(true)}
+            disabled={isPending || isSubscribed}
             className="md:w-auto w-full border border-teal bg-[#1e242b] px-6 py-3 
                  rounded font-bold text-teal shadow-md cursor-pointer
                  relative overflow-hidden
@@ -96,7 +97,7 @@ const Blog = () => {
         )
       }
       {
-        showEmailInput && (
+        showEmailInput && !isSubscribed &&(
           <div className="flex gap-4 mt-4">
             <input type="email"
               value={email}
@@ -106,7 +107,7 @@ const Blog = () => {
             />
             <Button
               onClick={handleSubscribe}
-              // disabled={isPending || isSubscribed}
+              disabled={isPending || isSubscribed}
               className="md:w-auto w-full border border-teal  px-6 py-3 
                  rounded font-bold text-teal shadow-md cursor-pointer
                  relative overflow-hidden

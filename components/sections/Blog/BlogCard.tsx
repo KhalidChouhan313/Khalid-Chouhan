@@ -1,4 +1,5 @@
 import { Blog as BlogTypes } from "@/lib/types/blogs";
+import { Divider } from "@mui/material";
 import { ChevronsRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,13 +36,15 @@ const BlogCard = ({ data }: BlogCardProps) => {
         >
           Read More <ChevronsRight />{" "}
         </Link>
+        <hr className="border-t border-gray-700 my-2 w-full" />
+
         <div className="flex flex-wrap items-center gap-3 text-gray-500 text-sm">
           <span className="bg-gray-800 px-2 py-1 rounded-full">
             Web Developer{" "}
           </span>
           <span>views: {data?.views}</span>
-          <span>Date: {new Date(data?.createdAt).toLocaleDateString()}</span>
-          <span>Read: {data?.readTime} Min</span>
+          <span>Posted Date: {new Date(data?.createdAt).toLocaleDateString()}</span>
+          {data?.readTime} min read
         </div>
       </div>
     </div>

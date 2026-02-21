@@ -70,9 +70,10 @@ export default function Page() {
           />
         </div>
 
-        <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-12">
-          {blog?.description}
-        </p>
+        <div
+          className="prose prose-invert max-w-none text-gray-300 text-lg md:text-xl leading-relaxed mb-12"
+          dangerouslySetInnerHTML={{ __html: blog?.description }}
+        />
 
         <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm md:text-base mb-12">
           <span className="bg-gray-800 px-3 py-1 rounded-full font-medium hover:bg-teal hover:text-black  transition-colors cursor-default">
@@ -82,13 +83,13 @@ export default function Page() {
             <Eye className="w-4 h-4" /> {blog?.views}
           </span>
           <span className="bg-gray-800 px-3 py-1 rounded-full font-medium hover:bg-teal hover:text-black transition-colors cursor-default">
-            Date:{" "}
+          Posted Date:{" "}
             {blog?.createdAt
               ? new Date(blog.createdAt).toLocaleDateString()
               : "N/A"}
           </span>
           <span className="bg-gray-800 px-3 py-1 rounded-full font-medium hover:bg-teal hover:text-black transition-colors cursor-default">
-            Read: {blog?.readTime} Min
+            {blog?.readTime} min read
           </span>
         </div>
 
