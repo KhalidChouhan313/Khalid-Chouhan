@@ -7,6 +7,8 @@ import Image from "next/image";
 import { useBlogById, useIncrementView } from "@/hooks/useBlog";
 import { useEffect } from "react";
 import BlogDetailsSkeleton from "@/components/common/Loading/BlogDetailsSkeleton";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function Page() {
   const params = useParams();
@@ -70,10 +72,11 @@ export default function Page() {
           />
         </div>
 
-        <div
-          className="prose prose-invert max-w-none text-gray-300 text-lg md:text-xl leading-relaxed mb-12"
-          dangerouslySetInnerHTML={{ __html: blog?.description }}
-        />
+        <div className="prose dark:prose-invert max-w-none mb-10">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {blog.description}
+          </ReactMarkdown>
+        </div>
 
         <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm md:text-base mb-12">
           <span className="bg-gray-800 px-3 py-1 rounded-full font-medium hover:bg-teal hover:text-black  transition-colors cursor-default">
@@ -83,7 +86,7 @@ export default function Page() {
             <Eye className="w-4 h-4" /> {blog?.views}
           </span>
           <span className="bg-gray-800 px-3 py-1 rounded-full font-medium hover:bg-teal hover:text-black transition-colors cursor-default">
-          Posted Date:{" "}
+            Posted Date:{" "}
             {blog?.createdAt
               ? new Date(blog.createdAt).toLocaleDateString()
               : "N/A"}

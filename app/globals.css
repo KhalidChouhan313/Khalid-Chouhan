@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@plugin "@tailwindcss/typography";
 :root {
   font-family: var(--font-stack-sans), sans-serif;
 }

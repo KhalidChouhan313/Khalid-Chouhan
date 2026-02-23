@@ -26,9 +26,11 @@ const BlogCard = ({ data }: BlogCardProps) => {
         <h2 className="text-teal font-mono text-xl font-semibold ">
           {data?.title}
         </h2>
+        
         <p className="text-gray-400  line-clamp-3 text-wrap ">
           {data?.description.slice(0, 180)}...
         </p>
+        
         <Link
           href={`/blog/${data?._id}`}
           className="text-teal cursor-pointer underline font-mono decoration-white

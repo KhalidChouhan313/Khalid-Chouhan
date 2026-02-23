@@ -8,7 +8,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit2, Plus, Save, Trash2, X } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 export const BlogsUpload = ({
   editingBlog,
   setEditingBlog,
@@ -19,6 +20,7 @@ export const BlogsUpload = ({
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<BlogFormValues>();
   const queryClient = useQueryClient();
@@ -165,15 +167,30 @@ export const BlogsUpload = ({
               </label>
               <textarea
                 {...register("content", { required: "Content required hai" })}
-                placeholder="Write your blog content..."
-                rows={6}
+                placeholder={`Example:
+
+# My Blog Title
+
+This is paragraph.
+
+## Features
+- Fast
+- Clean
+- Open source
+
+**Bold text**
+`} rows={6}
                 className="p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
               {errors.content && (
                 <p className="text-red-500 text-sm">{errors.content.message}</p>
               )}
             </div>
-
+            <div className="prose border p-4 rounded">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {watch("content")}
+              </ReactMarkdown>
+            </div>
             <button
               type="submit"
               disabled={
@@ -182,11 +199,10 @@ export const BlogsUpload = ({
               }
               className={`flex items-center justify-center gap-2
     py-3 rounded-lg font-medium transition
-    ${
-      createBlogMutation.isPending
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-teal-600 hover:bg-teal-700 text-white"
-    }
+    ${createBlogMutation.isPending
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-teal-600 hover:bg-teal-700 text-white"
+                }
   `}
             >
               <Save size={18} />
