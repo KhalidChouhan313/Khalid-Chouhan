@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import {
     Brain,
     Code,
@@ -19,7 +19,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 
-const icons: Record<string, JSX.Element> = {
+const icons: Record<string, React.ReactNode> = {
     Server: <Server size={36} />,
     Laptop: <Laptop size={36} />,
     Brain: <Brain size={36} />,
