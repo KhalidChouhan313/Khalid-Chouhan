@@ -37,13 +37,11 @@ export const detailedSkills: DetailedSkill[] = [
   { name: "Prisma ORM", percentage: 85 },
   { name: "Redis", percentage: 70 },
 
-  // AI Engineering
   { name: "LangChain", percentage: 85 },
   { name: "OpenAI API Integration", percentage: 85 },
   { name: "Vector Databases (Pinecone)", percentage: 75 },
   { name: "Prompt Engineering", percentage: 85 },
 
-  // DevOps & Cloud
   { name: "Docker", percentage: 80 },
   { name: "Docker Compose", percentage: 75 },
   { name: "CI/CD (GitHub Actions)", percentage: 80 },
@@ -51,12 +49,10 @@ export const detailedSkills: DetailedSkill[] = [
   { name: "Vercel Deployment", percentage: 90 },
   { name: "Nginx", percentage: 70 },
 
-  // Testing
   { name: "Jest", percentage: 80 },
   { name: "React Testing Library", percentage: 75 },
   { name: "Cypress", percentage: 70 },
 
-  // Tools & Workflow
   { name: "Git & GitHub", percentage: 95 },
   { name: "Postman", percentage: 90 },
   { name: "VS Code", percentage: 95 },

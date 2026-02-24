@@ -27,19 +27,13 @@ export const getProjects = async (): Promise<Project[]> => {
   });
 };
 
-const BASE_URL = "http://localhost:3000" 
-// || process.env.NEXT_PUBLIC_BASE_URL;
+
 export const getProjectBySlug = async (
   slug: string
 ): Promise<Project | null> => {
   try {
-    const isServer = typeof window === "undefined";
-    const url = isServer
-      ? `${BASE_URL}/api/projects/${slug}`
-      : `/api/projects/${slug}`;
-
     const project: Project = await apiWrapper<Project>({
-      endpoint: url,
+      endpoint: `/api/projects/${slug}`,
       method: "GET",
       isPublic: true,
     });
