@@ -6,11 +6,18 @@ import BlogDetailSkeleton from "@/components/common/Loading/BlogDetailsSkeleton"
 import { UseProjectBySlug } from "@/hooks/project";
 import { useParams } from "next/navigation";
 
-const Page =() => {
+const Page = () => {
   const params = useParams();
   const slug = params?.slug as string;
   const { data: project, isLoading, isError } = UseProjectBySlug(slug);
-  if (!project) {
+  if (!project && isError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white">
+        <p className="text-xl">Project not found.</p>
+      </div>
+    );
+  }
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
         <BlogDetailSkeleton />
