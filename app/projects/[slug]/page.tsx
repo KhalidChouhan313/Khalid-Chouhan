@@ -1,21 +1,19 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { getProjectBySlug } from "@/lib/api/project";
 import BlogDetailSkeleton from "@/components/common/Loading/BlogDetailsSkeleton";
+import { UseProjectBySlug } from "@/hooks/project";
+import { useParams } from "next/navigation";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const project = await getProjectBySlug(slug);
-
+const Page =() => {
+  const params = useParams();
+  const slug = params?.slug as string;
+  const { data: project, isLoading, isError } = UseProjectBySlug(slug);
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
-      <BlogDetailSkeleton />
+        <BlogDetailSkeleton />
       </div>
     );
   }
@@ -33,7 +31,7 @@ export default async function Page({
         <h1 className="text-4xl md:text-5xl font-bold mb-6">
           {project?.title}
         </h1>
-        <div className="relative w-full h-[400px] rounded-2xl overflow-hidden mb-10 border border-gray-700">
+        <div className="relative w-full h-100 rounded-2xl overflow-hidden mb-10 border border-gray-700">
           <Image
             src={project?.images?.[0] ?? "/placeholder.png"}
             alt={project?.title}
@@ -81,3 +79,4 @@ export default async function Page({
     </main>
   );
 }
+export default Page;

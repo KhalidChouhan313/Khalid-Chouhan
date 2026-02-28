@@ -28,21 +28,15 @@ export const getProjects = async (): Promise<Project[]> => {
 };
 
 
+
 export const getProjectBySlug = async (
   slug: string
-): Promise<Project | null> => {
-  try {
-    const project: Project = await apiWrapper<Project>({
-      endpoint: `/api/projects/${slug}`,
-      method: "GET",
-      isPublic: true,
-    });
+): Promise<Project> => {
+  return apiWrapper({
+    endpoint: `/api/projects/${slug}`,
+    method: "GET",
 
-    return project;
-  } catch (err) {
-    console.error("getProjectBySlug error:", err);
-    return null;
-  }
+  });
 };
 export const deleteProjectById = async (id: string) => {
   return apiWrapper({
