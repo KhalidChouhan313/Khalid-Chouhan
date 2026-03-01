@@ -41,7 +41,7 @@ const Page = () => {
         <div className="relative w-full h-100 rounded-2xl overflow-hidden mb-10 border border-gray-700">
           <Image
             src={project?.images?.[0] ?? "/placeholder.png"}
-            alt={project?.title}
+            alt=""
             fill
             unoptimized
             className="object-cover"
