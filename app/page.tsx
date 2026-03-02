@@ -1,12 +1,28 @@
+"use client";
+
 import Pagination from "@/components/layout/Pagination/pagination";
 import HomeHomeContent from "../components/sections/hero/Home/page";
 import About from "./about/page";
 import Skills from "./skills/page";
+
 import Projects from "./projects/page";
 import Blog from "./blog/page";
 import Contact from "./contact/page";
 
+import { motion } from "framer-motion";
+
 export default function Home() {
+  const fadeUp = {
+    hidden: { opacity: 0, y: 80 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
   return (
     <div
       className=" h-full w-full flex justify-center
@@ -15,15 +31,23 @@ export default function Home() {
       <Pagination />
 
       <main className="w-full flex flex-col items-center ">
-        <section
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
           id="home"
           className="lg:h-screen h-auto bg-transparent w-full 
           flex items-center justify-center "
         >
           <HomeHomeContent />
-        </section>
+        </motion.div>
 
-        <section
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
           id="about"
           style={{
             backgroundImage: `url('/images/hero/aboutbg.avif')`,
@@ -37,7 +61,7 @@ export default function Home() {
           "
         >
           <About />
-        </section>
+        </motion.section>
 
         <section
           id="skills"

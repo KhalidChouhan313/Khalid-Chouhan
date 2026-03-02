@@ -1,3 +1,5 @@
+"use client";
+
 import IntroCard from "./IntroCard";
 import IntroMain from "./IntroMain";
 
