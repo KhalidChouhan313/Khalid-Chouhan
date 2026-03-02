@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Portfolio",
-  description: "Built with Next.js",
+  title: "Khalid Chouhan - Full Stack Developer",
+  description: "Khalid Chouhan - Full Stack Developer Portfolio  | Showcasing Projects, Skills, and Experience of a Passionate Developer Dedicated to Building Innovative Web Solutions \| Explore My Work and Connect with Me",
 };
 
 export default function RootLayout({
@@ -27,6 +27,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body

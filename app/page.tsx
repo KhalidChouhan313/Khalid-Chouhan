@@ -35,7 +35,7 @@ export default function Home() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.5 }}
           id="home"
           className="lg:h-screen h-auto bg-transparent w-full 
           flex items-center justify-center "
@@ -47,7 +47,7 @@ export default function Home() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.5 }}
           id="about"
           style={{
             backgroundImage: `url('/images/hero/aboutbg.avif')`,
@@ -63,7 +63,11 @@ export default function Home() {
           <About />
         </motion.section>
 
-        <section
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.5 }}
           id="skills"
           style={{
             backgroundImage: `url('/images/hero/bg.jpg')`,
@@ -92,30 +96,42 @@ export default function Home() {
           >
             <Skills />
           </div>
-        </section>
-        <section
+        </motion.section>
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.5 }}
           id="projects"
           className="h-auto bg-transparent w-full 
           flex items-center justify-center "
         >
           <Projects />
-        </section>
+        </motion.section>
 
-        <section
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.5 }}
           id="blog"
           className="h-auto bg-transparent w-full 
           flex items-center justify-center "
         >
           <Blog />
-        </section>
+        </motion.section>
 
-        <section
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.5 }}
           id="contact"
           className="h-auto bg-transparent w-full 
           flex items-center justify-center "
         >
           <Contact />
-        </section>
+        </motion.section>
       </main>
     </div>
   );
