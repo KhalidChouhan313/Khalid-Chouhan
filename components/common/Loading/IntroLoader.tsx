@@ -35,7 +35,6 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
       onAnimationComplete={onFinish}
       className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden"
     >
-      {/* Animated Background Glow */}
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1.2, opacity: 0.4 }}
@@ -43,14 +42,13 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
         className="absolute w-125 h-125 bg-linear-to-r from-pink-500 via-teal to-blue-500 rounded-full blur-3xl"
       />
 
-      {/* Main Text */}
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
         className="relative z-10 text-center"
       >
-        
+
         <h1 className="text-4xl md:text-7xl font-extrabold tracking-[0.3em] bg-linear-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
           {text.split("").map((char, i) => (
             <motion.span key={i} variants={letter}>

@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -11,7 +10,7 @@ import { Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
-
+import { motion } from "framer-motion";
 const IntroCard = () => {
   const techs = [
     "MongoDB",
@@ -99,13 +98,16 @@ const IntroCard = () => {
       </div>
 
       <div className="flex justify-center mt-5">
-        <Button 
+        <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        onHoverStart={() => console.log('hover started!')}
         onClick={handleDownload}
         className="bg-white text-black px-6 py-2 rounded-full flex items-center gap-2 shadow-md hover:bg-gray-100 cursor-pointer">
-          Download CV <Download size={20} className="font-black" />
-        </Button>
-      </div>
+        Download CV <Download size={20} className="font-black" />
+      </motion.button>
     </div>
+    </div >
   );
 };
 
