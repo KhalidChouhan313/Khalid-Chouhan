@@ -33,13 +33,19 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
       animate={{ opacity: 0 }}
       transition={{ delay: 3, duration: 1 }}
       onAnimationComplete={onFinish}
-      className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden px-6"
     >
+      {/* Responsive Glow */}
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1.2, opacity: 0.4 }}
         transition={{ duration: 2 }}
-        className="absolute w-125 h-125 bg-linear-to-r from-pink-500 via-teal to-blue-500 rounded-full blur-3xl"
+        className="absolute 
+        w-60 h-60 
+        sm:w-80 sm:h-80 
+        md:w-[500px] md:h-[500px] 
+        bg-gradient-to-r from-pink-500 via-teal-400 to-blue-500 
+        rounded-full blur-3xl"
       />
 
       <motion.div
@@ -48,8 +54,19 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
         animate="show"
         className="relative z-10 text-center"
       >
-
-        <h1 className="text-4xl md:text-7xl font-extrabold tracking-[0.3em] bg-linear-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
+        {/* Responsive Heading */}
+        <h1 className="
+          text-2xl 
+          sm:text-4xl 
+          md:text-6xl 
+          lg:text-7xl 
+          font-extrabold 
+          tracking-[0.15em] 
+          sm:tracking-[0.25em] 
+          md:tracking-[0.3em] 
+          bg-gradient-to-r from-white via-gray-300 to-gray-500 
+          bg-clip-text text-transparent
+        ">
           {text.split("").map((char, i) => (
             <motion.span key={i} variants={letter}>
               {char === " " ? "\u00A0" : char}
@@ -57,11 +74,20 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
           ))}
         </h1>
 
+        {/* Responsive Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 0.7, y: 0 }}
           transition={{ delay: 1.5, duration: 0.8 }}
-          className="mt-6 text-sm md:text-lg tracking-widest text-gray-400"
+          className="
+            mt-4 
+            sm:mt-6 
+            text-xs 
+            sm:text-sm 
+            md:text-lg 
+            tracking-widest 
+            text-gray-400
+          "
         >
           FULL STACK DEVELOPER
         </motion.p>

@@ -119,14 +119,14 @@ const Blog = () => {
           </div>
         )
       }
-      <div className="md:w-[70%] w-[90] flex items-center justify-center flex-col">
+      <div className="md:w-[70%] w-[90%] flex items-center justify-center flex-col">
         {blogsToShow?.map((data: BlogTypes, index: number) => {
           return <BlogCard key={index} data={data} />;
         })}
       </div>
       {
         pathname === "/" &&
-        <div className="flex gap-4 mt-8">
+        <div className="flex gap-4 mt-8 flex-col md:flex-row md:w-auto w-[90%]">
           <Button
             onClick={() => router.push("/blog")}
             className="md:w-auto w-full border border-teal  px-6 py-3 
