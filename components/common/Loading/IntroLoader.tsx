@@ -54,7 +54,6 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
         animate="show"
         className="relative z-10 text-center"
       >
-        {/* Responsive Heading */}
         <h1 className="
           text-2xl 
           sm:text-4xl 

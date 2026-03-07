@@ -5,10 +5,11 @@ import HomeHomeContent from "../components/sections/hero/Home/page";
 import About from "./about/page";
 import Skills from "./skills/page";
 
-import Projects from "./projects/page";
 import Blog from "./blog/page";
 import Contact from "./contact/page";
+import Projects from "./projects/page";
 
+import ChatsIcon from "@/components/common/Chat/ChatsIcon";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -29,18 +30,20 @@ export default function Home() {
      items-center relative "
     >
       <Pagination />
+      <ChatsIcon />
 
       <main className="w-full flex flex-col items-center ">
         <motion.div
           variants={fadeUp}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: false, amount: 0.5 }}
+          animate="show"
+          // viewport={{ once: false, amount: 0.5 }}
           id="home"
           className="lg:h-screen h-auto bg-transparent w-full 
           flex items-center justify-center "
         >
           <HomeHomeContent />
+
         </motion.div>
 
         <motion.section

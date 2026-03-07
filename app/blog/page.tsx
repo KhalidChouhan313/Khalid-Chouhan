@@ -84,7 +84,7 @@ const Blog = () => {
           <Button
             onClick={() => setShowEmailInput(true)}
             disabled={isPending || isSubscribed}
-            className="md:w-auto w-full border border-teal bg-[#1e242b] px-6 py-3 
+            className="md:w-auto w-[90%]  border border-teal bg-[#1e242b] px-6 py-3 
                  rounded font-bold text-teal shadow-md cursor-pointer
                  relative overflow-hidden
                  animate-pulse
