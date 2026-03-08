@@ -1,20 +1,23 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-    const { message } = await req.json();
+    try {
+        const { message } = await req.json();
 
-    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
-        },
-        body: JSON.stringify({
-            model: "deepseek-chat",
-            messages: [
-                {
-                    role: "system",
-                    content: `
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                "Content-Type": "application/json",
+                "HTTP-Referer": "http://localhost:3000",
+                "X-Title": "Khalid Portfolio AI",
+            },
+            body: JSON.stringify({
+                model: "meta-llama/llama-3.1-8b-instruct",
+                messages: [
+                    {
+                        role: "system",
+                        content: `
 You are an AI assistant for the personal portfolio website of Muhammad Khalid Chouhan.
 
 Your role is to help visitors learn about Khalid, his skills, experience, projects, and how they can collaborate or contact him.
@@ -112,18 +115,32 @@ You represent Muhammad Khalid Chouhan's portfolio AI assistant.
 
 If you do not know the answer, politely say that the information is not available on Khalid's portfolio.
 `,
-                },
-                {
-                    role: "user",
-                    content: message,
-                },
-            ],
-        }),
-    });
+                    },
+                    {
+                        role: "user",
+                        content: message,
+                    },
+                ],
+            }),
+        });
 
-    const data = await response.json();
+        const data = await response.json();
+        console.log("API Response:", data);
+        if (!data?.choices?.length) {
+            return NextResponse.json({
+                reply: "AI could not generate a response.",
+            });
+        }
 
-    return NextResponse.json({
-        reply: data.choices[0].message.content,
-    });
+        return NextResponse.json({
+            reply: data.choices[0].message.content,
+        });
+    } catch (error) {
+        console.error("CHAT API ERROR:", error);
+
+        return NextResponse.json(
+            { reply: "Server error occurred." },
+            { status: 500 }
+        );
+    }
 }
