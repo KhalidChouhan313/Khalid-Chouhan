@@ -4,11 +4,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { Bot, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PostChat } from "@/lib/api/chat";
+import { useChat } from "@/hooks/useChat";
+import { CircularProgress } from "@mui/material";
 
 const Chat = () => {
     const [message, setMessage] = useState("");
     const [chat, setChat] = useState<{ role: string; text: string }[]>([]);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    const { mutateAsync, isPending } = useChat();
     const sendMessage = async () => {
         if (!message.trim()) return;
 
@@ -18,14 +21,19 @@ const Chat = () => {
         setMessage("");
 
         try {
-            const res = await PostChat({ message: userMessage });
-            const data = await res.json();
+            const data = await mutateAsync(userMessage);
 
-            setChat((prev) => [...prev, { role: "ai", text: data.reply }]);
-        } catch (error) {
             setChat((prev) => [
                 ...prev,
-                { role: "ai", text: "Something went wrong. Please try again." },
+                { role: "ai", text: data.reply }
+            ]);
+
+        } catch (error) {
+            console.error("CHAT ERROR:", error);
+
+            setChat((prev) => [
+                ...prev,
+                { role: "ai", text: "Something went wrong. Please try again." }
             ]);
         }
     };
@@ -65,6 +73,12 @@ const Chat = () => {
                             {msg.text}
                         </div>
                     ))}
+                    {isPending && (
+                        <div className="max-w-[85%] px-3 py-2 rounded-lg text-sm bg-gray-200 text-gray-800 flex items-center gap-2 w-fit">
+                            <CircularProgress size={16} />
+                            <span>AI is typing...</span>
+                        </div>
+                    )}
                     <div ref={messagesEndRef} />
                 </div>
 
