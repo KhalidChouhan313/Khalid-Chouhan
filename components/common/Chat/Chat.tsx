@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { Bot, Send } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { PostChat } from "@/lib/api/chat";
 import { useChat } from "@/hooks/useChat";
 import { CircularProgress } from "@mui/material";
+import { AnimatePresence, motion } from "framer-motion";
+import { Bot, Send } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const Chat = () => {
     const [message, setMessage] = useState("");
@@ -65,9 +64,9 @@ const Chat = () => {
                     {chat.map((msg, i) => (
                         <div
                             key={i}
-                            className={`max-w-[85%] px-3 py-2 rounded-lg text-sm break-words ${msg.role === "user"
-                                ? "ml-auto bg-teal text-white"
-                                : "bg-gray-200 text-gray-800"
+                            className={`max-w-[85%] px-3 py-2 font-bold rounded-lg text-sm break-words ${msg.role === "user"
+                                ? "ml-auto bg-teal text-white "
+                                : "bg-gray-200 text-gray-800 "
                                 }`}
                         >
                             {msg.text}
@@ -76,7 +75,7 @@ const Chat = () => {
                     {isPending && (
                         <div className="max-w-[85%] px-3 py-2 rounded-lg text-sm bg-gray-200 text-gray-800 flex items-center gap-2 w-fit">
                             <CircularProgress size={16} />
-                            <span>AI is typing...</span>
+                            <span>assistant is typing...</span>
                         </div>
                     )}
                     <div ref={messagesEndRef} />
@@ -93,7 +92,8 @@ const Chat = () => {
 
                     <button
                         onClick={sendMessage}
-                        className="p-2 bg-teal text-white rounded-lg hover:scale-105 transition"
+                        className="p-2 bg-teal text-white font-black cursor-pointer
+                         rounded-lg hover:scale-105 transition"
                     >
                         <Send size={18} />
                     </button>
