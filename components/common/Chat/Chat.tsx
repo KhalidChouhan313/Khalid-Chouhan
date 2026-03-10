@@ -52,7 +52,7 @@ const Chat = () => {
           fixed z-50 bg-black rounded-2xl shadow-2xl flex flex-col overflow-hidden
           bottom-[28%]  right-4 
           w-[92%] h-[70vh] 
-          sm:w-95 sm:h-120 sm:bottom-20 sm:right-[20%]
+          sm:w-95 sm:h-120 sm:bottom-20 sm:right-[15%]
         "
             >
                 <div className="bg-teal text-white px-4 py-3 flex items-center gap-2 font-semibold">
@@ -60,7 +60,7 @@ const Chat = () => {
                     AI Assistant
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-black">
+                <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-[#1E242B]">
                     {chat.map((msg, i) => (
                         <div
                             key={i}
