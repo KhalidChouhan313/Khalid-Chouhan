@@ -37,7 +37,7 @@ export default function Home() {
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          // viewport={{ once: false, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.2 }}
           id="home"
           className="lg:h-screen h-auto bg-transparent w-full 
           flex items-center justify-center "
@@ -50,7 +50,7 @@ export default function Home() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: false, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.2 }}
           id="about"
           style={{
             backgroundImage: `url('/images/hero/aboutbg.avif')`,
@@ -70,7 +70,7 @@ export default function Home() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: false, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.2 }}
           id="skills"
           style={{
             backgroundImage: `url('/images/hero/bg.jpg')`,
@@ -104,7 +104,7 @@ export default function Home() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: false, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.2 }}
           id="projects"
           className="h-auto bg-transparent w-full 
           flex items-center justify-center "
@@ -116,7 +116,7 @@ export default function Home() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: false, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.2 }}
           id="blog"
           className="h-auto bg-transparent w-full 
           flex items-center justify-center "
@@ -128,7 +128,7 @@ export default function Home() {
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: false, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.2 }}
           id="contact"
           className="h-auto bg-transparent w-full 
           flex items-center justify-center "
