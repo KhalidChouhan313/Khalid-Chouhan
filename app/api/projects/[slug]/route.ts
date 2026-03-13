@@ -37,3 +37,37 @@ export async function GET(
     );
   }
 }
+
+export async function DELETE(
+  req: NextRequest,
+  context: { params: Promise<{ slug: string }> }
+) {
+  try {
+    await connectDB();
+    const { slug } = await context.params;
+
+    if (!mongoose.Types.ObjectId.isValid(slug)) {
+      return NextResponse.json(
+        { error: "Invalid project id" },
+        { status: 400 }
+      );
+    }
+
+    const project = await SchemaProject.findByIdAndDelete(slug);
+
+    if (!project) {
+      return NextResponse.json(
+        { error: "Project not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ message: "Project deleted successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("projects API Error:", error);
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
+  }
+}

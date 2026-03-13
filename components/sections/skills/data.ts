@@ -17,7 +17,7 @@ export const detailedSkills: DetailedSkill[] = [
   { name: "Python", percentage: 85 },
 
   { name: "React.js", percentage: 90 },
-  { name: "Next.js (App Router)", percentage: 90 },
+  { name: "Next.js", percentage: 90 },
   { name: "Redux Toolkit / Zustand", percentage: 85 },
   { name: "Tailwind CSS", percentage: 90 },
   { name: "ShadCN / MUI", percentage: 80 },
@@ -38,9 +38,12 @@ export const detailedSkills: DetailedSkill[] = [
   { name: "Redis", percentage: 70 },
 
   { name: "LangChain", percentage: 85 },
-  { name: "OpenAI API Integration", percentage: 85 },
+  { name: "AI API Integration", percentage: 85 },
+  { name: "OpenAI API", percentage: 85 },
   { name: "Vector Databases (Pinecone)", percentage: 75 },
+  { name: "Embeddings & RAG", percentage: 80 },
   { name: "Prompt Engineering", percentage: 85 },
+  { name: "LLM App Development", percentage: 80 },
 
   { name: "Docker", percentage: 80 },
   { name: "Docker Compose", percentage: 75 },

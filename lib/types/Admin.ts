@@ -8,13 +8,15 @@ export interface Message {
 }
 
 export interface Project {
-  id: number;
+  _id: string;
   images: string;
   title: string;
   description: string;
-  technologies: string;
-  link?: string;
-  github?: string;
+  technologies: string[];
+  links?: {  
+    live: string;
+    github: string;
+  };
 }
 
 

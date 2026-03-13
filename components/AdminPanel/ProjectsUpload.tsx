@@ -3,7 +3,7 @@
 import { Plus, Edit2, Trash2, Save, X } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createProject, uploadImage } from "@/lib/api/project";
+import { createProject, deleteProjectById, uploadImage } from "@/lib/api/project";
 import {
   Project,
   ProjectFormValues,
@@ -11,13 +11,13 @@ import {
 } from "@/lib/types/Admin";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useProjects } from "@/hooks/project";
 
 const ProjectsUpload = ({
   setEditingProject,
   setShowProjectForm,
   editingProject,
   showProjectForm,
-  projects,
 }: ProjectsUploadProps) => {
   const {
     register,
@@ -68,15 +68,34 @@ const ProjectsUpload = ({
   const startEdit = (project: Project) => {
     setEditingProject(project);
     setShowProjectForm(true);
+    setTechnologies(project.technologies || []);
+
     reset({
       title: project.title,
       description: project.description,
-      technologies: project.technologies,
-      link: project.link,
-      github: project.github,
+      link: project.links?.live,
+      github: project.links?.github,
     });
   };
-
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => deleteProjectById(id),
+    onSuccess: () => {
+      toast.success("Project deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+    onError: () => {
+      toast.error("Failed to delete project");
+    },
+  });
+  const deleteProject = (id: string) => {
+    if (!confirm("Are you sure you want to delete this project?")) return;
+    deleteMutation.mutate(id);
+  };
+  const { data } = useProjects() as {
+    data?: Project[];
+    isLoading: boolean;
+    isError: boolean;
+  };
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center mb-6">
@@ -252,10 +271,10 @@ const ProjectsUpload = ({
       )}
 
       <div className="grid gap-4">
-        {projects.map((project) => (
+        {data?.map((project) => (
           <div
-            key={project.id}
-            className="bg-white p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
+            key={project._id}
+            className="bg-white p-4 rounded-lg border border-black hover:shadow-md transition-shadow"
           >
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-lg font-semibold text-gray-900">
@@ -268,44 +287,19 @@ const ProjectsUpload = ({
                   onClick={() => startEdit(project)}
                   className="text-blue-600 hover:text-blue-800"
                 >
-                  <Edit2 className="h-4 w-4" />
+                  <Edit2 className="h-6 w-6 cursor-pointer" />
                 </button>
                 <button
                   aria-label="delete here"
                   title="delete"
-                  //   onClick={() => deleteProject(project.id)}
+                  onClick={() => deleteProject(project._id)}
                   className="text-red-600 hover:text-red-800"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="h-6 w-6 cursor-pointer" />
                 </button>
               </div>
             </div>
-            <p className="text-gray-600 text-sm mb-2">{project.description}</p>
-            <p className="text-xs text-gray-500 mb-2">
-              <strong>Tech:</strong> {project.technologies}
-            </p>
-            <div className="flex gap-3 text-sm">
-              {project.link && (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  Live Demo
-                </a>
-              )}
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  GitHub
-                </a>
-              )}
-            </div>
+
           </div>
         ))}
       </div>

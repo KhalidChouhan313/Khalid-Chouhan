@@ -20,7 +20,6 @@ export const AdminPanel: React.FC = () => {
     "messages" | "projects" | "blogs" | "social"
   >("messages");
   const [messages, setMessages] = useState<Message[]>([]);
-  const [projects, setProjects] = useState<Project[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({
     github: "",
@@ -41,12 +40,10 @@ export const AdminPanel: React.FC = () => {
   const loadData = async () => {
     try {
       const messagesData = localStorage.getItem("admin_messages");
-      const projectsData = localStorage.getItem("admin_projects");
       const blogsData = localStorage.getItem("admin_blogs");
       const linksData = localStorage.getItem("admin_social_links");
 
       if (messagesData) setMessages(JSON.parse(messagesData) as Message[]);
-      if (projectsData) setProjects(JSON.parse(projectsData) as Project[]);
       if (blogsData) setBlogs(JSON.parse(blogsData) as Blog[]);
       if (linksData) setSocialLinks(JSON.parse(linksData) as SocialLinks);
     } catch (error) {
@@ -289,7 +286,6 @@ export const AdminPanel: React.FC = () => {
           {activeTab === "messages" && <MessagesTab />}
           {activeTab === "projects" && (
             <ProjectsUpload
-              projects={projects}
               showProjectForm={showProjectForm}
               setShowProjectForm={setShowProjectForm}
               editingProject={editingProject}

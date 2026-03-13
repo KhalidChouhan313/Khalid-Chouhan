@@ -45,11 +45,12 @@ const Contact = () => {
 
   return (
     <div className="w-full flex flex-col items-center gap-5 py-20 bg-black">
-      <SectionHeading
-        isShow={false}
-        heading="Contact"
-        paragraph="I’m currently available for freelance work."
-      />
+      <div className="lg:w-[50%]">
+        <SectionHeading
+          isShow={false}
+          heading="Contact"
+          paragraph="Have a project in mind or want to collaborate? Feel free to reach out."/>    
+    </div>
       <Button
         className="border border-teal bg-[#1e242b] px-10 py-5 text-xl 
           rounded-tl-2xl rounded-br-2xl font-bold text-teal shadow-md
@@ -59,7 +60,7 @@ const Contact = () => {
       </Button>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-[90%] md:w-[50%] lg:w-[40%] mt-10"
+        className="flex flex-col gap-4 w-[90%] md:w-[50%] lg:w-[50%] mt-10"
       >
         <div className="flex md:flex-row flex-col lg:w-full w-auto gap-5">
           <label

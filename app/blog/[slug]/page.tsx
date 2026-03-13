@@ -50,7 +50,7 @@ export default function Page() {
   }
   return (
     <main className="min-h-screen px-6 py-16 bg-linear-to-b from-black to-gray-900 text-white">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-[90%] mx-auto">
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 text-gray-400 hover:text-teal-400 transition-colors mb-6 font-medium"
