@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/api/db";
+import { connectDB } from "@/config/db";
 import nodemailer from "nodemailer";
 import Subscriber from "@/models/Subscribe";
 
@@ -68,7 +68,7 @@ export const POST = async (req: NextRequest) => {
   `,
     });
 
-    const response =   NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       message: "Subscribed successfully",
     });

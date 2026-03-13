@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/api/db";
+import { connectDB } from "@/config/db";
 import BlogSchema from "@/models/BlogSchema";
 import { calculateReadTime } from "@/lib/utils/calculateReadTime";
 

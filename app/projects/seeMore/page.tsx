@@ -42,7 +42,7 @@ export default function SeeMoreProjects() {
                   {project?.title}
                 </h3>
                 <p className="text-gray-400 text-sm mb-4">
-                  {project?.description}
+                  {project?.description.slice(0,200)}...
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies?.map((item: string, index: number) => (

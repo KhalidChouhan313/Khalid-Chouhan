@@ -41,7 +41,6 @@ export interface ProjectsUploadProps {
   setShowProjectForm: (val: boolean) => void;
   editingProject: Project | null;
   showProjectForm: boolean;
-  projects: Project[];
 }
 
 

@@ -1,4 +1,4 @@
-import { connectDB } from "@/lib/api/db";
+import { connectDB } from "@/config/db";
 import { SchemaProject } from "@/models/Projects";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";

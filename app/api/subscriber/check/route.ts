@@ -1,4 +1,4 @@
-import { connectDB } from "@/lib/api/db";
+import { connectDB } from "@/config/db";
 import { NextRequest, NextResponse } from "next/server";
 import Subscriber from "@/models/Subscribe";
 
