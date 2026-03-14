@@ -19,9 +19,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Khalid Chouhan - Full Stack Developer",
+  title: "Khalid Chouhan | Full Stack Web Developer Portfolio",
   description:
-    "Khalid Chouhan - Full Stack Developer Portfolio | Showcasing Projects, Skills, and Experience",
+    "Official portfolio of Khalid Chouhan, a Full Stack Web Developer. Explore projects, skills, experience, and contact information.",
+
+  keywords: [
+    "Khalid Chouhan",
+    "Khalid Chouhan developer",
+    "Khalid Chouhan portfolio",
+    "Full Stack Developer Khalid Chouhan",
+    "Khalid Chouhan web developer",
+  ],
+
+  authors: [{ name: "Khalid Chouhan" }],
+
+  creator: "Khalid Chouhan",
+
+  metadataBase: new URL("https://khalid-chouhan.vercel.app"),
+
+  openGraph: {
+    title: "Khalid Chouhan | Full Stack Developer",
+    description:
+      "Portfolio of Khalid Chouhan showcasing web development projects, skills and experience.",
+    url: "https://khalid-chouhan.vercel.app",
+    siteName: "Khalid Chouhan Portfolio",
+    type: "website",
+  },
 
   icons: {
     icon: ProfileImage,
@@ -36,6 +59,26 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Khalid Chouhan",
+              url: "https://khalid-chouhan.vercel.app",
+              jobTitle: "Full Stack Developer",
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "Pakistan",
+              },
+            }),
+          }}
+        />
+      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} relative  antialiased`}
       >

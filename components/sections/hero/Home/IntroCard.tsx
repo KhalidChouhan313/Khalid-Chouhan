@@ -33,7 +33,7 @@ const IntroCard = () => {
     link.click();
   };
   const linkCopy = () => {
-    navigator.clipboard.writeText("https://www.devkhalidchouhan.com");
+    navigator.clipboard.writeText("https://khalid-chouhan.vercel.app");
     toast.success("Website link copied to clipboard!");
   };
   return (
@@ -43,20 +43,23 @@ const IntroCard = () => {
     rounded-tl-[120px] rounded-br-[50px]"
     >
       <div className="flex justify-center mb-4">
+        <p className="hidden">
+          Khalid Chouhan is a Full Stack Web Developer from Pakistan specializing in
+          React, Next.js, Node.js, and modern web technologies.
+        </p>
         <div className="w-28 h-28 bg-white rounded-full p-1 shadow-md overflow-hidden flex items-center justify-center">
           <Image
             src={ProfileImage}
-            alt="Developer"
+            alt="Khalid Chouhan Full Stack Developer"
             width={112}
             height={112}
             className="rounded-full object-cover w-full h-full"
           />
         </div>
       </div>
-
-      <h2 className="text-center text-2xl font-semibold uppercase">
-        Khalid Chouhan{" "}
-      </h2>
+      <h1 className="text-center text-2xl font-semibold uppercase">
+        Khalid Chouhan
+      </h1>
 
       <p className="text-center text-gray-300 text-sm mb-4">
         Full-stack Developer
@@ -99,14 +102,14 @@ const IntroCard = () => {
 
       <div className="flex justify-center mt-5">
         <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        onHoverStart={() => console.log('hover started!')}
-        onClick={handleDownload}
-        className="bg-white text-black px-6 py-2 rounded-full flex items-center gap-2 shadow-md hover:bg-gray-100 cursor-pointer">
-        Download CV <Download size={20} className="font-black" />
-      </motion.button>
-    </div>
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onHoverStart={() => console.log('hover started!')}
+          onClick={handleDownload}
+          className="bg-white text-black px-6 py-2 rounded-full flex items-center gap-2 shadow-md hover:bg-gray-100 cursor-pointer">
+          Download CV <Download size={20} className="font-black" />
+        </motion.button>
+      </div>
     </div >
   );
 };
