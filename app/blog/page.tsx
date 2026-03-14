@@ -98,12 +98,12 @@ const Blog = () => {
       }
       {
         showEmailInput && !isSubscribed &&(
-          <div className="flex gap-4 mt-4">
+          <div className="flex gap-4 mt-4 md:flex-row flex-col md:w-auto w-[90%]">
             <input type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full border border-gray-300 px-4 py-auto rounded focus:outline-none focus:ring-2 focus:ring-teal"
+              className="w-full border border-gray-300 px-4 md:py-auto py-3  rounded focus:outline-none focus:ring-2 focus:ring-teal"
             />
             <Button
               onClick={handleSubscribe}

@@ -50,7 +50,7 @@ const Chat = () => {
                 transition={{ duration: 0.25 }}
                 className="
           fixed z-50 bg-black rounded-2xl shadow-2xl flex flex-col overflow-hidden
-          bottom-[28%]  right-4 
+          md:bottom-[28%] bottom-[20%]  right-4 
           w-[92%] h-[70vh] 
           sm:w-95 sm:h-120 sm:bottom-20 sm:right-[15%]
         "

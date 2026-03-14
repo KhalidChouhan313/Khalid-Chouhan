@@ -16,7 +16,7 @@ function ChatsIcon() {
         <motion.div
           onClick={() => setShowChat(!showtChat)}
           className="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center
-          fixed bottom-[15%] right-[5%] cursor-pointer z-50 shadow-lg"
+          fixed md:bottom-[15%] bottom-[5%] right-[5%] cursor-pointer z-50 shadow-lg"
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.95 }}
           animate={{
