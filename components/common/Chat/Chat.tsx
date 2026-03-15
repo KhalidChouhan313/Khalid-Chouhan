@@ -68,10 +68,11 @@ const Chat = () => {
                                 ? "ml-auto bg-teal text-white "
                                 : "bg-gray-200 text-gray-800 "
                                 }`}
-                        >
+                        >``
                             {msg.text}
                         </div>
                     ))}
+                    
                     {isPending && (
                         <div className="max-w-[85%] px-3 py-2 rounded-lg text-sm bg-gray-200 text-gray-800 flex items-center gap-2 w-fit">
                             <CircularProgress size={16} />
