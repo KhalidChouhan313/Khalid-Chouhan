@@ -1,13 +1,13 @@
 import ClientLayout from "@/components/layout/ClientLayout";
 import Footer from "@/components/layout/footer/Footer";
+import GoogleAnalyticsTracker from "@/components/layout/GoogleAnalyticsTracker";
+import { introProfile } from "@/Utils/BaseUrl";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import Providers from "./providers";
-import { ProfileImage } from "@/Utils/BaseUrl";
-import Script from "next/script";
-import GoogleAnalyticsTracker from "@/components/layout/GoogleAnalyticsTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: ProfileImage,
+    icon: introProfile,
   },
 };
 
