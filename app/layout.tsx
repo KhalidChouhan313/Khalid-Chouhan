@@ -21,9 +21,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Khalid Chouhan | Full Stack Web Developer Portfolio",
+  title: {
+    default: "Khalid Chouhan | Full Stack Web Developer Portfolio",
+    template: "%s | Khalid Chouhan",
+  },
   description:
-    "Official portfolio of Khalid Chouhan, a Full Stack Web Developer. Explore projects, skills, experience, and contact information.",
+    "Official portfolio of Khalid Chouhan, a Full Stack Web Developer specializing in React, Next.js, Node.js, and modern web technologies. Explore projects, skills, and contact information.",
 
   keywords: [
     "Khalid Chouhan",
@@ -31,6 +34,12 @@ export const metadata: Metadata = {
     "Khalid Chouhan portfolio",
     "Full Stack Developer Khalid Chouhan",
     "Khalid Chouhan web developer",
+    "Full Stack Developer Pakistan",
+    "React Developer",
+    "Next.js Developer",
+    "Node.js Developer",
+    "Backend Developer",
+    "Frontend Developer",
   ],
 
   authors: [{ name: "Khalid Chouhan" }],
@@ -45,12 +54,27 @@ export const metadata: Metadata = {
       "Portfolio of Khalid Chouhan showcasing web development projects, skills and experience.",
     url: "https://khalid-chouhan.vercel.app",
     siteName: "Khalid Chouhan Portfolio",
+    images: [
+      {
+        url: introProfile,
+        width: 1200,
+        height: 630,
+      },
+    ],
     type: "website",
   },
 
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Khalid Chouhan | Full Stack Developer",
+    description: "Explore portfolio, projects, and skills.",
+    images: [introProfile],
+  },
   icons: {
     icon: introProfile,
   },
+
 };
 
 export default function RootLayout({
@@ -63,6 +87,8 @@ export default function RootLayout({
     <html lang="en">
 
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
           strategy="afterInteractive"
@@ -82,12 +108,31 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Khalid Chouhan",
+              alternateName: "Khalid Chouhan",
               url: "https://khalid-chouhan.vercel.app",
               jobTitle: "Full Stack Developer",
               address: {
                 "@type": "PostalAddress",
                 addressCountry: "Pakistan",
               },
+              sameAs: [
+                "https://github.com/KhalidChouhan313",
+                "https://www.linkedin.com/in/muhammad-khalid-chouhan-68b24738b/",
+                "https://x.com/Mkhalidcho8520M"
+
+              ],
+              knowsAbout: [
+                "React",
+                "Next.js",
+                "Node.js",
+                "JavaScript",
+                "Full Stack Development",
+                "Web Development",
+                "Frontend Development",
+                "Backend Development",
+
+              ],
+
             }),
           }}
         />
@@ -97,7 +142,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} relative  antialiased`}
       >
         <Providers>
-         <GoogleAnalyticsTracker />
+          <GoogleAnalyticsTracker />
 
           <ClientLayout>{children}</ClientLayout>
           <ToastContainer theme="dark" />
