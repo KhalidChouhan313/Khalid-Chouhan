@@ -3,7 +3,7 @@
 import { useChat } from "@/hooks/useChat";
 import { CircularProgress } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
-import { Bot, Send } from "lucide-react";
+import { Bot, Send, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const Chat = () => {
@@ -55,9 +55,12 @@ const Chat = () => {
           sm:w-95 sm:h-120 sm:bottom-20 sm:right-[15%]
         "
             >
-                <div className="bg-teal text-white px-4 py-3 flex items-center gap-2 font-semibold">
-                    <Bot size={20} />
-                    AI Assistant
+                <div className="bg-teal text-white px-4 py-3 flex items-center justify-between gap-2 font-semibold">
+                    <div>
+                        <Bot size={20} />
+                        AI Assistant
+                    </div>
+                    <X />
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-[#1E242B]">
@@ -72,7 +75,7 @@ const Chat = () => {
                             {msg.text}
                         </div>
                     ))}
-                    
+
                     {isPending && (
                         <div className="max-w-[85%] px-3 py-2 rounded-lg text-sm bg-gray-200 text-gray-800 flex items-center gap-2 w-fit">
                             <CircularProgress size={16} />
