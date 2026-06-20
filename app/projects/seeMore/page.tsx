@@ -70,7 +70,6 @@ export default function SeeMoreProjects() {
   return (
     <main className="min-h-screen px-6 py-24 bg-bg-base text-white transition-colors duration-300">
       <div className="max-w-6xl mx-auto flex flex-col gap-12">
-        {/* Header */}
         <div className="flex flex-col items-center text-center gap-3">
           <span className="text-xs font-bold tracking-widest uppercase text-[var(--color-accent)]">
             Portfolio Showcase

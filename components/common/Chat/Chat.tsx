@@ -8,7 +8,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { chatBubble, scaleIn } from "@/lib/motion-variants";
 
-// ── Types ──────────────────────────────────────────────────────────────
 interface ChatMessage {
   role: "user" | "ai";
   text: string;
@@ -19,7 +18,6 @@ interface QuickPrompt {
   message: string;
 }
 
-// ── Quick Prompts ──────────────────────────────────────────────────────
 const QUICK_PROMPTS: QuickPrompt[] = [
   { label: "🛠 Technologies", message: "What technologies do you use?" },
   { label: "🚀 Best Project", message: "Show me your best project" },
@@ -27,7 +25,6 @@ const QUICK_PROMPTS: QuickPrompt[] = [
   { label: "📚 Experience", message: "Tell me about your experience" },
 ];
 
-// ── Chat Component ─────────────────────────────────────────────────────
 const Chat = () => {
   const [message, setMessage] = useState<string>("");
   const [chat, setChat] = useState<ChatMessage[]>([]);
@@ -87,14 +84,13 @@ const Chat = () => {
         className="fixed z-50 flex flex-col overflow-hidden
           bottom-[20%] right-4
           w-[92%] h-[70vh]
-          sm:w-[380px] sm:h-[500px] sm:bottom-24 sm:right-[13%]
+          sm:w-[380px] sm:h-[500px] sm:bottom-24 sm:right-6
           rounded-2xl shadow-lg
           glass-strong"
         role="dialog"
         aria-label="AI Chat Assistant"
         aria-modal="false"
       >
-        {/* ── Header ─────────────────────────────────────────────── */}
         <div
           className="flex items-center justify-between px-4 py-3
             border-b border-[var(--color-border-subtle)]
@@ -123,13 +119,11 @@ const Chat = () => {
           </button>
         </div>
 
-        {/* ── Messages ───────────────────────────────────────────── */}
         <div
           className="flex-1 overflow-y-auto p-4 space-y-3 no-scrollbar bg-bg-base/50"
           role="log"
           aria-live="polite"
         >
-          {/* Welcome message when empty */}
           {chat.length === 0 && (
             <motion.div
               variants={chatBubble}
@@ -171,7 +165,6 @@ const Chat = () => {
             </motion.div>
           )}
 
-          {/* Chat messages */}
           {chat.map((msg, i) => (
             <motion.div
               key={i}
@@ -234,7 +227,6 @@ const Chat = () => {
             </motion.div>
           ))}
 
-          {/* Typing indicator */}
           {isPending && (
             <motion.div
               variants={chatBubble}
@@ -252,7 +244,6 @@ const Chat = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* ── Quick prompts (shown when there are messages) ────── */}
         {chat.length > 0 && chat.length < 4 && (
           <div className="px-3 py-2 flex gap-2 overflow-x-auto no-scrollbar
             border-t border-[var(--color-border-subtle)]">
@@ -273,7 +264,6 @@ const Chat = () => {
           </div>
         )}
 
-        {/* ── Input ──────────────────────────────────────────────── */}
         <div className="px-3 py-3 flex items-center gap-2
           border-t border-[var(--color-border-subtle)] bg-bg-elevated">
           <input

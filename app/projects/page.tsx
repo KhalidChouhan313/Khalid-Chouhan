@@ -24,9 +24,7 @@ const Projects = () => {
           viewport={viewportOnce}
           className="w-full max-w-5xl bg-bg-elevated/30 glass border border-[var(--color-border)] rounded-3xl overflow-hidden shadow-2xl p-6 lg:p-12 flex flex-col lg:flex-row items-center gap-10"
         >
-          {/* Visual Showcase (Responsive Layout) */}
           <div className="w-full lg:w-3/5 relative aspect-video lg:aspect-auto lg:h-[400px] rounded-2xl overflow-hidden border border-[var(--color-border-subtle)] bg-bg-surface group">
-            {/* Desktop Version Layout */}
             <div className="hidden md:block absolute inset-0">
               <div className="absolute top-[10%] left-[5%] w-[80%] aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/5 transition-transform duration-500 group-hover:scale-105">
                 <Image
@@ -54,7 +52,6 @@ const Projects = () => {
               </div>
             </div>
 
-            {/* Mobile/Fallback layout */}
             <div className="md:hidden absolute inset-0">
               <Image
                 src="/images/projects/Dual-screen.png"
@@ -66,7 +63,6 @@ const Projects = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-bg-base/70 via-transparent to-transparent pointer-events-none" />
           </div>
 
-          {/* Call to Action content */}
           <div className="w-full lg:w-2/5 flex flex-col items-start text-left gap-6">
             <span className="text-xs font-bold tracking-widest uppercase text-[var(--color-accent)] bg-[var(--color-accent-glow)] px-3 py-1 rounded-full border border-[var(--color-border-accent)]">
               Featured Works

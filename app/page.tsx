@@ -18,7 +18,6 @@ export default function Home() {
       <ChatsIcon />
 
       <main className="w-full flex flex-col items-center">
-        {/* hero */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -30,7 +29,6 @@ export default function Home() {
           <HomeHomeContent />
         </motion.div>
 
-        {/* about */}
         <motion.section
           variants={fadeUp}
           initial="hidden"
@@ -42,7 +40,6 @@ export default function Home() {
           <About />
         </motion.section>
 
-        {/* skills */}
         <motion.section
           variants={fadeUp}
           initial="hidden"
@@ -54,7 +51,6 @@ export default function Home() {
           <Skills />
         </motion.section>
 
-        {/* projects */}
         <motion.section
           variants={fadeUp}
           initial="hidden"
@@ -66,7 +62,6 @@ export default function Home() {
           <Projects />
         </motion.section>
 
-        {/* blog */}
         <motion.section
           variants={fadeUp}
           initial="hidden"
@@ -78,7 +73,6 @@ export default function Home() {
           <Blog />
         </motion.section>
 
-        {/* contact */}
         <motion.section
           variants={fadeUp}
           initial="hidden"
