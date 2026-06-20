@@ -1,12 +1,12 @@
 "use client";
 
 import SectionHeading from "@/components/common/SectionHeading";
-import { Button } from "@/components/ui/button";
 import { apiWrapper } from "@/helper/apiWrapper";
 import { useMutation } from "@tanstack/react-query";
 import { Send } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 type FormValues = {
   name: string;
@@ -19,7 +19,6 @@ const Contact = () => {
     register,
     handleSubmit,
     reset,
-
     formState: { errors },
   } = useForm<FormValues>();
 
@@ -37,93 +36,104 @@ const Contact = () => {
     },
     onError: (error: Error) => {
       console.error(error);
+      toast.error("Failed to send message.");
     },
   });
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     mutate(data);
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-5 py-20 bg-black">
-      <div className="lg:w-[50%]">
+    <div className="w-full flex flex-col items-center gap-6 py-20 bg-bg-base transition-colors duration-300">
+      <div className="lg:w-[50%] px-6">
         <SectionHeading
           isShow={false}
           heading="Contact"
-          paragraph="Have a project in mind or want to collaborate? Feel free to reach out."/>    
-    </div>
-      <Button
-        className="border border-teal bg-[#1e242b] px-10 py-5 text-xl 
-          rounded-tl-2xl rounded-br-2xl font-bold text-teal shadow-md
-           transition-all duration-300"
-      >
-        Send me a message{" "}
-      </Button>
+          paragraph="Have a project in mind or want to collaborate? Feel free to reach out."
+        />
+      </div>
+
+      <span className="text-xs font-bold tracking-widest uppercase text-[var(--color-accent)] bg-[var(--color-accent-glow)] px-3.5 py-1.5 rounded-full border border-[var(--color-border-accent)] mt-2 select-none">
+        Get in touch
+      </span>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-[90%] md:w-[50%] lg:w-[50%] mt-10"
+        className="flex flex-col gap-6 w-[90%] md:w-[60%] lg:w-[45%] mt-8 bg-bg-elevated/20 glass border border-[var(--color-border)] rounded-2xl p-8 md:p-10 shadow-xl"
       >
-        <div className="flex md:flex-row flex-col lg:w-full w-auto gap-5">
+        <div className="flex md:flex-row flex-col lg:w-full w-auto gap-6">
           <label
             htmlFor="Name"
-            className="lg:w-full w-auto text-teal flex flex-col  mt-5  italic font-bold"
+            className="lg:w-full w-auto text-[var(--color-text-secondary)] flex flex-col gap-2 text-sm font-semibold"
           >
-            your Name
+            Your Name
             <input
-              placeholder="Enter your email"
-              className="border-b   outline-none py-2 placeholder:text-gray-400 placeholder:font-mono placeholder:font-medium"
+              id="Name"
+              placeholder="Enter your name"
+              className="bg-transparent border-b border-[var(--color-border)] outline-none py-2.5 text-white placeholder:text-[var(--color-text-faint)] focus:border-[var(--color-accent)] transition-colors font-sans font-medium"
               {...register("name", { required: true })}
             />
             {errors.name && (
-              <span className="text-red-500">Name is required</span>
+              <span className="text-red-500 text-xs font-medium mt-1">Name is required</span>
             )}
           </label>
           <label
             htmlFor="Email"
-            className="lg:w-full w-auto text-teal flex flex-col  mt-5  italic font-bold"
+            className="lg:w-full w-auto text-[var(--color-text-secondary)] flex flex-col gap-2 text-sm font-semibold"
           >
             Your Email
             <input
-              className="border-b   outline-none py-2 placeholder:text-gray-400 placeholder:font-mono placeholder:font-medium"
+              id="Email"
+              type="email"
+              className="bg-transparent border-b border-[var(--color-border)] outline-none py-2.5 text-white placeholder:text-[var(--color-text-faint)] focus:border-[var(--color-accent)] transition-colors font-sans font-medium"
               placeholder="Enter your email"
               {...register("email", { required: true })}
             />
             {errors.email && (
-              <span className="text-red-500">Email is required</span>
+              <span className="text-red-500 text-xs font-medium mt-1">Email is required</span>
             )}
           </label>
         </div>
         <label
           htmlFor="Message"
-          className=" lg:w-full text-teal flex flex-col  mt-5  italic font-bold"
+          className="lg:w-full text-[var(--color-text-secondary)] flex flex-col gap-2 text-sm font-semibold mt-2"
         >
           Your Message
           <textarea
+            id="Message"
             maxLength={1000}
+            rows={4}
             placeholder="Type your message here..."
-            className="border-b border-teal py-2  placeholder:mt-5    outline-none 
-             placeholder:text-gray-400 placeholder:font-mono placeholder:font-medium"
+            className="bg-transparent border-b border-[var(--color-border)] outline-none py-2.5 text-white placeholder:text-[var(--color-text-faint)] focus:border-[var(--color-accent)] transition-colors font-sans font-medium resize-none"
             {...register("message", { required: true })}
           />
           {errors.message && (
-            <span className="text-red-500">Message is required</span>
+            <span className="text-red-500 text-xs font-medium mt-1">Message is required</span>
           )}
         </label>
-        <div className="flex items-center justify-center w-full">
-          <Button
+        
+        <div className="flex items-center justify-center w-full mt-4">
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isPending}
-            className="bg-teal flex items-center px-12 py-5 
-             rounded-full font-bold cursor-pointer mt-10 hover:translate-0.5 
-             text-black shadow-md transition-all ease-in-out duration-300"
+            className="bg-[var(--color-accent)] text-[#0f0c09] flex items-center justify-center gap-2.5 px-10 py-3.5 rounded-full font-bold cursor-pointer hover:bg-[var(--color-accent-dim)] shadow-md transition-colors duration-300 disabled:opacity-50 text-sm"
           >
-            {isPending ? "Sending..." : "Send Message"}{" "}
-            <Send size={16} />
-          </Button>
-        </div>{" "}
-        {isSuccess && <p className="text-green-600">{data?.message}</p>}
+            <span>{isPending ? "Sending..." : "Send Message"}</span>
+            <Send size={15} className="stroke-[2.5]" />
+          </motion.button>
+        </div>
+
+        {isSuccess && (
+          <p className="text-emerald-400 text-center text-sm font-medium mt-2">
+            {data?.message}
+          </p>
+        )}
         {isError && (
-          <p className="text-red-600">
-            {(error as any)?.message || "Something went wrong"}
+          <p className="text-red-400 text-center text-sm font-medium mt-2">
+            {(error as any)?.message || "Something went wrong. Please try again."}
           </p>
         )}
       </form>

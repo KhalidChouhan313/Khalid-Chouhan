@@ -1,96 +1,51 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { staggerContainer, letterReveal } from "@/lib/motion-variants";
 
 export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
   const text = "KHALID CHOUHAN";
-
-  const container = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.06,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const letter = {
-    hidden: { y: 60, opacity: 0 },
-    show: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1] as const,
-      },
-    },
-  };
 
   return (
     <motion.div
       initial={{ opacity: 1 }}
       animate={{ opacity: 0 }}
-      transition={{ delay: 3, duration: 1 }}
+      transition={{ delay: 3.5, duration: 0.8, ease: "easeInOut" }}
       onAnimationComplete={onFinish}
-      className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden px-6"
+      className="fixed inset-0 z-[9999] bg-bg-base flex items-center justify-center overflow-hidden px-6 select-none"
     >
-      {/* Responsive Glow */}
+      {/* Subtle Teal Ambient Glow */}
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1.2, opacity: 0.4 }}
-        transition={{ duration: 2 }}
-        className="absolute 
-        w-60 h-60 
-        sm:w-80 sm:h-80 
-        md:w-[500px] md:h-[500px] 
-        bg-gradient-to-r from-pink-500 via-teal-400 to-blue-500 
-        rounded-full blur-3xl"
+        animate={{ scale: 1.2, opacity: 0.08 }}
+        transition={{ duration: 2.5, ease: "easeOut" }}
+        className="absolute w-60 h-60 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] bg-[var(--color-accent)] rounded-full blur-[100px] pointer-events-none"
       />
 
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="relative z-10 text-center"
-      >
-        <h1 className="
-          text-2xl 
-          sm:text-4xl 
-          md:text-6xl 
-          lg:text-7xl 
-          font-extrabold 
-          tracking-[0.15em] 
-          sm:tracking-[0.25em] 
-          md:tracking-[0.3em] 
-          bg-gradient-to-r from-white via-gray-300 to-gray-500 
-          bg-clip-text text-transparent
-        ">
+      <div className="relative z-10 text-center">
+        <motion.h1
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="text-3xl sm:text-5xl md:text-7xl font-black tracking-[0.2em] sm:tracking-[0.25em] md:tracking-[0.3em] bg-gradient-to-r from-white via-[var(--color-text-secondary)] to-[var(--color-text-muted)] bg-clip-text text-transparent"
+        >
           {text.split("").map((char, i) => (
-            <motion.span key={i} variants={letter}>
+            <motion.span key={i} variants={letterReveal} className="inline-block">
               {char === " " ? "\u00A0" : char}
             </motion.span>
           ))}
-        </h1>
+        </motion.h1>
 
         {/* Responsive Subtitle */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 0.7, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.8 }}
-          className="
-            mt-4 
-            sm:mt-6 
-            text-xs 
-            sm:text-sm 
-            md:text-lg 
-            tracking-widest 
-            text-gray-400
-          "
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 0.5, y: 0 }}
+          transition={{ delay: 1.6, duration: 0.8, ease: "easeOut" }}
+          className="mt-5 text-xs sm:text-sm tracking-[0.3em] sm:tracking-[0.4em] text-[var(--color-text-faint)] font-bold font-sans uppercase"
         >
-          FULL STACK DEVELOPER
+          Full Stack Developer
         </motion.p>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

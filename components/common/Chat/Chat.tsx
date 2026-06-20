@@ -1,110 +1,316 @@
 "use client";
 
 import { useChat } from "@/hooks/useChat";
-import { CircularProgress } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
-import { Bot, Send, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Bot, Send, X, Sparkles } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { chatBubble, scaleIn } from "@/lib/motion-variants";
 
+// ── Types ──────────────────────────────────────────────────────────────
+interface ChatMessage {
+  role: "user" | "ai";
+  text: string;
+}
+
+interface QuickPrompt {
+  label: string;
+  message: string;
+}
+
+// ── Quick Prompts ──────────────────────────────────────────────────────
+const QUICK_PROMPTS: QuickPrompt[] = [
+  { label: "🛠 Technologies", message: "What technologies do you use?" },
+  { label: "🚀 Best Project", message: "Show me your best project" },
+  { label: "💼 Hire You", message: "How can I hire you?" },
+  { label: "📚 Experience", message: "Tell me about your experience" },
+];
+
+// ── Chat Component ─────────────────────────────────────────────────────
 const Chat = () => {
-    const [message, setMessage] = useState("");
-    const [chat, setChat] = useState<{ role: string; text: string }[]>([]);
-    const messagesEndRef = useRef<HTMLDivElement | null>(null);
-    const { mutateAsync, isPending } = useChat();
-    const sendMessage = async () => {
-        if (!message.trim()) return;
+  const [message, setMessage] = useState<string>("");
+  const [chat, setChat] = useState<ChatMessage[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const { mutateAsync, isPending } = useChat();
 
-        const userMessage = message;
+  const sendMessage = useCallback(async (text?: string): Promise<void> => {
+    const messageText = text ?? message;
+    if (!messageText.trim()) return;
 
-        setChat((prev) => [...prev, { role: "user", text: userMessage }]);
-        setMessage("");
+    const userMessage = messageText.trim();
+    setChat((prev) => [...prev, { role: "user", text: userMessage }]);
+    setMessage("");
 
-        try {
-            const data = await mutateAsync(userMessage);
+    try {
+      const data = await mutateAsync(userMessage);
+      setChat((prev) => [...prev, { role: "ai", text: data.reply }]);
+    } catch {
+      setChat((prev) => [
+        ...prev,
+        { role: "ai", text: "Something went wrong. Please try again." },
+      ]);
+    }
+  }, [message, mutateAsync]);
 
-            setChat((prev) => [
-                ...prev,
-                { role: "ai", text: data.reply }
-            ]);
+  const handleQuickPrompt = useCallback((prompt: QuickPrompt): void => {
+    setMessage(prompt.message);
+    void sendMessage(prompt.message);
+  }, [sendMessage]);
 
-        } catch (error) {
-            console.error("CHAT ERROR:", error);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>): void => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        void sendMessage();
+      }
+    },
+    [sendMessage]
+  );
 
-            setChat((prev) => [
-                ...prev,
-                { role: "ai", text: "Something went wrong. Please try again." }
-            ]);
-        }
-    };
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chat, isPending]);
 
-    useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [chat]);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
-    return (
-        <AnimatePresence>
+  return (
+    <AnimatePresence>
+      <motion.div
+        variants={scaleIn}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+        className="fixed z-50 flex flex-col overflow-hidden
+          bottom-[20%] right-4
+          w-[92%] h-[70vh]
+          sm:w-[380px] sm:h-[500px] sm:bottom-24 sm:right-[13%]
+          rounded-2xl shadow-lg
+          glass-strong"
+        role="dialog"
+        aria-label="AI Chat Assistant"
+        aria-modal="false"
+      >
+        {/* ── Header ─────────────────────────────────────────────── */}
+        <div
+          className="flex items-center justify-between px-4 py-3
+            border-b border-[var(--color-border-subtle)]
+            bg-bg-elevated"
+        >
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-accent-glow)] flex items-center justify-center">
+              <Bot size={18} className="text-[var(--color-accent)]" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white leading-tight">
+                AI Assistant
+              </p>
+              <p className="text-[10px] text-[var(--color-text-faint)] leading-tight">
+                Ask about Khalid
+              </p>
+            </div>
+          </div>
+          <button
+            className="p-1.5 rounded-lg hover:bg-bg-surface transition-colors
+              text-[var(--color-text-faint)] hover:text-white"
+            aria-label="Close chat"
+            tabIndex={0}
+          >
+            <X size={16} />
+          </button>
+        </div>
+
+        {/* ── Messages ───────────────────────────────────────────── */}
+        <div
+          className="flex-1 overflow-y-auto p-4 space-y-3 no-scrollbar bg-bg-base/50"
+          role="log"
+          aria-live="polite"
+        >
+          {/* Welcome message when empty */}
+          {chat.length === 0 && (
             <motion.div
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 40, scale: 0.95 }}
-                transition={{ duration: 0.25 }}
-                className="
-          fixed z-50 bg-black rounded-2xl shadow-2xl flex flex-col overflow-hidden
-           bottom-[20%]  right-4 
-          w-[92%] h-[70vh] 
-          sm:w-95 sm:h-120 sm:bottom-20 sm:right-[15%]
-        "
+              variants={chatBubble}
+              initial="hidden"
+              animate="visible"
+              className="text-center py-6 space-y-4"
             >
-                <div className="bg-teal text-white px-4 py-3 flex items-center justify-between gap-2 font-semibold">
-                    <div>
-                        <Bot size={20} />
-                        AI Assistant
-                    </div>
-                    <X />
-                </div>
+              <div className="w-12 h-12 mx-auto rounded-xl bg-[var(--color-accent-glow)]
+                flex items-center justify-center">
+                <Sparkles size={24} className="text-[var(--color-accent)]" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-white">
+                  Hi! I&apos;m Khalid&apos;s AI assistant
+                </p>
+                <p className="text-xs text-[var(--color-text-faint)] mt-1">
+                  Ask me anything about his skills, projects, or experience
+                </p>
+              </div>
 
-                <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-[#1E242B]">
-                    {chat.map((msg, i) => (
-                        <div
-                            key={i}
-                            className={`max-w-[85%] px-3 py-2 font-bold rounded-lg text-sm break-words ${msg.role === "user"
-                                ? "ml-auto bg-teal text-white "
-                                : "bg-gray-200 text-gray-800 "
-                                }`}
-                        >``
-                            {msg.text}
-                        </div>
-                    ))}
-
-                    {isPending && (
-                        <div className="max-w-[85%] px-3 py-2 rounded-lg text-sm bg-gray-200 text-gray-800 flex items-center gap-2 w-fit">
-                            <CircularProgress size={16} />
-                            <span>typing...</span>
-                        </div>
-                    )}
-                    <div ref={messagesEndRef} />
-                </div>
-
-                <div className="border-t border-gray-700 p-2 flex items-center gap-2">
-                    <input
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                        placeholder="Ask about Khalid..."
-                        className="flex-1 px-3 py-2 text-sm rounded-lg outline-none bg-black text-white border border-gray-600 focus:border-teal"
-                    />
-
-                    <button
-                        onClick={sendMessage}
-                        className="p-2 bg-teal text-white font-black cursor-pointer
-                         rounded-lg hover:scale-105 transition"
-                    >
-                        <Send size={18} />
-                    </button>
-                </div>
+              {/* Quick Prompts */}
+              <div className="flex flex-wrap gap-2 justify-center pt-2">
+                {QUICK_PROMPTS.map((prompt) => (
+                  <button
+                    key={prompt.label}
+                    onClick={() => handleQuickPrompt(prompt)}
+                    className="px-3 py-1.5 text-xs rounded-full
+                      bg-bg-surface border border-[var(--color-border)]
+                      text-[var(--color-text-muted)]
+                      hover:border-[var(--color-border-accent)]
+                      hover:text-[var(--color-accent)]
+                      transition-all duration-200"
+                    type="button"
+                  >
+                    {prompt.label}
+                  </button>
+                ))}
+              </div>
             </motion.div>
-        </AnimatePresence>
-    );
+          )}
+
+          {/* Chat messages */}
+          {chat.map((msg, i) => (
+            <motion.div
+              key={i}
+              variants={chatBubble}
+              initial="hidden"
+              animate="visible"
+              className={`max-w-[85%] ${
+                msg.role === "user" ? "ml-auto" : "mr-auto"
+              }`}
+            >
+              <div
+                className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                  msg.role === "user"
+                    ? "bg-[var(--color-accent)] text-[#0f0c09] font-medium rounded-br-md"
+                    : "bg-bg-elevated border border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] rounded-bl-md"
+                }`}
+              >
+                {msg.role === "ai" ? (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      p: ({ children }) => (
+                        <p className="mb-2 last:mb-0">{children}</p>
+                      ),
+                      code: ({ children, className }) => {
+                        const isInline = !className;
+                        return isInline ? (
+                          <code className="px-1 py-0.5 bg-bg-surface rounded text-xs font-mono text-[var(--color-accent)]">
+                            {children}
+                          </code>
+                        ) : (
+                          <code className="block p-2 bg-bg-surface rounded-lg text-xs font-mono overflow-x-auto my-2">
+                            {children}
+                          </code>
+                        );
+                      },
+                      strong: ({ children }) => (
+                        <strong className="font-semibold text-white">
+                          {children}
+                        </strong>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="list-disc list-inside space-y-1 my-1">
+                          {children}
+                        </ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="list-decimal list-inside space-y-1 my-1">
+                          {children}
+                        </ol>
+                      ),
+                    }}
+                  >
+                    {msg.text}
+                  </ReactMarkdown>
+                ) : (
+                  msg.text
+                )}
+              </div>
+            </motion.div>
+          ))}
+
+          {/* Typing indicator */}
+          {isPending && (
+            <motion.div
+              variants={chatBubble}
+              initial="hidden"
+              animate="visible"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl rounded-bl-md
+                bg-bg-elevated border border-[var(--color-border-subtle)] w-fit"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-text-faint)] animate-bounce [animation-delay:0ms]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-text-faint)] animate-bounce [animation-delay:150ms]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-text-faint)] animate-bounce [animation-delay:300ms]" />
+            </motion.div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* ── Quick prompts (shown when there are messages) ────── */}
+        {chat.length > 0 && chat.length < 4 && (
+          <div className="px-3 py-2 flex gap-2 overflow-x-auto no-scrollbar
+            border-t border-[var(--color-border-subtle)]">
+            {QUICK_PROMPTS.slice(0, 2).map((prompt) => (
+              <button
+                key={prompt.label}
+                onClick={() => handleQuickPrompt(prompt)}
+                className="px-2.5 py-1 text-[10px] rounded-full whitespace-nowrap
+                  bg-bg-surface border border-[var(--color-border)]
+                  text-[var(--color-text-faint)]
+                  hover:text-[var(--color-accent)]
+                  transition-colors shrink-0"
+                type="button"
+              >
+                {prompt.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* ── Input ──────────────────────────────────────────────── */}
+        <div className="px-3 py-3 flex items-center gap-2
+          border-t border-[var(--color-border-subtle)] bg-bg-elevated">
+          <input
+            ref={inputRef}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Ask about Khalid..."
+            disabled={isPending}
+            className="flex-1 px-3.5 py-2 text-sm rounded-xl
+              bg-bg-surface text-white
+              border border-[var(--color-border)]
+              focus:border-[var(--color-border-accent)]
+              focus:outline-none
+              placeholder:text-[var(--color-text-faint)]
+              disabled:opacity-50
+              transition-colors"
+            aria-label="Type your message"
+          />
+          <button
+            onClick={() => void sendMessage()}
+            disabled={isPending || !message.trim()}
+            className="p-2 rounded-xl
+              bg-[var(--color-accent)] text-[#0f0c09]
+              hover:bg-[var(--color-accent-dim)]
+              disabled:opacity-40 disabled:cursor-not-allowed
+              transition-all duration-200
+              focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/30"
+            aria-label="Send message"
+            type="button"
+          >
+            <Send size={16} />
+          </button>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
 };
 
 export default Chat;

@@ -8,6 +8,7 @@ import Script from "next/script";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import Providers from "./providers";
+import ScrollProgress from "@/components/common/ScrollProgress";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,7 +17,7 @@ const geistSans = Geist({
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-short-stack",
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -139,8 +140,10 @@ export default function RootLayout({
       </head>
 
       <body
-        className={`${geistSans.variable} ${geistMono.variable} relative  antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} relative antialiased bg-bg-base text-[#f5f3f0]`}
       >
+        <div id="scroll-progress" />
+        <ScrollProgress />
         <Providers>
           <GoogleAnalyticsTracker />
 

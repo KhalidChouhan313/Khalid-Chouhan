@@ -1,41 +1,63 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { fadeUp, viewportOnce } from "@/lib/motion-variants";
 import IntroCard from "./IntroCard";
 import IntroMain from "./IntroMain";
 
 const HomeContent = () => {
   return (
-    <div className="h-auto w-[85%] flex items-center justify-center gap-4 flex-col pb-4">
-      <div className="w-full flex items-center justify-center md:mt-0 mt-6">
-        <h1 className="md:text-6xl text-4xl font-bold uppercase ">Developer</h1>
+    <motion.div
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewportOnce}
+      className="h-auto w-full max-w-6xl px-6 flex items-center justify-center gap-8 flex-col py-12 md:py-20"
+    >
+      <div className="w-full flex items-center justify-center mb-4">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight text-white select-none">
+          Developer
+        </h1>
       </div>
-      <div className="w-full flex items-center justify-between md:flex-row flex-col">
-        <div className="md:w-[30%] w-full ">
+      <div className="w-full flex items-stretch justify-between gap-8 md:flex-row flex-col">
+        {/* Profile Card Column */}
+        <div className="md:w-[32%] w-full flex">
           <IntroCard />
         </div>
 
-        <div className="md:w-[30%] w-full  ">
+        {/* Intro/About Main Text Column */}
+        <div className="md:w-[36%] w-full flex items-center">
           <IntroMain />
         </div>
-        <div className="md:w-[30%] w-full md:mb-0 mb-10 ">
-          <div className="w-auto h-[1-0%] flex items-center justify-between 
-        bg-transparent flex-col rounded-full p-6 px-8 py-10 shadow-2xl space-y-6 ">
-          <div className="flex items-center gap-4 border-b">
-            <h2 className="text-6xl font-black">10</h2>
-            <p>Programming <br /> Languages</p>
+
+        {/* Stats Column */}
+        <div className="md:w-[32%] w-full flex">
+          <div className="w-full bg-bg-elevated/40 glass rounded-2xl p-8 border border-[var(--color-border)] shadow-xl flex flex-col justify-around gap-6">
+            <div className="flex items-center gap-6 py-4 border-b border-[var(--color-border-subtle)]">
+              <span className="text-5xl md:text-6xl font-black text-white">10</span>
+              <p className="text-sm font-medium text-[var(--color-text-muted)] leading-snug">
+                Programming <br />
+                <span className="text-[var(--color-text-secondary)] font-semibold">Languages</span>
+              </p>
+            </div>
+            <div className="flex items-center gap-6 py-4 border-b border-[var(--color-border-subtle)]">
+              <span className="text-5xl md:text-6xl font-black text-[var(--color-accent)]">6</span>
+              <p className="text-sm font-medium text-[var(--color-text-muted)] leading-snug">
+                Development <br />
+                <span className="text-[var(--color-text-secondary)] font-semibold">Tools & Libs</span>
+              </p>
+            </div>
+            <div className="flex items-center gap-6 py-4">
+              <span className="text-5xl md:text-6xl font-black text-white">1</span>
+              <p className="text-sm font-medium text-[var(--color-text-muted)] leading-snug">
+                Year Of <br />
+                <span className="text-[var(--color-text-secondary)] font-semibold">Experience</span>
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-4 border-b">
-            <h2 className="text-6xl font-black ">6</h2>
-            <p>Development <br /> Tools</p>
-          </div>
-          <div className="flex items-center gap-4 border-b">
-            <h2 className="text-6xl font-black">1</h2>
-            <p>Year Of <br /> Experience</p>
-          </div>
-        </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

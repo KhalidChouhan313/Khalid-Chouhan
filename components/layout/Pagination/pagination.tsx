@@ -1,13 +1,28 @@
 "use client";
-import { Code, EditIcon, Folder, LayoutGrid, Mail, User } from "lucide-react";
+
 import { useEffect, useState } from "react";
+import { Code, EditIcon, Folder, LayoutGrid, Mail, User } from "lucide-react";
+
+interface Section {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+}
 
 const Pagination = () => {
-  const sections = ["home", "about", "skills", "projects", "blog", "contact"];
-  const [active, setActive] = useState("home");
+  const [active, setActive] = useState<string>("home");
+
+  const sections: Section[] = [
+    { id: "home", name: "Home", icon: <LayoutGrid size={18} /> },
+    { id: "about", name: "About", icon: <User size={18} /> },
+    { id: "skills", name: "Skills", icon: <Code size={18} /> },
+    { id: "projects", name: "Projects", icon: <Folder size={18} /> },
+    { id: "blog", name: "Blog", icon: <EditIcon size={18} /> },
+    { id: "contact", name: "Contact", icon: <Mail size={18} /> },
+  ];
 
   useEffect(() => {
-    const observe = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -15,42 +30,60 @@ const Pagination = () => {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.4, rootMargin: "-10% 0px -40% 0px" }
     );
 
-    sections.forEach((section) => {
-      const el = document.getElementById(section);
-      if (el) observe.observe(el);
+    sections.forEach((sec) => {
+      const el = document.getElementById(sec.id);
+      if (el) observer.observe(el);
     });
+
+    return () => {
+      sections.forEach((sec) => {
+        const el = document.getElementById(sec.id);
+        if (el) observer.unobserve(el);
+      });
+      observer.disconnect();
+    };
   }, []);
+
   return (
-    <div className="lg:block hidden fixed md:left-5 left-0 top-[50%] translate-y-[-50%] z-10">
+    <div className="lg:block hidden fixed left-6 top-1/2 -translate-y-1/2 z-40">
       <ul
-        className="w-auto h-full border-2 hover:border-teal px-0.5 py-4 
-        flex flex-col items-center shadow-md hover:shadow-teal
-      font-bold justify-center gap-2 rounded-full"
+        className="glass p-2 flex flex-col items-center gap-3 rounded-full border border-[var(--color-border)] shadow-lg"
       >
-        {sections.map((sec, index) => (
-          <li
-            key={index}
-            onClick={() =>
-              document.getElementById(sec)?.scrollIntoView({
-                behavior: "smooth",
-              })
-            }
-            className={`cursor-pointer p-1 flex items-center justify-center rounded-full 
-              transition-all 
-              ${active === sec ? "bg-white text-black shadow-md" : ""}
-            `}
-          >
-            {index === 0 && <LayoutGrid size={20} />}
-            {index === 1 && <User size={20} />}
-            {index === 2 && <Code size={20} />}
-            {index === 3 && <Folder size={20} />}
-            {index === 4 && <EditIcon size={20} />}
-            {index === 5 && <Mail size={20} />}
-          </li>
-        ))}
+        {sections.map((sec) => {
+          const isActive = active === sec.id;
+          return (
+            <li
+              key={sec.id}
+              onClick={() =>
+                document.getElementById(sec.id)?.scrollIntoView({
+                  behavior: "smooth",
+                })
+              }
+              className="group relative cursor-pointer"
+            >
+              <button
+                className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 ${
+                  isActive
+                    ? "bg-[var(--color-accent)] text-[#0f0c09] scale-110 shadow-[0_0_12px_var(--color-accent-glow)]"
+                    : "text-[var(--color-text-muted)] hover:text-white hover:bg-[var(--color-bg-surface)] hover:scale-105"
+                }`}
+                aria-label={`Scroll to ${sec.name}`}
+              >
+                {sec.icon}
+              </button>
+
+              {/* Tooltip */}
+              <span
+                className="absolute left-14 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-xs font-semibold bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-secondary)] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 pointer-events-none transition-all duration-200 shadow-md whitespace-nowrap"
+              >
+                {sec.name}
+              </span>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
