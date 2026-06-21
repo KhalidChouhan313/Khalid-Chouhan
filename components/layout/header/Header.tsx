@@ -44,7 +44,7 @@ function Header() {
           : "0 0px 0px rgba(0,0,0,0)",
       }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className="sticky top-0 w-full z-50 bg-bg-base/70 backdrop-blur-2xl border-b border-[var(--color-border-subtle)] rounded-full"
+      className="sticky top-0 w-full z-50 bg-transparent backdrop-blur-2xl border-b border-[var(--color-border-subtle)] rounded-full"
       style={{ transformStyle: "preserve-3d" }}
     >
       <motion.div

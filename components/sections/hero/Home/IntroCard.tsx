@@ -57,7 +57,8 @@ const IntroCard = () => {
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="card-spotlight relative w-full bg-bg-elevated/40 glass text-white p-8 rounded-2xl border border-[var(--color-border)] shadow-xl flex flex-col gap-6"
+      className="card-spotlight relative w-full bg-transparent
+        text-white p-8 rounded-2xl border border-[var(--color-border)] shadow-xl flex flex-col gap-6"
     >
       <div className="flex justify-center">
         <p className="hidden">

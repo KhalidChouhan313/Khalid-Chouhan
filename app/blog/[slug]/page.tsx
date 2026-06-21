@@ -36,7 +36,7 @@ export default function Page() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen px-6 py-16 bg-linear-to-b from-black to-gray-900
+      <main className="min-h-screen px-6 py-16 bg-transparent
        text-white">
         <BlogDetailsSkeleton />      </main>
     );
@@ -49,7 +49,7 @@ export default function Page() {
     );
   }
   return (
-    <main className="min-h-screen px-6 py-16 bg-linear-to-b from-black to-gray-900 text-white">
+    <main className="min-h-screen px-6 py-16 bg-transparent text-white">
       <div className="max-w-[90%] mx-auto">
         <Link
           href="/blog"

@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import Providers from "./providers";
 import ScrollProgress from "@/components/common/ScrollProgress";
+import AnimatedBackground from "@/components/animations/Animatedbackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -142,6 +143,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} relative antialiased bg-bg-base text-[#f5f3f0]`}
       >
+        <AnimatedBackground />
         <div id="scroll-progress" />
         <ScrollProgress />
         <Providers>

@@ -55,7 +55,7 @@ const Blog = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full flex flex-col items-center justify-center gap-5 py-20 bg-bg-base">
+      <div className="w-full flex flex-col items-center justify-center gap-5 py-20 ">
         <BlogSkeleton />
       </div>
     );
@@ -70,7 +70,7 @@ const Blog = () => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-8 py-20 bg-bg-base transition-colors duration-300">
+    <div className="w-full flex flex-col items-center justify-center gap-8 py-20  transition-colors duration-300">
       <SectionHeading
         isShow={false}
         heading="Blogs"

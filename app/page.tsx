@@ -13,7 +13,7 @@ import { fadeUp, viewportOnce } from "@/lib/motion-variants";
 
 export default function Home() {
   return (
-    <div className="h-full w-full flex justify-center items-center relative bg-bg-base">
+    <div className="h-full w-full flex justify-center items-center relative">
       <Pagination />
       <ChatsIcon />
 

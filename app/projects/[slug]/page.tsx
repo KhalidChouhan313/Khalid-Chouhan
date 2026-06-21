@@ -26,7 +26,7 @@ const Page = () => {
   }
 
   return (
-    <main className="min-h-screen px-6 py-20 bg-linear-to-b from-black to-gray-900 text-white">
+    <main className="min-h-screen px-6 py-20 bg-transparent text-white">
       <div className="max-w-[90%] mx-auto">
         <Link
           href="/projects"

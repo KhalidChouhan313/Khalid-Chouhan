@@ -45,7 +45,8 @@ const Contact = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-6 py-20 bg-bg-base transition-colors duration-300">
+    <div className="w-full flex flex-col items-center gap-6 py-20 
+     transition-colors duration-300">
       <div className="lg:w-[50%] px-6">
         <SectionHeading
           isShow={false}
@@ -60,7 +61,7 @@ const Contact = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-6 w-[90%] md:w-[60%] lg:w-[45%] mt-8 bg-bg-elevated/20 glass border border-[var(--color-border)] rounded-2xl p-8 md:p-10 shadow-xl"
+        className="flex flex-col gap-6 w-[90%] md:w-[60%] lg:w-[45%] mt-8 bg-transparent border border-[var(--color-border)] rounded-2xl p-8 md:p-10 shadow-xl"
       >
         <div className="flex md:flex-row flex-col lg:w-full w-auto gap-6">
           <label

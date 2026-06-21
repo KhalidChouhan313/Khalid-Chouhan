@@ -25,7 +25,7 @@ function ProjectCard({ project }: { project: any }) {
       ref={cardRef}
       onMouseMove={handleMouseMove}
       href={`/projects/${project?._id}`}
-      className="card-spotlight group relative p-6 rounded-2xl bg-bg-elevated/40 glass border border-[var(--color-border)] hover:border-[var(--color-border-accent)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between shadow-lg"
+      className="card-spotlight group relative p-6 rounded-2xl bg-transparent border border-[var(--color-border)] hover:border-[var(--color-border-accent)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between shadow-lg"
     >
       <div>
         <div className="relative h-48 w-full overflow-hidden rounded-xl mb-5 border border-[var(--color-border-subtle)] bg-bg-surface">
@@ -66,7 +66,7 @@ export default function SeeMoreProjects() {
   const { data, isLoading, isError } = useProjects();
 
   return (
-    <main className="min-h-screen px-6 py-24 bg-bg-base text-white transition-colors duration-300">
+    <main className="min-h-screen px-6 py-24 bg-transparent text-white transition-colors duration-300">
       <div className="max-w-6xl mx-auto flex flex-col gap-12">
         <div className="flex flex-col items-center text-center gap-3">
           <span className="text-xs font-bold tracking-widest uppercase text-[var(--color-accent)]">

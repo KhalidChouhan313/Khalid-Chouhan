@@ -29,7 +29,8 @@ const HomeContent = () => {
         </div>
 
         <div className="md:w-[32%] w-full flex">
-          <div className="w-full bg-bg-elevated/40 glass rounded-2xl p-8 border border-[var(--color-border)] shadow-xl flex flex-col justify-around gap-6">
+          <div className="w-full bg-transparent  rounded-2xl
+           p-8 border border-[var(--color-border)] shadow-xl flex flex-col justify-around gap-6">
             <div className="flex items-center gap-6 py-4 border-b border-[var(--color-border-subtle)]">
               <span className="text-5xl md:text-6xl font-black text-white">10</span>
               <p className="text-sm font-medium text-[var(--color-text-muted)] leading-snug">

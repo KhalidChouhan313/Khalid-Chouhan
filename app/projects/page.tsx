@@ -9,7 +9,7 @@ import { ArrowRight } from "lucide-react";
 
 const Projects = () => {
   return (
-    <section className="w-full bg-bg-base py-20 px-6 relative z-10 transition-all duration-300">
+    <section className="w-full py-20 px-6 relative z-10 transition-all duration-300">
       <div className="max-w-6xl mx-auto flex flex-col items-center gap-12">
         <SectionHeading
           isShow={false}
@@ -22,7 +22,7 @@ const Projects = () => {
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          className="w-full max-w-5xl bg-bg-elevated/30 glass border border-[var(--color-border)] rounded-3xl overflow-hidden shadow-2xl p-6 lg:p-12 flex flex-col lg:flex-row items-center gap-10"
+          className="w-full max-w-5xl bg-transparent border border-[var(--color-border)] rounded-3xl overflow-hidden shadow-2xl p-6 lg:p-12 flex flex-col lg:flex-row items-center gap-10"
         >
           <div className="w-full lg:w-3/5 relative aspect-video lg:aspect-auto lg:h-[400px] rounded-2xl overflow-hidden border border-[var(--color-border-subtle)] bg-bg-surface group">
             <div className="hidden md:block absolute inset-0">
