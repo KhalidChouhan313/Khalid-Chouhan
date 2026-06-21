@@ -32,7 +32,8 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="w-full bg-bg-base border-t border-[var(--color-border-subtle)] py-12 transition-all duration-300">
+    <footer className="w-full bg-bg-base border-t border-[var(--color-border-subtle)]
+    rounded-full py-12 transition-all duration-300">
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <p className="text-sm text-[var(--color-text-muted)] text-center md:text-left">
           &copy; {new Date().getFullYear()}{" "}

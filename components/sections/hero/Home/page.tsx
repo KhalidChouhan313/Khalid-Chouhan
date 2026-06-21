@@ -14,8 +14,8 @@ const HomeContent = () => {
       viewport={viewportOnce}
       className="h-auto w-full max-w-6xl px-6 flex items-center justify-center gap-8 flex-col py-12 md:py-20"
     >
-      <div className="w-full flex items-center justify-center mb-4 mt-[10%]">
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight text-white select-none">
+      <div className="w-full flex items-center justify-center mb-4 mt-[5%]">
+        <h1 className="text-5xl md:text-6xl  font-black uppercase tracking-tight text-white select-none">
           Developer
         </h1>
       </div>
