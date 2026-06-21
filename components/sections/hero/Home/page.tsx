@@ -20,17 +20,14 @@ const HomeContent = () => {
         </h1>
       </div>
       <div className="w-full flex items-stretch justify-between gap-8 md:flex-row flex-col">
-        {/* Profile Card Column */}
         <div className="md:w-[32%] w-full flex">
           <IntroCard />
         </div>
 
-        {/* Intro/About Main Text Column */}
         <div className="md:w-[36%] w-full flex items-center">
           <IntroMain />
         </div>
 
-        {/* Stats Column */}
         <div className="md:w-[32%] w-full flex">
           <div className="w-full bg-bg-elevated/40 glass rounded-2xl p-8 border border-[var(--color-border)] shadow-xl flex flex-col justify-around gap-6">
             <div className="flex items-center gap-6 py-4 border-b border-[var(--color-border-subtle)]">

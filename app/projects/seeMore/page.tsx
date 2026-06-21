@@ -1,13 +1,11 @@
 "use client";
 
-import { useRef } from "react";
 import ProjectCardSkeleton from "@/components/common/Loading/ProjectCardSkeleton";
 import { useProjects } from "@/hooks/project";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { fadeUp, viewportOnce } from "@/lib/motion-variants";
+import { useRef } from "react";
 
 function ProjectCard({ project }: { project: any }) {
   const cardRef = useRef<HTMLAnchorElement>(null);
@@ -80,7 +78,6 @@ export default function SeeMoreProjects() {
           <div className="w-16 h-1 bg-[var(--color-accent)] rounded-full mt-1" />
         </div>
 
-        {/* Content grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {isLoading &&
             Array.from({ length: 6 }).map((_, i) => (

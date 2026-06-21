@@ -25,7 +25,7 @@ const QUICK_PROMPTS: QuickPrompt[] = [
   { label: "📚 Experience", message: "Tell me about your experience" },
 ];
 
-const Chat = () => {
+const Chat = ({ setShowChat, showtChat }) => {
   const [message, setMessage] = useState<string>("");
   const [chat, setChat] = useState<ChatMessage[]>([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -84,7 +84,7 @@ const Chat = () => {
         className="fixed z-50 flex flex-col overflow-hidden
           bottom-[20%] right-4
           w-[92%] h-[70vh]
-          sm:w-[380px] sm:h-[500px] sm:bottom-24 sm:right-6
+          sm:w-[380px] sm:h-[500px] sm:bottom-24 sm:right-[13%]
           rounded-2xl shadow-lg
           glass-strong"
         role="dialog"
@@ -112,8 +112,8 @@ const Chat = () => {
           <button
             className="p-1.5 rounded-lg hover:bg-bg-surface transition-colors
               text-[var(--color-text-faint)] hover:text-white"
-            aria-label="Close chat"
-            tabIndex={0}
+            onClick={() => setShowChat(!showtChat)}
+
           >
             <X size={16} />
           </button>
@@ -171,16 +171,14 @@ const Chat = () => {
               variants={chatBubble}
               initial="hidden"
               animate="visible"
-              className={`max-w-[85%] ${
-                msg.role === "user" ? "ml-auto" : "mr-auto"
-              }`}
+              className={`max-w-[85%] ${msg.role === "user" ? "ml-auto" : "mr-auto"
+                }`}
             >
               <div
-                className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-[var(--color-accent)] text-[#0f0c09] font-medium rounded-br-md"
-                    : "bg-bg-elevated border border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] rounded-bl-md"
-                }`}
+                className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${msg.role === "user"
+                  ? "bg-[var(--color-accent)] text-[#0f0c09] font-medium rounded-br-md"
+                  : "bg-bg-elevated border border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] rounded-bl-md"
+                  }`}
               >
                 {msg.role === "ai" ? (
                   <ReactMarkdown

@@ -15,7 +15,6 @@ const About = () => {
         viewport={viewportOnce}
         className="flex flex-col gap-12 w-full"
       >
-        {/* Header */}
         <div className="flex flex-col items-start gap-2">
           <span className="text-xs font-bold tracking-widest uppercase text-[var(--color-accent)]">
             About Me
@@ -26,14 +25,11 @@ const About = () => {
           <div className="w-12 h-1 bg-[var(--color-accent)] rounded-full mt-1" />
         </div>
 
-        {/* Content Layout */}
         <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-12">
-          {/* Text/Intro Column */}
           <div className="w-full lg:w-[60%] flex flex-col justify-center">
             <AboutIntro />
           </div>
 
-          {/* Image Column */}
           <div className="w-full lg:w-[35%] flex items-center justify-center">
             <div className="relative w-full aspect-[4/5] max-w-[360px] lg:max-w-none rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-xl group">
               <Image

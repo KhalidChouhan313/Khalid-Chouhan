@@ -5,11 +5,12 @@ import Chat from "./Chat";
 import { useState } from "react";
 
 function ChatsIcon() {
-  const [showtChat, setShowChat] = useState(false);
+  const [showtChat, setShowChat] = useState<any>(false);
   return (
     <>
       {
-        showtChat && <Chat />
+        showtChat && <Chat setShowChat={setShowChat}
+          showtChat={showtChat} />
       }
       <Tooltip title="Ask about me " arrow>
 
