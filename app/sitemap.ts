@@ -9,9 +9,14 @@ export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const today = new Date();
-    const pages: MetadataRoute.Sitemap = ["", "/about", "/skills", "/projects", "/blog", "/contact"].map(
-        (path) => ({ url: `${BASE}${path}`, lastModified: today }),
-    );
+    const pages: MetadataRoute.Sitemap = [
+        "", "/about", "/skills", "/projects", "/projects/seeMore", "/blog", "/contact",
+    ].map((path) => ({
+        url: `${BASE}${path}`,
+        lastModified: today,
+        changeFrequency: path === "" || path === "/blog" ? "weekly" : "monthly",
+        priority: path === "" ? 1 : 0.8,
+    }));
 
     try {
         await connectDB();
@@ -22,8 +27,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ]);
         return [
             ...pages,
-            ...blogs.map((b) => ({ url: `${BASE}/blog/${b._id}`, lastModified: b.updatedAt ?? today })),
-            ...projects.map((p) => ({ url: `${BASE}/projects/${p._id}`, lastModified: p.updatedAt ?? today })),
+            ...blogs.map((b) => ({ url: `${BASE}/blog/${b._id}`, lastModified: b.updatedAt ?? today, changeFrequency: "monthly" as const, priority: 0.7 })),
+            ...projects.map((p) => ({ url: `${BASE}/projects/${p._id}`, lastModified: p.updatedAt ?? today, changeFrequency: "monthly" as const, priority: 0.6 })),
         ];
     } catch (error) {
         // DB unreachable (e.g. at build time): still serve the static pages

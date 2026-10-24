@@ -2,6 +2,7 @@ import ClientLayout from "@/components/layout/ClientLayout";
 import Footer from "@/components/layout/footer/Footer";
 import GoogleAnalyticsTracker from "@/components/layout/GoogleAnalyticsTracker";
 import { introProfile } from "@/Utils/BaseUrl";
+import { FULL_NAME, KEYWORDS, SITE_URL, rootSchema } from "@/lib/seo";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
@@ -30,59 +31,48 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Khalid Chouhan | Full Stack Web Developer Portfolio",
+    default: "Khalid Chouhan | Full Stack Developer & Team Lead (Muhammad Khalid Chouhan Gujjar)",
     template: "%s | Khalid Chouhan",
   },
   description:
-    "Official portfolio of Khalid Chouhan, a Full Stack Web Developer specializing in React, Next.js, Node.js, and modern web technologies. Explore projects, skills, and contact information.",
-
-  keywords: [
-    "Khalid Chouhan",
-    "Khalid Chouhan developer",
-    "Khalid Chouhan portfolio",
-    "Full Stack Developer Khalid Chouhan",
-    "Khalid Chouhan web developer",
-    "Full Stack Developer Pakistan",
-    "React Developer",
-    "Next.js Developer",
-    "Node.js Developer",
-    "Backend Developer",
-    "Frontend Developer",
-  ],
-
-  authors: [{ name: "Khalid Chouhan" }],
-
-  creator: "Khalid Chouhan",
-
-  metadataBase: new URL("https://khalid-chouhan.vercel.app"),
-
-  openGraph: {
-    title: "Khalid Chouhan | Full Stack Developer",
-    description:
-      "Portfolio of Khalid Chouhan showcasing web development projects, skills and experience.",
-    url: "https://khalid-chouhan.vercel.app",
-    siteName: "Khalid Chouhan Portfolio",
-    images: [
-      {
-        url: introProfile,
-        width: 1200,
-        height: 630,
-      },
-    ],
-    type: "website",
+    "Official portfolio of Muhammad Khalid Chouhan (Khalid Chouhan Gujjar), Full Stack Developer & Team Lead from Pakistan at TechOn Ventures. React, Next.js, Node.js, MongoDB, fintech (InstaPay). Open to remote work worldwide.",
+  keywords: KEYWORDS,
+  authors: [{ name: FULL_NAME, url: SITE_URL }],
+  creator: FULL_NAME,
+  publisher: FULL_NAME,
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
+  category: "technology",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
-
-
+  openGraph: {
+    title: "Khalid Chouhan | Full Stack Developer & Team Lead",
+    description:
+      "Portfolio of Muhammad Khalid Chouhan (Khalid Chouhan Gujjar) — Full Stack Developer building fintech apps with React, Next.js & Node.js.",
+    url: SITE_URL,
+    siteName: "Khalid Chouhan Portfolio",
+    locale: "en_US",
+    images: [{ url: introProfile, width: 512, height: 512, alt: "Khalid Chouhan — Full Stack Developer" }],
+    type: "profile",
+    firstName: "Muhammad Khalid",
+    lastName: "Chouhan",
+    username: "khalidchouhan313",
+  },
   twitter: {
-    card: "summary_large_image",
-    title: "Khalid Chouhan | Full Stack Developer",
-    description: "Explore portfolio, projects, and skills.",
+    card: "summary",
+    site: "@Mkhalidcho8520M",
+    creator: "@Mkhalidcho8520M",
+    title: "Khalid Chouhan | Full Stack Developer & Team Lead",
+    description: "Muhammad Khalid Chouhan (Khalid Chouhan Gujjar) — Full Stack Developer from Pakistan. React, Next.js, Node.js, fintech.",
     images: [introProfile],
   },
   icons: {
     icon: introProfile,
+    apple: introProfile,
   },
-
 };
 
 export default function RootLayout({
@@ -116,38 +106,7 @@ export default function RootLayout({
         </Script>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Khalid Chouhan",
-              alternateName: "Khalid Chouhan",
-              url: "https://khalid-chouhan.vercel.app",
-              jobTitle: "Full Stack Developer",
-              address: {
-                "@type": "PostalAddress",
-                addressCountry: "Pakistan",
-              },
-              sameAs: [
-                "https://github.com/KhalidChouhan313",
-                "https://www.linkedin.com/in/muhammad-khalid-chouhan-68b24738b/",
-                "https://x.com/Mkhalidcho8520M"
-
-              ],
-              knowsAbout: [
-                "React",
-                "Next.js",
-                "Node.js",
-                "JavaScript",
-                "Full Stack Development",
-                "Web Development",
-                "Frontend Development",
-                "Backend Development",
-
-              ],
-
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(rootSchema) }}
         />
       </head>
 

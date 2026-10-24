@@ -23,7 +23,8 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
       />
 
       <div className="relative z-10 text-center">
-        <motion.h1
+        <motion.div
+          role="presentation"
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
@@ -34,7 +35,7 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
               {char === " " ? "\u00A0" : char}
             </motion.span>
           ))}
-        </motion.h1>
+        </motion.div>
 
         {/* Responsive Subtitle */}
         <motion.p

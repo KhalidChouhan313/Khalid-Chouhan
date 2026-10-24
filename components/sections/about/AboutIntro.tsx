@@ -59,7 +59,8 @@ const AboutIntro = () => {
         variants={fadeUp}
         className="relative mt-6 font-sans text-base leading-relaxed text-[var(--color-text-muted)]"
       >
-        I&apos;m a Full Stack Developer at{" "}
+        I&apos;m <span className="text-white font-semibold">Muhammad Khalid Chouhan</span> — many people
+        online know me as <span className="text-white font-semibold">Khalid Chouhan Gujjar</span>. I&apos;m a Full Stack Developer at{" "}
         <span className="text-white font-semibold">TechOn Ventures</span>,
         building <span className="text-white font-semibold">InstaPay</span> — a
         global fintech platform for international transfers, virtual cards

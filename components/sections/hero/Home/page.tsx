@@ -73,6 +73,9 @@ const HomeContent = () => {
             >
               Khalid <span className="text-gradient">Chouhan</span>
             </motion.h1>
+            <motion.p {...reveal(0.22)} className="text-sm text-[var(--color-text-faint)]">
+              Muhammad Khalid Chouhan · also known as <span className="text-[var(--color-text-muted)]">Khalid Chouhan Gujjar</span>
+            </motion.p>
 
             <motion.div {...reveal(0.28)} className="h-9 md:h-10 overflow-hidden" aria-live="polite">
               <AnimatePresence mode="wait">
