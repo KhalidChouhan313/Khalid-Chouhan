@@ -24,15 +24,16 @@ const Pagination = () => {
   const ratiosRef = useRef<Map<string, number>>(new Map());
 
   useEffect(() => {
+    const ratios = ratiosRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          ratiosRef.current.set(entry.target.id, entry.intersectionRatio);
+          ratios.set(entry.target.id, entry.intersectionRatio);
         });
 
-        let bestId = active;
+        let bestId = "";
         let bestRatio = 0;
-        ratiosRef.current.forEach((ratio, id) => {
+        ratios.forEach((ratio, id) => {
           if (ratio > bestRatio) {
             bestRatio = ratio;
             bestId = id;
@@ -56,7 +57,7 @@ const Pagination = () => {
 
     return () => {
       observer.disconnect();
-      ratiosRef.current.clear();
+      ratios.clear();
     };
   }, []);
 

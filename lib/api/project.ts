@@ -1,44 +1,56 @@
 import { apiWrapper } from "@/helper/apiWrapper";
-import { CreateProjectPayload, Project } from "../types/projects";
+import {
+  CreateProjectPayload,
+  Project,
+  ProjectMutationResponse,
+  UpdateProjectPayload,
+} from "../types/projects";
+import { ApiSuccessResponse, UploadResponse } from "../types/Admin";
 
 export const uploadImage = async (file: File) => {
   const formData = new FormData();
   formData.append("file", file);
 
-  return apiWrapper<{ url: string }>({
+  return apiWrapper<UploadResponse>({
     endpoint: "/api/upload",
     method: "POST",
     payload: formData,
     isFormData: true,
   });
 };
+
 export const createProject = async (payload: CreateProjectPayload) => {
-  return apiWrapper({
+  return apiWrapper<ProjectMutationResponse>({
     endpoint: "/api/projects",
     method: "POST",
     payload,
   });
 };
+
+export const updateProject = async (id: string, payload: UpdateProjectPayload) => {
+  return apiWrapper<ProjectMutationResponse>({
+    endpoint: `/api/projects/${id}`,
+    method: "PUT",
+    payload,
+  });
+};
+
 export const getProjects = async (): Promise<Project[]> => {
-  return apiWrapper({
+  return apiWrapper<Project[]>({
     endpoint: "/api/projects",
     method: "GET",
   });
 };
 
-
-
-export const getProjectBySlug = async (
-  slug: string
-): Promise<Project> => {
-  return apiWrapper({
+export const getProjectBySlug = async (slug: string): Promise<Project> => {
+  return apiWrapper<Project>({
     endpoint: `/api/projects/${slug}`,
     method: "GET",
-
   });
 };
+
 export const deleteProjectById = async (id: string) => {
-  return apiWrapper({
+  return apiWrapper<ApiSuccessResponse>({
     endpoint: `/api/projects/${id}`,
     method: "DELETE",
   });

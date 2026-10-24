@@ -3,17 +3,16 @@ export interface Blog {
   title: string;
   description: string;
   image: string;
-  slug: string;
+  views: number;
+  readTime: number;
   createdAt: string;
   updatedAt: string;
-  views: string
-  readTime: string
 }
 
+/** Text fields only; the cover image is tracked separately as a File. */
 export interface BlogFormValues {
   title: string;
   content: string;
-  image: FileList;
 }
 
 export interface BlogPayload {
@@ -27,13 +26,8 @@ export interface BlogResponse {
   message?: string;
   data?: Blog[];
 }
-export interface BlogsUploadProps {
-  editingBlog: Blog | null;
-  setEditingBlog: (blog: Blog | null) => void;
-  showBlogForm: boolean;
-  setShowBlogForm: (val: boolean) => void;
-}
-export interface SingBlogResponse {
+
+export interface SingleBlogResponse {
   success: boolean;
   message?: string;
   data?: Blog;

@@ -3,6 +3,7 @@
 import { discordLogo, githubLogo, Linkedinlogo, Xlogo } from "@/Utils/BaseUrl";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 
 interface SocialLink {
@@ -35,6 +36,9 @@ const socialLinks: SocialLink[] = [
 ];
 
 const Footer = () => {
+  const pathname = usePathname();
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <footer className="w-full px-4 sm:px-6 py-10">
       <motion.div

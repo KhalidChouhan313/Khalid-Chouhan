@@ -1,46 +1,50 @@
+import type { Blog } from "./blogs";
+import type { Project } from "./projects";
+
 export interface Message {
   _id: string;
   name: string;
   email: string;
   message: string;
+  read: boolean;
   createdAt: string;
-  read?: boolean;
+  updatedAt?: string;
 }
 
-export interface Project {
-  _id: string;
-  images: string;
-  title: string;
-  description: string;
-  technologies: string[];
-  links?: {  
-    live: string;
-    github: string;
-  };
+export type AdminTab = "messages" | "projects" | "blogs";
+
+export interface AdminAuthResponse {
+  admin: boolean;
 }
 
-
-
-export interface SocialLinks {
-  github: string;
-  linkedin: string;
-  twitter: string;
-  instagram: string;
+export interface ApiSuccessResponse {
+  success: boolean;
+  message?: string;
 }
 
+export interface UploadResponse {
+  success: boolean;
+  url: string;
+}
+
+/** Text fields only; images are tracked separately as File[] / existing URLs. */
 export interface ProjectFormValues {
   title: string;
   description: string;
-  images: FileList;
-  technologies: string;
-  link?: string;
-  github?: string;
+  link: string;
+  github: string;
 }
+
 export interface ProjectsUploadProps {
-  setEditingProject: (project: Project | null) => void;
-  setShowProjectForm: (val: boolean) => void;
   editingProject: Project | null;
+  setEditingProject: (project: Project | null) => void;
   showProjectForm: boolean;
+  setShowProjectForm: (val: boolean) => void;
 }
 
-
+export interface BlogsUploadProps {
+  editingBlog: Blog | null;
+  setEditingBlog: (blog: Blog | null) => void;
+  showBlogForm: boolean;
+  setShowBlogForm: (val: boolean) => void;
+}
