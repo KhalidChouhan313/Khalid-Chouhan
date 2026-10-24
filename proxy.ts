@@ -15,9 +15,9 @@ const LIMITS: [string, string, number, number][] = [
 
 const needsAdmin = (method: string, path: string) => {
   if (path.startsWith("/api/upload")) return true;
+  if (path.startsWith("/api/social")) return !["GET", "HEAD"].includes(method);
   if (path.startsWith("/api/contact")) return method !== "POST";
   if (path.startsWith("/api/blog") || path.startsWith("/api/projects")) {
-    // GET is public reading, PATCH /api/blog is the public view counter
     return !["GET", "HEAD", "PATCH"].includes(method);
   }
   return false;

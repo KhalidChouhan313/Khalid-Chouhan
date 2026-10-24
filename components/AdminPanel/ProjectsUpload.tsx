@@ -58,9 +58,13 @@ const ProjectForm = ({ project, onDone }: ProjectFormProps) => {
   const [imageError, setImageError] = useState<string>();
   const previews = useObjectUrls(newFiles);
 
-  const addTech = () => {
+  // technologies plus whatever is still typed in the input (not yet turned into a chip)
+  const withPendingTech = () => {
     const names = techInput.split(",").map((t) => t.trim()).filter(Boolean);
-    setTechnologies((prev) => [...prev, ...names.filter((n) => !prev.includes(n))]);
+    return [...technologies, ...names.filter((n) => !technologies.includes(n))];
+  };
+  const addTech = () => {
+    setTechnologies(withPendingTech());
     setTechInput("");
   };
   const onTechKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -73,13 +77,13 @@ const ProjectForm = ({ project, onDone }: ProjectFormProps) => {
   };
 
   const saveMutation = useMutation({
-    mutationFn: async (values: ProjectFormValues) => {
+    mutationFn: async ({ values, techList }: { values: ProjectFormValues; techList: string[] }) => {
       const uploaded = await Promise.all(newFiles.map((file) => uploadImage(file)));
       const payload = {
         title: values.title.trim(),
         description: values.description.trim(),
         images: [...existingImages, ...uploaded.map((u) => u.url)],
-        technologies,
+        technologies: techList,
         links: { live: values.link.trim(), github: values.github.trim() },
       };
       return project ? updateProject(project._id, payload) : createProject(payload);
@@ -93,20 +97,25 @@ const ProjectForm = ({ project, onDone }: ProjectFormProps) => {
     onError: (error: Error) => toast.error(error.message || "Failed to save project"),
   });
 
+  const hasImages = () => {
+    const ok = existingImages.length + newFiles.length > 0;
+    if (!ok) setImageError("Add at least one image");
+    return ok;
+  };
+
   const onSubmit: SubmitHandler<ProjectFormValues> = (values) => {
-    if (existingImages.length + newFiles.length === 0) {
-      setImageError("Add at least one image");
-      return;
-    }
-    if (techInput.trim()) addTech();
-    saveMutation.mutate(values);
+    if (!hasImages()) return;
+    const techList = withPendingTech();
+    addTech();
+    saveMutation.mutate({ values, techList });
   };
 
   return (
     <motion.form
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      onSubmit={handleSubmit(onSubmit)}
+      // onInvalid also runs the image check so every error shows at once
+      onSubmit={handleSubmit(onSubmit, hasImages)}
       noValidate
       className={cn(cardClass, "flex flex-col gap-6 p-6 md:p-8")}
     >

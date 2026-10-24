@@ -84,19 +84,22 @@ const BlogForm = ({ blog, onDone }: BlogFormProps) => {
     onError: (error: Error) => toast.error(error.message || "Failed to save blog"),
   });
 
+  const hasCover = () => {
+    const ok = !!imageFile || !!blog?.image;
+    if (!ok) setImageError("Cover image is required");
+    return ok;
+  };
+
   const onSubmit: SubmitHandler<BlogFormValues> = (values) => {
-    if (!imageFile && !blog?.image) {
-      setImageError("Cover image is required");
-      return;
-    }
-    saveMutation.mutate(values);
+    if (hasCover()) saveMutation.mutate(values);
   };
 
   return (
     <motion.form
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      onSubmit={handleSubmit(onSubmit)}
+      // onInvalid also runs the cover check so every error shows at once
+      onSubmit={handleSubmit(onSubmit, hasCover)}
       noValidate
       className={cn(cardClass, "flex flex-col gap-6 p-6 md:p-8")}
     >

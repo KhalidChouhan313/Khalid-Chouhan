@@ -11,7 +11,8 @@ export interface Message {
   updatedAt?: string;
 }
 
-export type AdminTab = "messages" | "projects" | "blogs";
+/** Each tab id doubles as its React Query key, so switching tabs refetches that data. */
+export type AdminTab = "messages" | "projects" | "blogs" | "social";
 
 export interface AdminAuthResponse {
   admin: boolean;

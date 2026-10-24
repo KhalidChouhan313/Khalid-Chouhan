@@ -3,41 +3,30 @@
 import { discordLogo, githubLogo, Linkedinlogo, Xlogo } from "@/Utils/BaseUrl";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Instagram } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { useSocialLinks } from "@/hooks/useSocialLinks";
+import { DEFAULT_SOCIAL_LINKS, SOCIAL_KEYS, SOCIAL_LABELS, SocialKey } from "@/lib/social";
 
-interface SocialLink {
-  href: string;
-  label: string;
-  icon: string;
-}
-
-const socialLinks: SocialLink[] = [
-  {
-    href: "https://github.com/KhalidChouhan313",
-    label: "GitHub",
-    icon: githubLogo,
-  },
-  {
-    href: "https://www.linkedin.com/in/muhammad-khalid-chouhan-68b24738b",
-    label: "LinkedIn",
-    icon: Linkedinlogo,
-  },
-  {
-    href: "https://discord.com/users/khalidchouhan._71684",
-    label: "Discord",
-    icon: discordLogo,
-  },
-  {
-    href: "https://x.com/Mkhalidcho8520M",
-    label: "X (formerly Twitter)",
-    icon: Xlogo,
-  },
-];
+const SOCIAL_ICONS: Partial<Record<SocialKey, string>> = {
+  github: githubLogo,
+  linkedin: Linkedinlogo,
+  discord: discordLogo,
+  twitter: Xlogo,
+};
 
 const Footer = () => {
   const pathname = usePathname();
+  const { data: links = DEFAULT_SOCIAL_LINKS } = useSocialLinks();
   if (pathname.startsWith("/admin")) return null;
+
+  const socialLinks = SOCIAL_KEYS.filter((key) => links[key]).map((key) => ({
+    key,
+    href: links[key],
+    label: SOCIAL_LABELS[key],
+    icon: SOCIAL_ICONS[key],
+  }));
 
   return (
     <footer className="w-full px-4 sm:px-6 py-10">
@@ -84,7 +73,7 @@ const Footer = () => {
         >
           {socialLinks.map((social) => (
             <motion.a
-              key={social.label}
+              key={social.key}
               variants={fadeUp}
               href={social.href}
               target="_blank"
@@ -105,13 +94,20 @@ const Footer = () => {
                 transition-colors duration-300"
               aria-label={social.label}
             >
-              <Image
-                src={social.icon}
-                alt={social.label}
-                width={18}
-                height={18}
-                className="opacity-70 brightness-90 group-hover:opacity-100 group-hover:brightness-100 transition-all duration-300"
-              />
+              {social.icon ? (
+                <Image
+                  src={social.icon}
+                  alt={social.label}
+                  width={18}
+                  height={18}
+                  className="opacity-70 brightness-90 group-hover:opacity-100 group-hover:brightness-100 transition-all duration-300"
+                />
+              ) : (
+                <Instagram
+                  size={18}
+                  className="text-white opacity-70 group-hover:opacity-100 group-hover:text-[var(--color-accent)] transition-all duration-300"
+                />
+              )}
             </motion.a>
           ))}
         </motion.div>

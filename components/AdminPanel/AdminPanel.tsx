@@ -1,12 +1,14 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Briefcase, ExternalLink, FileText, Loader2, LogOut, MessageSquare } from "lucide-react";
+import { Briefcase, ExternalLink, FileText, Link2, Loader2, LogOut, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { ReactNode, useState } from "react";
 import { toast } from "react-toastify";
 import { useBlogs } from "@/hooks/useBlog";
 import { useProjects } from "@/hooks/project";
+import { useSocialLinks } from "@/hooks/useSocialLinks";
+import { SOCIAL_KEYS } from "@/lib/social";
 import { adminLogout, checkAdmin, getMessages } from "@/lib/api/admin";
 import { AdminTab } from "@/lib/types/Admin";
 import { Blog } from "@/lib/types/blogs";
@@ -15,6 +17,7 @@ import { cn } from "@/lib/utils/utils";
 import { AdminLogin } from "./AdminLogin";
 import { BlogsUpload } from "./BlogsUpload";
 import { MessagesTab } from "./MessagesTab";
+import { SocialLinksTab } from "./SocialLinksTab";
 import ProjectsUpload from "./ProjectsUpload";
 import { ghostButtonClass } from "./ui";
 
@@ -38,6 +41,8 @@ const Dashboard = () => {
   const messagesQuery = useQuery({ queryKey: ["messages"], queryFn: getMessages, refetchInterval: 30_000 });
   const { data: projects } = useProjects();
   const { data: blogs } = useBlogs();
+  const { data: social, isPlaceholderData: socialLoading } = useSocialLinks();
+  const socialCount = social ? SOCIAL_KEYS.filter((k) => social[k]).length : 0;
 
   const messages = messagesQuery.data ?? [];
   const unread = messages.filter((m) => !m.read).length;
@@ -74,6 +79,13 @@ const Dashboard = () => {
       count: blogs?.data?.length,
       detail: `${totalViews.toLocaleString()} total views`,
     },
+    {
+      id: "social",
+      label: "Social links",
+      icon: <Link2 className="h-5 w-5" />,
+      count: socialLoading ? undefined : socialCount,
+      detail: "Shown in footer",
+    },
   ];
 
   return (
@@ -81,8 +93,8 @@ const Dashboard = () => {
       <header className="glass sticky top-0 z-40 border-x-0 border-t-0">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 md:px-8">
           <Link href="/" className="flex items-center gap-2 text-lg font-black tracking-tight">
-            <span className="text-[var(--color-accent)]">&lt;/&gt;</span>
-            <span>Khalid</span>
+            <span className="font-extrabold text-[var(--color-accent)]">&lt;K/&gt;</span>
+            <span className="hidden sm:inline">KHALID CHOUHAN</span>
             <span className="rounded-full border border-[var(--color-border-accent)] bg-[var(--color-accent-glow)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
               Admin
             </span>
@@ -111,7 +123,7 @@ const Dashboard = () => {
           <div className="mt-1 h-1 w-16 rounded-full bg-[var(--color-accent)]" />
         </div>
 
-        <nav aria-label="Admin sections" className="grid gap-4 sm:grid-cols-3">
+        <nav aria-label="Admin sections" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {tabs.map((tab) => {
             const active = activeTab === tab.id;
             return (
@@ -173,6 +185,7 @@ const Dashboard = () => {
             setShowProjectForm={setShowProjectForm}
           />
         )}
+        {activeTab === "social" && <SocialLinksTab />}
         {activeTab === "blogs" && (
           <BlogsUpload
             editingBlog={editingBlog}

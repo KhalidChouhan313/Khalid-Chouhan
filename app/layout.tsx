@@ -150,9 +150,9 @@ export default function RootLayout({
           <GoogleAnalyticsTracker />
 
           <ClientLayout>{children}</ClientLayout>
+          <Footer />
           <ToastContainer theme="dark" />
         </Providers>
-        <Footer />
       </body>
     </html>
   );
