@@ -15,7 +15,7 @@ interface StatBadge {
 
 const STAT_BADGES: StatBadge[] = [
   { label: "Experience", value: "2+ Yrs" },
-  { label: "Role", value: "Team Lead" },
+  { label: "Role", value: "Full Stack Developer" },
   { label: "Works", value: "Worldwide" },
 ];
 
@@ -47,19 +47,19 @@ const About = () => {
             <AboutIntro />
           </div>
 
-          <div className="w-full lg:w-[35%] flex flex-col items-center justify-center gap-5">
+          <div className="w-full lg:w-[35%] flex flex-col items-center gap-5">
             <motion.div
               whileHover={{ rotateY: 6, rotateX: -4 }}
               transition={{ type: "spring", stiffness: 220, damping: 20 }}
               style={{ transformStyle: "preserve-3d" }}
-              className="relative w-full aspect-[4/5] max-w-[360px] lg:max-w-none rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.55)] group"
+              className="relative w-full aspect-[4/5] max-w-[360px] lg:max-w-none lg:aspect-auto lg:flex-1 lg:min-h-[420px] rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.55)] group"
             >
               <Image
                 src={aboutImage}
                 fill
-                sizes="(max-w-1024px) 100vw, 350px"
+                sizes="(max-width: 1024px) 360px, 420px"
                 alt="Khalid Chouhan, Full Stack Developer and Team Lead"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-bg-base/70 via-bg-base/10 to-transparent pointer-events-none" />
 
