@@ -2,24 +2,15 @@ import { connectDB } from "@/config/db";
 import { SchemaProject } from "@/models/Projects";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
+import { findProject, uniqueSlug } from "@/lib/content";
 
 export async function GET(
   req: NextRequest,
   context: { params: Promise<{ slug: string }> }
 ) {
   try {
-    await connectDB();
-
     const { slug } = await context.params;
-
-    if (!mongoose.Types.ObjectId.isValid(slug)) {
-      return NextResponse.json(
-        { error: "Invalid project id" },
-        { status: 400 }
-      );
-    }
-
-    const project = await SchemaProject.findById(slug);
+    const project = await findProject(slug);
 
     if (!project) {
       return NextResponse.json(
@@ -57,7 +48,10 @@ export async function PUT(
     const body = await req.json();
     const { title, description, images, technologies, links } = body ?? {};
     const update: Record<string, unknown> = {};
-    if (typeof title === "string" && title.trim()) update.title = title.trim();
+    if (typeof title === "string" && title.trim()) {
+      update.title = title.trim();
+      update.slug = await uniqueSlug(SchemaProject, update.title as string, slug);
+    }
     if (typeof description === "string" && description.trim()) update.description = description.trim();
     if (images !== undefined) {
       if (!isStringArray(images) || images.length === 0) {

@@ -45,7 +45,7 @@ export default function ProjectCard({ project, featured, className }: ProjectCar
       className={cn("group relative h-full", className)}
     >
       <Link
-        href={`/projects/${project._id}`}
+        href={`/projects/${project.slug ?? project._id}`}
         className="border-gradient relative flex h-full flex-col overflow-hidden rounded-3xl bg-bg-elevated/60 backdrop-blur-sm transition-shadow duration-500 hover:shadow-[0_30px_80px_-30px_rgba(94,234,212,0.35)]"
       >
         <motion.span

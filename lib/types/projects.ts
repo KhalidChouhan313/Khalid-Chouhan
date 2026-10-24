@@ -5,6 +5,7 @@ export interface ProjectLinks {
 
 export interface Project {
   _id: string;
+  slug?: string;
   title: string;
   description: string;
   images: string[];

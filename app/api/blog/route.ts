@@ -3,10 +3,11 @@ import { connectDB } from "@/config/db";
 import mongoose from "mongoose";
 import BlogSchema from "@/models/BlogSchema";
 import { calculateReadTime } from "@/lib/utils/calculateReadTime";
+import { ensureSlugs, uniqueSlug } from "@/lib/content";
 
 export const GET = async (req: NextRequest) => {
   try {
-    await connectDB();
+    await ensureSlugs(BlogSchema);
     const { searchParams } = new URL(req.url);
     const search = searchParams.get("search");
     let query: Record<string, unknown> = {};
@@ -58,6 +59,7 @@ export const POST = async (req: NextRequest) => {
 
     const blog = await BlogSchema.create({
       title,
+      slug: await uniqueSlug(BlogSchema, title),
       description,
       image,
       readTime,
@@ -136,6 +138,9 @@ export const PUT = async (req: NextRequest) => {
     }
     if (update.description) {
       update.readTime = calculateReadTime(update.description as string);
+    }
+    if (update.title) {
+      update.slug = await uniqueSlug(BlogSchema, update.title as string, id);
     }
     const updatedBlog = await BlogSchema.findByIdAndUpdate(
       id,

@@ -42,12 +42,6 @@ export const getProjects = async (): Promise<Project[]> => {
   });
 };
 
-export const getProjectBySlug = async (slug: string): Promise<Project> => {
-  return apiWrapper<Project>({
-    endpoint: `/api/projects/${slug}`,
-    method: "GET",
-  });
-};
 
 export const deleteProjectById = async (id: string) => {
   return apiWrapper<ApiSuccessResponse>({

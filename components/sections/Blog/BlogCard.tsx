@@ -19,7 +19,7 @@ const excerpt = (text: string) =>
 
 const BlogCard = ({ data }: BlogCardProps) => (
   <Link
-    href={`/blog/${data._id}`}
+    href={`/blog/${data.slug ?? data._id}`}
     className="border-gradient group flex h-full flex-col overflow-hidden rounded-3xl bg-bg-elevated/60 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-30px_rgba(94,234,212,0.3)]"
   >
     <div className="relative aspect-[16/9] w-full overflow-hidden bg-bg-surface">

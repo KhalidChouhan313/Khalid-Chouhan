@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { connectDB } from "@/config/db";
 import BlogSchema from "@/models/BlogSchema";
 import { SchemaProject } from "@/models/Projects";
+import { ensureSlugs } from "@/lib/content";
 
 const BASE = "https://khalid-chouhan.vercel.app";
 
@@ -20,15 +21,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     try {
         await connectDB();
-        type Doc = { _id: string; updatedAt?: Date };
+        await Promise.all([ensureSlugs(BlogSchema), ensureSlugs(SchemaProject)]);
+        type Doc = { _id: string; slug?: string; updatedAt?: Date };
         const [blogs, projects] = await Promise.all([
-            BlogSchema.find().select("_id updatedAt").lean<Doc[]>(),
-            SchemaProject.find().select("_id updatedAt").lean<Doc[]>(),
+            BlogSchema.find().select("_id slug updatedAt").lean<Doc[]>(),
+            SchemaProject.find().select("_id slug updatedAt").lean<Doc[]>(),
         ]);
         return [
             ...pages,
-            ...blogs.map((b) => ({ url: `${BASE}/blog/${b._id}`, lastModified: b.updatedAt ?? today, changeFrequency: "monthly" as const, priority: 0.7 })),
-            ...projects.map((p) => ({ url: `${BASE}/projects/${p._id}`, lastModified: p.updatedAt ?? today, changeFrequency: "monthly" as const, priority: 0.6 })),
+            ...blogs.map((b) => ({ url: `${BASE}/blog/${b.slug ?? b._id}`, lastModified: b.updatedAt ?? today, changeFrequency: "monthly" as const, priority: 0.7 })),
+            ...projects.map((p) => ({ url: `${BASE}/projects/${p.slug ?? p._id}`, lastModified: p.updatedAt ?? today, changeFrequency: "monthly" as const, priority: 0.6 })),
         ];
     } catch (error) {
         // DB unreachable (e.g. at build time): still serve the static pages

@@ -1,10 +1,11 @@
 import { connectDB } from "@/config/db";
 import { SchemaProject } from "@/models/Projects";
 import { NextRequest, NextResponse } from "next/server";
+import { ensureSlugs, uniqueSlug } from "@/lib/content";
 
 export const GET = async () => {
   try {
-    await connectDB();
+    await ensureSlugs(SchemaProject);
     const projects = await SchemaProject.find().sort({ createdAt: -1 });
     return NextResponse.json(projects, { status: 200 });
   } catch (error) {
@@ -37,6 +38,7 @@ export const POST = async (req: NextRequest) => {
     }
     const projects = await SchemaProject.create({
       title,
+      slug: await uniqueSlug(SchemaProject, title),
       description,
       images,
       technologies,

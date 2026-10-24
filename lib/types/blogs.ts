@@ -1,5 +1,6 @@
 export interface Blog {
   _id: string;
+  slug?: string;
   title: string;
   description: string;
   image: string;

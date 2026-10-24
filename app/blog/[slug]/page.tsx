@@ -1,112 +1,137 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import { ChevronLeft, Eye } from "lucide-react";
-import Link from "next/link";
+import type { Metadata } from "next";
 import Image from "next/image";
-import { useBlogById, useIncrementView } from "@/hooks/useBlog";
-import { useEffect } from "react";
-import BlogDetailsSkeleton from "@/components/common/Loading/BlogDetailsSkeleton";
+import Link from "next/link";
+import { notFound, permanentRedirect } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { ArrowLeft, Calendar, Clock, Eye } from "lucide-react";
+import { findBlog } from "@/lib/content";
+import { FULL_NAME, SITE_URL } from "@/lib/seo";
+import { introProfile } from "@/Utils/BaseUrl";
+import ViewTracker from "@/components/sections/Blog/ViewTracker";
 
-export default function Page() {
-  const params = useParams();
-  const slug = params?.slug as string;
-  const { mutate } = useIncrementView();
-  const { data: blog, isLoading, isError } = useBlogById(slug);
+type Params = { params: Promise<{ slug: string }> };
 
-  useEffect(() => {
-    if (!blog?._id) return;
+const plain = (md: string) =>
+  md.replace(/[#*_`>\[\]()!-]/g, "").replace(/\s+/g, " ").trim();
 
-    const viewedBlogs = JSON.parse(
-      localStorage.getItem("viewedBlogs") || "[]"
-    );
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+  const blog = await findBlog(slug).catch(() => null);
+  if (!blog) return { title: "Blog not found", robots: { index: false } };
+  const description = plain(blog.description).slice(0, 160);
+  const url = `/blog/${blog.slug ?? blog._id}`;
+  return {
+    title: blog.title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: blog.title,
+      description,
+      url,
+      type: "article",
+      publishedTime: blog.createdAt.toISOString(),
+      modifiedTime: (blog.updatedAt ?? blog.createdAt).toISOString(),
+      authors: [SITE_URL],
+      images: [{ url: blog.image, alt: blog.title }],
+    },
+    twitter: { card: "summary_large_image", title: blog.title, description, images: [blog.image] },
+  };
+}
 
-    if (!viewedBlogs.includes(blog._id)) {
-      mutate(blog._id);
+export default async function BlogPostPage({ params }: Params) {
+  const { slug } = await params;
+  const blog = await findBlog(slug);
+  if (!blog) notFound();
+  // old /blog/<id> links keep working but Google is told the keyword URL is the real one
+  if (blog.slug && slug !== blog.slug) permanentRedirect(`/blog/${blog.slug}`);
 
-      localStorage.setItem(
-        "viewedBlogs",
-        JSON.stringify([...viewedBlogs, blog._id])
-      );
-    }
-  }, [blog, mutate]);
+  const url = `${SITE_URL}/blog/${blog.slug ?? blog._id}`;
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#article`,
+        headline: blog.title,
+        description: plain(blog.description).slice(0, 160),
+        image: [blog.image],
+        datePublished: blog.createdAt.toISOString(),
+        dateModified: (blog.updatedAt ?? blog.createdAt).toISOString(),
+        wordCount: plain(blog.description).split(" ").length,
+        author: { "@id": `${SITE_URL}/#person` },
+        publisher: { "@id": `${SITE_URL}/#person` },
+        mainEntityOfPage: url,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        inLanguage: "en",
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+          { "@type": "ListItem", position: 3, name: blog.title, item: url },
+        ],
+      },
+    ],
+  };
 
-
-  if (isLoading) {
-    return (
-      <main className="min-h-screen px-6 py-16 bg-transparent
-       text-white">
-        <BlogDetailsSkeleton />      </main>
-    );
-  }
-  if (isError || !blog) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-white text-xl font-medium">
-        Blog not found
-      </div>
-    );
-  }
   return (
-    <main className="min-h-screen px-6 py-16 bg-transparent text-white">
-      <div className="max-w-[90%] mx-auto">
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-teal-400 transition-colors mb-6 font-medium"
-        >
-          <ChevronLeft /> Back to Blogs
-        </Link>
+    <main className="min-h-screen px-6 py-16 text-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <ViewTracker id={String(blog._id)} />
 
-        <h2 className="text-4xl! md:text-5xl font-extrabold mb-6 tracking-tight text-white">
-          {blog?.title}
-        </h2>
+      <article className="mx-auto flex max-w-3xl flex-col gap-8">
+        <nav aria-label="Breadcrumb" className="text-sm text-[var(--color-text-muted)]">
+          <Link href="/blog" className="group inline-flex items-center gap-2 transition-colors hover:text-[var(--color-accent)]">
+            <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /> All articles
+          </Link>
+        </nav>
 
-        <div className="relative w-full h-96 md:h-125 rounded-3xl overflow-hidden shadow-lg mb-10 border border-gray-700">
-          <Image
-            src={blog?.image}
-            alt={blog?.title}
-            fill
-            unoptimized
-            className="object-cover transition-transform duration-500 hover:scale-105"
-          />
+        <header className="flex flex-col gap-5">
+          <h1 className="text-3xl md:text-5xl font-bold leading-[1.1]">{blog.title}</h1>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--color-text-muted)]">
+            <Link href="/about" className="flex items-center gap-2 hover:text-[var(--color-accent)]">
+              <span className="relative h-8 w-8 overflow-hidden rounded-full ring-2 ring-[var(--color-border-accent)]">
+                <Image src={introProfile} alt="" fill sizes="32px" className="object-cover" />
+              </span>
+              <span className="font-semibold text-white">{FULL_NAME}</span>
+            </Link>
+            <time dateTime={blog.createdAt.toISOString()} className="flex items-center gap-1.5">
+              <Calendar size={14} />
+              {blog.createdAt.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+            </time>
+            <span className="flex items-center gap-1.5"><Clock size={14} /> {blog.readTime} min read</span>
+            <span className="flex items-center gap-1.5"><Eye size={14} /> {blog.views} views</span>
+          </div>
+        </header>
+
+        <div className="border-gradient relative aspect-[16/9] w-full overflow-hidden rounded-3xl bg-bg-surface">
+          <Image src={blog.image} alt={blog.title} fill priority sizes="(max-width: 768px) 100vw, 768px" className="object-cover" />
         </div>
 
-        <div className="prose dark:prose-invert max-w-none mb-10">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {blog.description}
-          </ReactMarkdown>
+        <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-a:text-[var(--color-accent)] prose-code:text-[var(--color-accent)] prose-pre:bg-bg-elevated prose-pre:border prose-pre:border-[var(--color-border)] prose-img:rounded-2xl">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{blog.description}</ReactMarkdown>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm md:text-base mb-12">
-          <span className="bg-gray-800 px-3 py-1 rounded-full font-medium hover:bg-teal hover:text-black  transition-colors cursor-default">
-            Web Developer
+        <footer className="border-gradient glass flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-center">
+          <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-[var(--color-border-accent)]">
+            <Image src={introProfile} alt={FULL_NAME} fill sizes="56px" className="object-cover" />
           </span>
-          <span className="flex items-center gap-1 bg-gray-800 px-3 py-1 rounded-full font-medium hover:bg-teal hover:text-black transition-colors cursor-default">
-            <Eye className="w-4 h-4" /> {blog?.views}
-          </span>
-          <span className="bg-gray-800 px-3 py-1 rounded-full font-medium hover:bg-teal hover:text-black transition-colors cursor-default">
-            Posted Date:{" "}
-            {blog?.createdAt
-              ? new Date(blog.createdAt).toLocaleDateString()
-              : "N/A"}
-          </span>
-          <span className="bg-gray-800 px-3 py-1 rounded-full font-medium hover:bg-teal hover:text-black transition-colors cursor-default">
-            {blog?.readTime} min read
-          </span>
-        </div>
-
-        {/* <div className="flex flex-wrap gap-4">
-          {blog?.tags?.map((tag: string) => (
-            <span
-              key={tag}
-              className="bg-teal-700/30 text-teal-400 px-3 py-1 rounded-full text-sm font-medium hover:bg-teal-700/50 transition"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div> */}
-      </div>
+          <div className="flex-1">
+            <p className="font-bold text-white">Written by {FULL_NAME}</p>
+            <p className="text-sm text-[var(--color-text-muted)]">
+              Full Stack Developer &amp; Team Lead building fintech apps with React, Next.js and Node.js.
+            </p>
+          </div>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-sm font-bold text-[#0f0c09] transition-colors hover:bg-white"
+          >
+            Work with me
+          </Link>
+        </footer>
+      </article>
     </main>
   );
 }

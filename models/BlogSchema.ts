@@ -2,6 +2,7 @@ import mongoose, { Schema, models } from "mongoose";
 
 const BlogSchema = new Schema(
   {
+    slug: { type: String, unique: true, sparse: true, trim: true },
     title: {
       type: String,
       required: true,

@@ -284,7 +284,7 @@ export const BlogsUpload = ({
               </div>
               <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <Link
-                  href={`/blog/${blog._id}`}
+                  href={`/blog/${blog.slug ?? blog._id}`}
                   target="_blank"
                   className="truncate text-lg font-bold text-white transition-colors hover:text-[var(--color-accent)]"
                 >
