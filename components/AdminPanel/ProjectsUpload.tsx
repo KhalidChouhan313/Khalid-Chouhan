@@ -194,14 +194,14 @@ const ProjectForm = ({ project, onDone }: ProjectFormProps) => {
             {...register("link", { required: "Live URL is required", pattern: URL_PATTERN })}
           />
         </Field>
-        <Field label="GitHub URL" htmlFor="project-github" error={errors.github?.message}>
+        <Field label="GitHub URL (optional)" htmlFor="project-github" error={errors.github?.message}>
           <input
             id="project-github"
             type="url"
             placeholder="https://github.com/..."
             aria-invalid={!!errors.github}
             className={inputClass}
-            {...register("github", { required: "GitHub URL is required", pattern: URL_PATTERN })}
+            {...register("github", { validate: (v) => !v || URL_PATTERN.value.test(v) || URL_PATTERN.message })}
           />
         </Field>
       </div>
@@ -359,9 +359,11 @@ const ProjectsUpload = ({
                     <a href={project.links?.live} target="_blank" rel="noopener noreferrer" aria-label="Open live site" title="Live site" className={iconButtonClass}>
                       <ExternalLink className="h-4 w-4" />
                     </a>
-                    <a href={project.links?.github} target="_blank" rel="noopener noreferrer" aria-label="Open GitHub repo" title="GitHub" className={iconButtonClass}>
-                      <Github className="h-4 w-4" />
-                    </a>
+                    {project.links?.github && (
+                      <a href={project.links.github} target="_blank" rel="noopener noreferrer" aria-label="Open GitHub repo" title="GitHub" className={iconButtonClass}>
+                        <Github className="h-4 w-4" />
+                      </a>
+                    )}
                   </div>
                   <div className="flex gap-2">
                     <button

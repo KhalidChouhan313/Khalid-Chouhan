@@ -27,7 +27,7 @@ const ProjectSchema = new Schema(
       },
       github: {
         type: String,
-        required: true,
+        default: "",
       },
     },
   },
