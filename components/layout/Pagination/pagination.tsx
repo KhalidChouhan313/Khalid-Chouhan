@@ -62,7 +62,7 @@ const Pagination = () => {
   }, []);
 
   return (
-    <div className="lg:block hidden fixed left-6 top-1/2 -translate-y-1/2 z-40">
+    <div className="xl:block hidden fixed left-6 top-1/2 -translate-y-1/2 z-40">
       <motion.ul
         initial={{ opacity: 0, x: -16 }}
         animate={{ opacity: 1, x: 0 }}

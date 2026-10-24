@@ -87,11 +87,11 @@ export default function SkillSection2() {
         <section className="w-full mt-16 space-y-12">
             <div className="relative w-full">
                 <Carousel opts={{ align: "start" }} className="w-full">
-                    <CarouselContent className="flex gap-4 ml-0">
+                    <CarouselContent>
                         {skillCategories.map((skill, index) => (
                             <CarouselItem
                                 key={index}
-                                className="basis-1/2 md:basis-1/3 lg:basis-1/4 pl-0"
+                                className="basis-1/2 md:basis-1/3 lg:basis-1/4 py-2"
                             >
                                 <motion.div
                                     whileHover={{
@@ -114,8 +114,11 @@ export default function SkillSection2() {
                         ))}
                     </CarouselContent>
 
-                    <CarouselPrevious className="hidden md:flex bg-bg-surface border-[var(--color-border)] text-white hover:bg-bg-overlay" />
-                    <CarouselNext className="hidden md:flex bg-bg-surface border-[var(--color-border)] text-white hover:bg-bg-overlay" />
+                    {/* arrows sit below the cards; outside them they slid under the fixed side nav */}
+                    <div className="hidden md:flex justify-center gap-3 mt-6">
+                        <CarouselPrevious className="static translate-y-0 bg-bg-surface border-[var(--color-border)] text-white hover:bg-bg-overlay" />
+                        <CarouselNext className="static translate-y-0 bg-bg-surface border-[var(--color-border)] text-white hover:bg-bg-overlay" />
+                    </div>
                 </Carousel>
             </div>
 

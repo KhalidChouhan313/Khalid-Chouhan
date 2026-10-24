@@ -56,8 +56,8 @@ function Header() {
         className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent pointer-events-none"
       />
 
-      <div className="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
-        <h2 className="text-2xl font-black tracking-tight">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+        <h2 className="text-lg sm:text-2xl font-black tracking-tight whitespace-nowrap">
           <Link href="/" className="group flex items-center gap-1.5">
             <motion.span
               whileHover={{ rotateY: 180 }}

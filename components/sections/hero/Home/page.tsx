@@ -14,21 +14,21 @@ const HomeContent = () => {
       viewport={viewportOnce}
       className="h-auto w-full max-w-6xl px-6 flex items-center justify-center gap-8 flex-col py-12 md:py-20"
     >
-      <div className="w-full flex items-center justify-center mb-4 mt-[5%]">
-        <h1 className="text-5xl md:text-6xl  font-black uppercase tracking-tight text-white select-none">
+      <div className="w-full flex items-center justify-center mb-2">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white select-none">
           Developer
         </h1>
       </div>
-      <div className="w-full flex items-stretch justify-between gap-8 md:flex-row flex-col">
-        <div className="md:w-[32%] w-full flex">
+      <div className="w-full flex items-stretch justify-between gap-8 lg:flex-row flex-col">
+        <div className="lg:w-[32%] w-full flex">
           <IntroCard />
         </div>
 
-        <div className="md:w-[36%] w-full flex items-center">
+        <div className="lg:w-[36%] w-full flex items-center">
           <IntroMain />
         </div>
 
-        <div className="md:w-[32%] w-full flex">
+        <div className="lg:w-[32%] w-full flex">
           <div className="w-full bg-transparent  rounded-2xl
            p-8 border border-[var(--color-border)] shadow-xl flex flex-col justify-around gap-6">
             <div className="flex items-center gap-6 py-4 border-b border-[var(--color-border-subtle)]">

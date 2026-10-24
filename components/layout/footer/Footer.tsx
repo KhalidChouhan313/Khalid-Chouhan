@@ -35,7 +35,7 @@ const Footer = () => {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="relative max-w-5xl mx-auto rounded-full
+        className="relative max-w-5xl mx-auto rounded-3xl md:rounded-full
           bg-bg-elevated/60 glass-strong
           border border-[var(--color-border-subtle)]
           shadow-[0_8px_40px_-12px_rgba(0,0,0,0.5)]

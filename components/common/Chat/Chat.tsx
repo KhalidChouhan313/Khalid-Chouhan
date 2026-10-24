@@ -96,10 +96,9 @@ const Chat = ({ setShowChat, showtChat }: ChatProps) => {
         animate="visible"
         exit="hidden"
         transition={{ type: "spring", stiffness: 320, damping: 28 }}
-        className="fixed z-50 flex flex-col overflow-hidden
-          bottom-[20%] right-4
-          w-[92%] h-[70vh]
-          sm:w-[380px] sm:h-[520px] sm:bottom-24 sm:right-[13%]
+        className="fixed z-[60] flex flex-col overflow-hidden
+          bottom-28 right-4 left-4 sm:left-auto sm:right-6
+          sm:w-[380px] h-[min(560px,calc(100dvh-13rem))]
           rounded-2xl
           border border-[var(--color-border-subtle)]
           shadow-[0_20px_60px_-12px_rgba(0,0,0,0.6)]

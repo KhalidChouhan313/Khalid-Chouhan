@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import Header from '@/components/layout/header/Header';
+import ChatsIcon from '@/components/common/Chat/ChatsIcon';
 
 export default function ClientLayout({
   children,
@@ -14,6 +15,7 @@ export default function ClientLayout({
   return (
     <>
       {!isAdmin && <Header />}
+      {!isAdmin && <ChatsIcon />}
       {children}
     </>
   );

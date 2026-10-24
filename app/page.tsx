@@ -7,7 +7,6 @@ import Skills from "./skills/page";
 import Blog from "./blog/page";
 import Contact from "./contact/page";
 import Projects from "./projects/page";
-import ChatsIcon from "@/components/common/Chat/ChatsIcon";
 import { motion } from "framer-motion";
 import { fadeUp, viewportOnce } from "@/lib/motion-variants";
 
@@ -15,16 +14,16 @@ export default function Home() {
   return (
     <div className="h-full w-full flex justify-center items-center relative">
       <Pagination />
-      <ChatsIcon />
 
-      <main className="w-full flex flex-col items-center">
+      {/* xl:px-24 leaves room for the fixed side nav (Pagination) so it never covers content */}
+      <main className="w-full flex flex-col items-center xl:px-24">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
           viewport={viewportOnce}
           id="home"
-          className="lg:h-screen h-auto bg-transparent w-full flex items-center justify-center"
+          className="lg:min-h-[calc(100vh-80px)] h-auto bg-transparent w-full flex items-center justify-center"
         >
           <HomeHomeContent />
         </motion.div>
