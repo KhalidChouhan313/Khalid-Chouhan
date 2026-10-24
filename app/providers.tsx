@@ -15,7 +15,7 @@ export default function Providers({
   return (
     <QueryClientProvider client={queryClient}>
       {loading && <IntroLoader onFinish={() => setLoading(false)} />}
-{children}
+      {children}
     </QueryClientProvider>
   );
 }

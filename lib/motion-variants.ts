@@ -200,10 +200,9 @@ export const pageTransition: Variants = {
   },
 };
 
-// ── Utility: Viewport animation props ──────────────────────────────────
 export const viewportOnce = {
   once: true,
-  amount: 0.2,
+  margin: "0px 0px -15% 0px",
 } as const;
 
 export const viewportRepeat = {

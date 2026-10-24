@@ -2,6 +2,7 @@ export interface SectionHeadingProps {
   heading: string;
   paragraph?: string;
   isShow?: boolean;
+  title?: string;
 }
 export interface DetailedSkill {
   name: string;

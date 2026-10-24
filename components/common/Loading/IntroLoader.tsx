@@ -10,9 +10,9 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
     <motion.div
       initial={{ opacity: 1 }}
       animate={{ opacity: 0 }}
-      transition={{ delay: 3.5, duration: 0.8, ease: "easeInOut" }}
+      transition={{ delay: 2.2, duration: 0.6, ease: "easeInOut" }}
       onAnimationComplete={onFinish}
-      className="fixed inset-0 z-[9999] bg-bg-base flex items-center justify-center overflow-hidden px-6 select-none"
+      className="intro-loader fixed inset-0 z-[9999] bg-bg-base flex items-center justify-center overflow-hidden px-6 select-none"
     >
       {/* Subtle Teal Ambient Glow */}
       <motion.div
@@ -40,7 +40,7 @@ export default function IntroLoader({ onFinish }: { onFinish: () => void }) {
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 0.5, y: 0 }}
-          transition={{ delay: 1.6, duration: 0.8, ease: "easeOut" }}
+          transition={{ delay: 1.0, duration: 0.6, ease: "easeOut" }}
           className="mt-5 text-xs sm:text-sm tracking-[0.3em] sm:tracking-[0.4em] text-[var(--color-text-faint)] font-bold font-sans uppercase"
         >
           Full Stack Developer

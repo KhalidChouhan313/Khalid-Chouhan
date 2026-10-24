@@ -2,7 +2,7 @@
 
 export default function ProjectCardSkeleton() {
   return (
-    <div className="relative p-6 rounded-2xl bg-bg-elevated/40 glass border border-[var(--color-border)] shadow-md flex flex-col justify-between h-[380px]">
+    <div className="relative p-6 rounded-2xl bg-bg-elevated/40 glass border border-[var(--color-border)] shadow-md flex flex-col justify-between h-[420px] rounded-3xl">
       <div>
         {/* Image */}
         <div className="h-48 w-full skeleton rounded-xl mb-5" />

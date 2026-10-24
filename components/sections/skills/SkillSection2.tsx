@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
     Brain,
     Code,
@@ -15,172 +15,130 @@ import {
     Circle,
 } from "lucide-react";
 import { detailedSkills, skillCategories } from "./data";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel";
-import { motion, Variants } from "framer-motion";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
-import type { DetailedSkill, SkillIcon, SkillTier } from "@/types/HeroSection";
+import { AnimatePresence, motion } from "framer-motion";
+import { easings } from "@/lib/motion-variants";
+import { cn } from "@/lib/utils/utils";
+import type { SkillIcon, SkillTier } from "@/types/HeroSection";
 
 const icons: Record<SkillIcon, React.ReactNode> = {
-    Server: <Server size={30} />,
-    Laptop: <Laptop size={30} />,
-    Brain: <Brain size={30} />,
-    Code: <Code size={30} />,
-    Cloud: <Cloud size={30} />,
-    Database: <Database size={30} />,
-    Wrench: <Wrench size={30} />,
-    TestTube: <TestTube size={30} />,
+    Server: <Server size={18} />,
+    Laptop: <Laptop size={18} />,
+    Brain: <Brain size={18} />,
+    Code: <Code size={18} />,
+    Cloud: <Cloud size={18} />,
+    Database: <Database size={18} />,
+    Wrench: <Wrench size={18} />,
+    TestTube: <TestTube size={18} />,
 };
 
-const tierConfig: Record<
-    SkillTier,
-    { label: string; icon: React.ReactNode; className: string }
-> = {
+const tierConfig: Record<SkillTier, { icon: React.ReactNode; level: number; className: string }> = {
     Expert: {
-        label: "Expert",
         icon: <Sparkles size={12} />,
-        className:
-            "text-[var(--color-accent)] bg-[var(--color-accent-glow)] border-[var(--color-border-accent)]",
+        level: 3,
+        className: "text-[var(--color-accent)] bg-[var(--color-accent-glow)] border-[var(--color-border-accent)]",
     },
     Proficient: {
-        label: "Proficient",
         icon: <CheckCircle2 size={12} />,
-        className:
-            "text-[var(--color-text-secondary)] bg-bg-surface border-[var(--color-border)]",
+        level: 2,
+        className: "text-[var(--color-text-secondary)] bg-bg-surface border-[var(--color-border)]",
     },
     Familiar: {
-        label: "Familiar",
         icon: <Circle size={12} />,
-        className:
-            "text-[var(--color-text-muted)] bg-bg-surface/60 border-[var(--color-border-subtle)]",
+        level: 1,
+        className: "text-[var(--color-text-muted)] bg-bg-surface/60 border-[var(--color-border-subtle)]",
     },
 };
 
-interface GroupedSkills {
-    category: SkillIcon;
-    title: string;
-    skills: DetailedSkill[];
-}
-
-function groupSkillsByCategory(): GroupedSkills[] {
-    return skillCategories.map((cat) => ({
-        category: cat.icon,
-        title: cat.title,
-        skills: detailedSkills.filter((skill) => skill.category === cat.icon),
-    }));
-}
-
-const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 16 },
-    visible: { opacity: 1, y: 0 },
-};
+const categories = skillCategories.filter((cat) => detailedSkills.some((s) => s.category === cat.icon));
 
 export default function SkillSection2() {
-    const grouped = groupSkillsByCategory();
+    const [active, setActive] = useState<SkillIcon>(categories[0].icon);
+    const skills = detailedSkills.filter((s) => s.category === active);
 
     return (
-        <section className="w-full mt-16 space-y-12">
-            <div className="relative w-full">
-                <Carousel opts={{ align: "start" }} className="w-full">
-                    <CarouselContent>
-                        {skillCategories.map((skill, index) => (
-                            <CarouselItem
-                                key={index}
-                                className="basis-1/2 md:basis-1/3 lg:basis-1/4 py-2"
-                            >
-                                <motion.div
-                                    whileHover={{
-                                        y: -4,
-                                        rotateX: 6,
-                                        rotateY: -6,
-                                    }}
-                                    transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                                    style={{ transformStyle: "preserve-3d" }}
-                                    className="group p-6 bg-bg-elevated/40 glass border border-[var(--color-border)] hover:border-[var(--color-accent)] rounded-2xl flex flex-col items-center gap-4 shadow-md hover:shadow-[0_12px_30px_-8px_rgba(0,0,0,0.5)]"
-                                >
-                                    <div className="text-[var(--color-accent)] group-hover:scale-110 transition-transform duration-300">
-                                        {icons[skill.icon]}
-                                    </div>
-                                    <h3 className="text-sm md:text-base font-semibold tracking-wide text-[var(--color-text-secondary)] group-hover:text-[var(--color-accent)] transition">
-                                        {skill.title}
-                                    </h3>
-                                </motion.div>
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-
-                    {/* arrows sit below the cards; outside them they slid under the fixed side nav */}
-                    <div className="hidden md:flex justify-center gap-3 mt-6">
-                        <CarouselPrevious className="static translate-y-0 bg-bg-surface border-[var(--color-border)] text-white hover:bg-bg-overlay" />
-                        <CarouselNext className="static translate-y-0 bg-bg-surface border-[var(--color-border)] text-white hover:bg-bg-overlay" />
-                    </div>
-                </Carousel>
-            </div>
-
-            <motion.div
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportOnce}
-                className="space-y-10 max-h-[65vh] overflow-y-auto pr-2 no-scrollbar"
+        <section className="w-full flex flex-col gap-8">
+            <div
+                role="tablist"
+                aria-label="Skill categories"
+                className="no-scrollbar -mx-6 flex gap-2 overflow-x-auto px-6 sm:mx-0 sm:flex-wrap sm:justify-center sm:px-0"
             >
-                {grouped.map((group) => {
-                    if (group.skills.length === 0) return null;
-
+                {categories.map((cat) => {
+                    const isActive = cat.icon === active;
                     return (
-                        <motion.div key={group.category} variants={fadeUp}>
-                            <div className="flex items-center gap-3 mb-4">
-                                <span className="text-[var(--color-accent)]">
-                                    {icons[group.category]}
-                                </span>
-                                <h4 className="text-base md:text-lg font-bold text-white tracking-wide">
-                                    {group.title}
-                                </h4>
-                                <div className="flex-1 h-px bg-[var(--color-border-subtle)]" />
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                {group.skills.map((skill, i) => {
-                                    const tier = tierConfig[skill.tier];
-                                    return (
-                                        <motion.div
-                                            key={`${group.category}-${i}`}
-                                            variants={cardVariants}
-                                            whileHover={{
-                                                y: -3,
-                                                rotateX: 4,
-                                                scale: 1.01,
-                                            }}
-                                            transition={{
-                                                type: "spring",
-                                                stiffness: 300,
-                                                damping: 22,
-                                            }}
-                                            style={{ transformStyle: "preserve-3d" }}
-                                            className="flex items-center justify-between gap-3 p-4 bg-bg-elevated/40 glass border border-[var(--color-border)] hover:border-[var(--color-accent-glow)] rounded-xl shadow-sm hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.45)]"
-                                        >
-                                            <span className="text-sm font-medium text-[var(--color-text-secondary)]">
-                                                {skill.name}
-                                            </span>
-                                            <span
-                                                className={`shrink-0 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full border ${tier.className}`}
-                                            >
-                                                {tier.icon}
-                                                {tier.label}
-                                            </span>
-                                        </motion.div>
-                                    );
-                                })}
-                            </div>
-                        </motion.div>
+                        <button
+                            key={cat.icon}
+                            role="tab"
+                            type="button"
+                            aria-selected={isActive}
+                            onClick={() => setActive(cat.icon)}
+                            className={cn(
+                                "relative flex shrink-0 cursor-pointer items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors duration-300",
+                                isActive
+                                    ? "text-[#0f0c09]"
+                                    : "border border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-border-accent)] hover:text-white",
+                            )}
+                        >
+                            {isActive && (
+                                <motion.span
+                                    layoutId="skillTab"
+                                    className="absolute inset-0 rounded-full bg-[var(--color-accent)]"
+                                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                                />
+                            )}
+                            <span className="relative z-10">{icons[cat.icon]}</span>
+                            <span className="relative z-10 whitespace-nowrap">{cat.title}</span>
+                        </button>
                     );
                 })}
-            </motion.div>
+            </div>
+
+            <div role="tabpanel" className="border-gradient glass rounded-3xl p-5 sm:p-8">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={active}
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3, ease: easings.smooth }}
+                        className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
+                    >
+                        {skills.map((skill, i) => {
+                            const tier = tierConfig[skill.tier];
+                            return (
+                                <motion.div
+                                    key={skill.name}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.04, duration: 0.3 }}
+                                    whileHover={{ y: -3 }}
+                                    className="group flex items-center justify-between gap-3 rounded-2xl border border-[var(--color-border)] bg-bg-elevated/50 p-4 transition-colors duration-300 hover:border-[var(--color-border-accent)]"
+                                >
+                                    <div className="flex min-w-0 flex-col gap-2">
+                                        <span className="truncate text-sm font-semibold text-white">{skill.name}</span>
+                                        <span className="flex gap-1" aria-hidden="true">
+                                            {[1, 2, 3].map((n) => (
+                                                <span
+                                                    key={n}
+                                                    className={cn(
+                                                        "h-1 w-6 rounded-full",
+                                                        n <= tier.level ? "bg-[var(--color-accent)]" : "bg-white/10",
+                                                    )}
+                                                />
+                                            ))}
+                                        </span>
+                                    </div>
+                                    <span
+                                        className={`flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${tier.className}`}
+                                    >
+                                        {tier.icon}
+                                        {skill.tier}
+                                    </span>
+                                </motion.div>
+                            );
+                        })}
+                    </motion.div>
+                </AnimatePresence>
+            </div>
         </section>
     );
 }

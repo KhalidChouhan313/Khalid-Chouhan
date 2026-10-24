@@ -1,11 +1,11 @@
-import SectionHeading from '@/components/common/SectionHeading'
-const SkillSection1 = () => {
+import SectionHeading from "@/components/common/SectionHeading";
 
-    return (
-        <div className="h-auto w-full flex flex-col items-center gap-8 justify-center ">
-            <SectionHeading heading={"Skills"} paragraph={"I am striving to never stop learning and improving"} isShow={true} />
-        </div>
-    )
-}
+const SkillSection1 = () => (
+  <SectionHeading
+    heading="Skills"
+    title="A full-stack toolkit, from pixels to production"
+    paragraph="Technologies I use every day to design, build and ship — always learning, always improving."
+  />
+);
 
-export default SkillSection1
+export default SkillSection1;

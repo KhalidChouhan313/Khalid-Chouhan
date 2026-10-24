@@ -1,11 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { fadeDown } from "@/lib/motion-variants";
+import { introProfile } from "@/Utils/BaseUrl";
+import { cn } from "@/lib/utils/utils";
 
 interface NavLink {
   name: string;
@@ -24,6 +27,7 @@ const links: NavLink[] = [
 function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
   const pathname = usePathname();
   const { scrollY } = useScroll();
 
@@ -39,67 +43,53 @@ function Header() {
   }
 
   return (
-    <motion.header
-      animate={{
-        height: scrolled ? 64 : 80,
-        boxShadow: scrolled
-          ? "0 8px 32px -8px rgba(0,0,0,0.55)"
-          : "0 0px 0px rgba(0,0,0,0)",
-      }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className="sticky top-0 w-full z-50 bg-transparent backdrop-blur-2xl border-b border-[var(--color-border-subtle)] rounded-full"
-      style={{ transformStyle: "preserve-3d" }}
-    >
-      <motion.div
-        animate={{ opacity: scrolled ? 0.5 : 0.15 }}
-        transition={{ duration: 0.4 }}
-        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent pointer-events-none"
-      />
+    <header className="sticky top-0 z-50 w-full px-3 pt-3 sm:px-4">
+      <div
+        className={cn(
+          "relative mx-auto flex h-16 max-w-6xl items-center justify-between rounded-full border px-3 pl-3 sm:px-4 transition-all duration-500",
+          scrolled
+            ? "glass-strong border-[var(--color-border-strong)] shadow-[0_12px_40px_-12px_rgba(0,0,0,0.7)]"
+            : "border-[var(--color-border-subtle)] bg-[#0f0c09]/40 backdrop-blur-xl",
+        )}
+      >
+        <Link href="/" className="group flex items-center gap-2.5" aria-label="Khalid Chouhan — home">
+          <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ring-[var(--color-border-accent)] transition-all duration-300 group-hover:ring-[var(--color-accent)]">
+            <Image src={introProfile} alt="" fill sizes="40px" className="object-cover" priority />
+          </span>
+          <span className="font-display text-base sm:text-lg font-bold tracking-tight text-white whitespace-nowrap">
+            Khalid<span className="text-[var(--color-accent)]">.</span>dev
+          </span>
+        </Link>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
-        <h2 className="text-lg sm:text-2xl font-black tracking-tight whitespace-nowrap">
-          <Link href="/" className="group flex items-center gap-1.5">
-            <motion.span
-              whileHover={{ rotateY: 180 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="text-[var(--color-accent)] font-extrabold inline-block"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              &lt;K/&gt;
-            </motion.span>
-            <span className="text-white group-hover:text-[var(--color-text-secondary)] transition-colors duration-300">
-              KHALID CHOUHAN
-            </span>
-          </Link>
-        </h2>
-
-        <nav className="hidden md:flex items-center gap-2">
+        <nav className="hidden md:flex items-center gap-1" onMouseLeave={() => setHovered(null)}>
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.name}
                 href={link.href}
-                className="relative px-4 py-2 text-sm font-semibold rounded-lg group/navlink"
+                onMouseEnter={() => setHovered(link.name)}
+                className="relative rounded-full px-3.5 lg:px-4 py-2 text-sm font-medium"
               >
-                <motion.span
-                  className="absolute inset-0 rounded-lg bg-[var(--color-accent-glow)] opacity-0 group-hover/navlink:opacity-100"
-                  transition={{ duration: 0.25 }}
-                />
+                {hovered === link.name && (
+                  <motion.span
+                    layoutId="navHover"
+                    className="absolute inset-0 rounded-full bg-white/[0.06]"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
                 <span
-                  className={`relative z-10 transition-colors duration-300 ${
-                    isActive
-                      ? "text-[var(--color-accent)]"
-                      : "text-[var(--color-text-muted)] group-hover/navlink:text-white"
-                  }`}
+                  className={cn(
+                    "relative z-10 transition-colors duration-300",
+                    isActive ? "text-[var(--color-accent)]" : "text-[var(--color-text-muted)] hover:text-white",
+                  )}
                 >
                   {link.name}
                 </span>
-
                 {isActive && (
-                  <motion.div
+                  <motion.span
                     layoutId="activeHeaderNav"
-                    className="absolute -bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_var(--color-accent)]"
+                    className="absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_var(--color-accent)]"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -108,11 +98,19 @@ function Header() {
           })}
         </nav>
 
-        <div className="md:hidden flex items-center">
+        <div className="flex items-center gap-2">
+          <Link
+            href="/contact"
+            className="group hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-4 py-2.5 text-sm font-bold text-[#0f0c09] transition-colors duration-300 hover:bg-white"
+          >
+            Hire me
+            <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setOpen((prev) => !prev)}
-            className="p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors duration-200"
+            className="md:hidden flex h-10 w-10 items-center justify-center rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] transition-colors duration-200 hover:text-[var(--color-accent)]"
             aria-label="Toggle navigation menu"
             aria-expanded={open}
           >
@@ -125,49 +123,57 @@ function Header() {
                 transition={{ duration: 0.2 }}
                 className="block"
               >
-                {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </motion.span>
             </AnimatePresence>
           </motion.button>
         </div>
-      </div>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            variants={fadeDown}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            className="md:hidden absolute top-full right-6 left-6 mt-2 p-6 glass-strong rounded-2xl shadow-xl flex flex-col gap-2 z-50"
-          >
-            {links.map((link, i) => {
-              const isActive = pathname === link.href;
-              return (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05, duration: 0.25 }}
-                >
-                  <Link
-                    href={link.href}
-                    className={`w-full block font-semibold px-4 py-3 rounded-lg transition-all duration-200 ${
-                      isActive
-                        ? "bg-[var(--color-accent-glow)] text-[var(--color-accent)] border border-[var(--color-border-accent)]"
-                        : "text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-surface)] hover:text-white"
-                    }`}
-                    onClick={() => setOpen(false)}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              variants={fadeDown}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              className="md:hidden absolute top-full left-0 right-0 mt-2 p-3 glass-strong rounded-3xl shadow-xl flex flex-col gap-1 z-50"
+            >
+              {links.map((link, i) => {
+                const isActive = pathname === link.href;
+                return (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.04, duration: 0.25 }}
                   >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "w-full block font-semibold px-4 py-3 rounded-2xl transition-all duration-200",
+                        isActive
+                          ? "bg-[var(--color-accent-glow)] text-[var(--color-accent)]"
+                          : "text-[var(--color-text-secondary)] hover:bg-white/[0.05] hover:text-white",
+                      )}
+                      onClick={() => setOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+              <Link
+                href="/contact"
+                onClick={() => setOpen(false)}
+                className="mt-1 flex items-center justify-center gap-1.5 rounded-2xl bg-[var(--color-accent)] px-4 py-3 text-sm font-bold text-[#0f0c09] sm:hidden"
+              >
+                Hire me <ArrowUpRight size={16} />
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </header>
   );
 }
 

@@ -3,7 +3,7 @@ import Footer from "@/components/layout/footer/Footer";
 import GoogleAnalyticsTracker from "@/components/layout/GoogleAnalyticsTracker";
 import { introProfile } from "@/Utils/BaseUrl";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
@@ -14,7 +14,13 @@ import AnimatedBackground from "@/components/animations/Animatedbackground";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
 });
 
 const geistMono = Geist_Mono({
@@ -86,9 +92,14 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
 
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem("intro-seen"))document.documentElement.dataset.introSeen="1";else sessionStorage.setItem("intro-seen","1")}catch(e){}`,
+          }}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <Script
@@ -141,7 +152,7 @@ export default function RootLayout({
       </head>
 
       <body
-        className={`${geistSans.variable} ${geistMono.variable} relative antialiased bg-bg-base text-[#f5f3f0]`}
+        className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} relative antialiased bg-bg-base text-[#f5f3f0]`}
       >
         <AnimatedBackground />
         <div id="scroll-progress" />

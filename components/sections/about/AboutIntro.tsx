@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { staggerContainer, fadeUp } from "@/lib/motion-variants";
+import { staggerContainer, fadeUp, viewportOnce } from "@/lib/motion-variants";
 import { Sparkles, Target, Layers } from "lucide-react";
 
 interface Highlight {
@@ -30,7 +30,7 @@ const AboutIntro = () => {
       variants={staggerContainer}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={viewportOnce}
       whileHover={{ y: -2 }}
       transition={{ type: "spring", stiffness: 200, damping: 24 }}
       style={{ transformStyle: "preserve-3d" }}

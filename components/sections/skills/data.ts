@@ -1,9 +1,9 @@
 import { DetailedSkill, SkillCategory } from "@/types/HeroSection";
 
 export const skillCategories: SkillCategory[] = [
-  { title: "MERN Stack", icon: "Server" },
   { title: "Frontend", icon: "Laptop" },
   { title: "Backend", icon: "Code" },
+  { title: "Languages", icon: "Server" },
   { title: "AI Engineering", icon: "Brain" },
   { title: "DevOps & Cloud", icon: "Cloud" },
   { title: "Database & Caching", icon: "Database" },

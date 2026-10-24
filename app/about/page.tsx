@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { fadeUp, viewportOnce, staggerContainer } from "@/lib/motion-variants";
 import AboutIntro from "@/components/sections/about/AboutIntro";
+import ExperienceTimeline from "@/components/sections/about/ExperienceTimeline";
+import SectionHeading from "@/components/common/SectionHeading";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
@@ -24,7 +26,7 @@ const About = () => {
   const aboutImage = settings?.aboutImage || DEFAULT_ABOUT_IMAGE;
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-6 py-20">
+    <div className="w-full max-w-6xl mx-auto px-6 py-24">
       <motion.div
         variants={fadeUp}
         initial="hidden"
@@ -32,15 +34,11 @@ const About = () => {
         viewport={viewportOnce}
         className="flex flex-col gap-12 w-full"
       >
-        <div className="flex flex-col items-start gap-2">
-          <span className="text-xs font-bold tracking-widest uppercase text-[var(--color-accent)]">
-            About Me
-          </span>
-          <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-            My Story
-          </h2>
-          <div className="w-12 h-1 bg-[var(--color-accent)] rounded-full mt-1" />
-        </div>
+        <SectionHeading
+          heading="About me"
+          title="Engineer by craft, builder by nature"
+          paragraph="A quick look at who I am, what I've been working on and how I like to build."
+        />
 
         <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-12">
           <div className="w-full lg:w-[60%] flex flex-col justify-center">
@@ -102,6 +100,8 @@ const About = () => {
             </motion.div>
           </div>
         </div>
+
+        <ExperienceTimeline />
       </motion.div>
     </div>
   );

@@ -1,11 +1,12 @@
 "use client";
 
-import { discordLogo, githubLogo, Linkedinlogo, Xlogo } from "@/Utils/BaseUrl";
+import { discordLogo, githubLogo, introProfile, Linkedinlogo, Xlogo } from "@/Utils/BaseUrl";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Instagram } from "lucide-react";
+import { ArrowUp, ArrowUpRight, Instagram } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, viewportOnce } from "@/lib/motion-variants";
 import { useSocialLinks } from "@/hooks/useSocialLinks";
 import { DEFAULT_SOCIAL_LINKS, SOCIAL_KEYS, SOCIAL_LABELS, SocialKey } from "@/lib/social";
 
@@ -16,10 +17,20 @@ const SOCIAL_ICONS: Partial<Record<SocialKey, string>> = {
   twitter: Xlogo,
 };
 
+const NAV = [
+  { name: "About", href: "/about" },
+  { name: "Skills", href: "/skills" },
+  { name: "Projects", href: "/projects/seeMore" },
+  { name: "Blog", href: "/blog" },
+  { name: "Contact", href: "/contact" },
+];
+
 const Footer = () => {
   const pathname = usePathname();
   const { data: links = DEFAULT_SOCIAL_LINKS } = useSocialLinks();
   if (pathname.startsWith("/admin")) return null;
+  // home and /contact already end with the contact form, so skip the duplicate CTA there
+  const showCta = pathname !== "/" && pathname !== "/contact";
 
   const socialLinks = SOCIAL_KEYS.filter((key) => links[key]).map((key) => ({
     key,
@@ -29,88 +40,102 @@ const Footer = () => {
   }));
 
   return (
-    <footer className="w-full px-4 sm:px-6 py-10">
+    <footer className="w-full px-4 sm:px-6 pb-8 pt-10">
       <motion.div
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="relative max-w-5xl mx-auto rounded-3xl md:rounded-full
-          bg-bg-elevated/60 glass-strong
-          border border-[var(--color-border-subtle)]
-          shadow-[0_8px_40px_-12px_rgba(0,0,0,0.5)]
-          px-6 sm:px-10 py-5
-          flex flex-col md:flex-row items-center justify-between gap-5
-          overflow-hidden"
+        className="border-gradient glass-strong relative mx-auto max-w-6xl overflow-hidden rounded-[2rem]"
       >
-        {/* soft ambient glow blob behind the capsule for depth */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-1/2 left-1/4 w-64 h-64
-            bg-[var(--color-accent)]/10 rounded-full blur-3xl"
-        />
-        {/* top hairline glow, echoes the header's accent line */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-0 left-10 right-10 h-px
-            bg-gradient-to-r from-transparent via-[var(--color-accent)]/50 to-transparent"
-        />
+        <div aria-hidden="true" className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[70%] -translate-x-1/2 rounded-full bg-[var(--color-accent)]/15 blur-3xl" />
 
-        <p className="relative text-sm text-[var(--color-text-muted)] text-center md:text-left">
-          &copy; {new Date().getFullYear()}{" "}
-          <span className="font-black text-[var(--color-accent)] italic mx-1">
-            MUHAMMAD KHALID CHOUHAN.
-          </span>{" "}
-          All rights reserved.
-        </p>
+        {showCta && (
+        <div className="relative flex flex-col items-center gap-6 border-b border-[var(--color-border-subtle)] px-6 py-14 text-center">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">
+            What&apos;s next?
+          </span>
+          <h2 className="max-w-2xl text-3xl sm:text-5xl font-bold leading-tight text-white">
+            Let&apos;s build something <span className="text-gradient">great together</span>
+          </h2>
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-7 py-3.5 text-sm font-bold text-[#0f0c09] shadow-[0_10px_30px_-10px_var(--color-accent)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white"
+          >
+            Start a conversation
+            <ArrowUpRight size={18} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        </div>
+        )}
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          className="relative flex items-center gap-3"
-        >
-          {socialLinks.map((social) => (
-            <motion.a
-              key={social.key}
-              variants={fadeUp}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{
-                y: -3,
-                rotateY: 12,
-                scale: 1.08,
-              }}
-              whileTap={{ scale: 0.92 }}
-              transition={{ type: "spring", stiffness: 320, damping: 18 }}
-              style={{ transformStyle: "preserve-3d" }}
-              className="group relative w-10 h-10 flex items-center justify-center
-                rounded-full border border-[var(--color-border)]
-                bg-bg-surface/80
-                hover:border-[var(--color-border-accent)]
-                hover:shadow-[0_0_18px_var(--color-accent-glow)]
-                transition-colors duration-300"
-              aria-label={social.label}
-            >
-              {social.icon ? (
-                <Image
-                  src={social.icon}
-                  alt={social.label}
-                  width={18}
-                  height={18}
-                  className="opacity-70 brightness-90 group-hover:opacity-100 group-hover:brightness-100 transition-all duration-300"
-                />
-              ) : (
-                <Instagram
-                  size={18}
-                  className="text-white opacity-70 group-hover:opacity-100 group-hover:text-[var(--color-accent)] transition-all duration-300"
-                />
-              )}
-            </motion.a>
-          ))}
-        </motion.div>
+        <div className="relative grid gap-8 px-6 py-10 sm:px-10 md:grid-cols-[1.2fr_1fr_auto] md:items-start">
+          <div className="flex flex-col items-center gap-3 text-center md:items-start md:text-left">
+            <Link href="/" className="flex items-center gap-2.5">
+              <span className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-[var(--color-border-accent)]">
+                <Image src={introProfile} alt="" fill sizes="40px" className="object-cover" />
+              </span>
+              <span className="font-display text-lg font-bold text-white">
+                Khalid<span className="text-[var(--color-accent)]">.</span>dev
+              </span>
+            </Link>
+            <p className="max-w-xs text-sm leading-relaxed text-[var(--color-text-muted)]">
+              Full-Stack Developer & Team Lead building fintech-grade web apps. Based in Pakistan, working worldwide.
+            </p>
+          </div>
+
+          <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-6 gap-y-3 md:justify-start">
+            {NAV.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-sm font-medium text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex justify-center gap-2.5">
+            {socialLinks.map((social) => (
+              <motion.a
+                key={social.key}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -3 }}
+                whileTap={{ scale: 0.92 }}
+                className="group flex h-10 w-10 items-center justify-center rounded-full border border-[var(--color-border)] bg-bg-surface/80 transition-colors duration-300 hover:border-[var(--color-accent)] hover:shadow-[0_0_18px_var(--color-accent-glow)]"
+                aria-label={social.label}
+              >
+                {social.icon ? (
+                  <Image
+                    src={social.icon}
+                    alt=""
+                    width={18}
+                    height={18}
+                    className="opacity-70 transition-opacity duration-300 group-hover:opacity-100"
+                  />
+                ) : (
+                  <Instagram size={18} className="text-white opacity-70 transition-all duration-300 group-hover:text-[var(--color-accent)] group-hover:opacity-100" />
+                )}
+              </motion.a>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative flex flex-col-reverse items-center justify-between gap-4 border-t border-[var(--color-border-subtle)] px-6 py-5 text-xs text-[var(--color-text-faint)] sm:flex-row sm:px-10">
+          <p>&copy; {new Date().getFullYear()} Muhammad Khalid Chouhan. All rights reserved.</p>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="group inline-flex cursor-pointer items-center gap-2 font-medium text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+          >
+            Back to top
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-border)] transition-all group-hover:-translate-y-0.5 group-hover:border-[var(--color-accent)]">
+              <ArrowUp size={14} />
+            </span>
+          </button>
+        </div>
       </motion.div>
     </footer>
   );

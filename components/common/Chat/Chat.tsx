@@ -1,8 +1,10 @@
 "use client";
 
 import { useChat } from "@/hooks/useChat";
-import { AnimatePresence, motion } from "framer-motion";
-import { Bot, Send, X, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import { Send, X, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { introProfile } from "@/Utils/BaseUrl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -89,7 +91,6 @@ const Chat = ({ setShowChat, showtChat }: ChatProps) => {
   }, []);
 
   return (
-    <AnimatePresence>
       <motion.div
         variants={scaleIn}
         initial="hidden"
@@ -97,10 +98,10 @@ const Chat = ({ setShowChat, showtChat }: ChatProps) => {
         exit="hidden"
         transition={{ type: "spring", stiffness: 320, damping: 28 }}
         className="fixed z-[60] flex flex-col overflow-hidden
-          bottom-28 right-4 left-4 sm:left-auto sm:right-6
+          bottom-24 right-4 left-4 sm:left-auto sm:right-6
           sm:w-[380px] h-[min(560px,calc(100dvh-13rem))]
-          rounded-2xl
-          border border-[var(--color-border-subtle)]
+          rounded-3xl
+          border border-[var(--color-border-accent)]
           shadow-[0_20px_60px_-12px_rgba(0,0,0,0.6)]
           glass-strong"
         style={{ transformStyle: "preserve-3d" }}
@@ -117,8 +118,8 @@ const Chat = ({ setShowChat, showtChat }: ChatProps) => {
             bg-bg-elevated"
         >
           <div className="flex items-center gap-2.5">
-            <div className="relative w-9 h-9 rounded-xl bg-[var(--color-accent-glow)] flex items-center justify-center">
-              <Bot size={18} className="text-[var(--color-accent)]" />
+            <div className="relative w-10 h-10 rounded-full ring-2 ring-[var(--color-border-accent)]">
+              <Image src={introProfile} alt="" fill sizes="40px" className="rounded-full object-cover" />
               {/* live status dot */}
               <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-bg-elevated" />
             </div>
@@ -353,7 +354,6 @@ const Chat = ({ setShowChat, showtChat }: ChatProps) => {
           </motion.button>
         </div>
       </motion.div>
-    </AnimatePresence>
   );
 };
 
