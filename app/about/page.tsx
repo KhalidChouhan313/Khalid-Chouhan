@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import { fadeUp, viewportOnce, staggerContainer } from "@/lib/motion-variants";
 import AboutIntro from "@/components/sections/about/AboutIntro";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { DEFAULT_ABOUT_IMAGE } from "@/lib/settings";
 
 interface StatBadge {
   label: string;
@@ -11,12 +14,15 @@ interface StatBadge {
 }
 
 const STAT_BADGES: StatBadge[] = [
-  { label: "Experience", value: "1+ Yr" },
-  { label: "Focus", value: "Full Stack" },
-  { label: "Based in", value: "Karachi, PK" },
+  { label: "Experience", value: "2+ Yrs" },
+  { label: "Role", value: "Team Lead" },
+  { label: "Works", value: "Worldwide" },
 ];
 
 const About = () => {
+  const { data: settings } = useSiteSettings();
+  const aboutImage = settings?.aboutImage || DEFAULT_ABOUT_IMAGE;
+
   return (
     <div className="w-full max-w-6xl mx-auto px-6 py-20">
       <motion.div
@@ -49,13 +55,18 @@ const About = () => {
               className="relative w-full aspect-[4/5] max-w-[360px] lg:max-w-none rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.55)] group"
             >
               <Image
-                src="/images/hero/portfolio.png"
+                src={aboutImage}
                 fill
                 sizes="(max-w-1024px) 100vw, 350px"
-                alt="Khalid Chouhan Portfolio Illustration"
+                alt="Khalid Chouhan, Full Stack Developer and Team Lead"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-bg-base/70 via-bg-base/10 to-transparent pointer-events-none" />
+
+              <span className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 whitespace-nowrap rounded-full border border-[var(--color-border-accent)] bg-[#0f0c09]/70 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
+                <MapPin size={13} className="text-[var(--color-accent)]" />
+                Pakistan · Remote Worldwide
+              </span>
 
               <div
                 aria-hidden="true"

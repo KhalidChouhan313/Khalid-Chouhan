@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Briefcase, ExternalLink, FileText, Link2, Loader2, LogOut, MessageSquare } from "lucide-react";
+import { Briefcase, ExternalLink, FileText, ImageIcon, Link2, Loader2, LogOut, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { ReactNode, useState } from "react";
 import { toast } from "react-toastify";
@@ -18,6 +18,7 @@ import { AdminLogin } from "./AdminLogin";
 import { BlogsUpload } from "./BlogsUpload";
 import { MessagesTab } from "./MessagesTab";
 import { SocialLinksTab } from "./SocialLinksTab";
+import { SettingsTab } from "./SettingsTab";
 import ProjectsUpload from "./ProjectsUpload";
 import { ghostButtonClass } from "./ui";
 
@@ -86,6 +87,13 @@ const Dashboard = () => {
       count: socialLoading ? undefined : socialCount,
       detail: "Shown in footer",
     },
+    {
+      id: "settings",
+      label: "Profile",
+      icon: <ImageIcon className="h-5 w-5" />,
+      count: 1,
+      detail: "About section image",
+    },
   ];
 
   return (
@@ -123,7 +131,7 @@ const Dashboard = () => {
           <div className="mt-1 h-1 w-16 rounded-full bg-[var(--color-accent)]" />
         </div>
 
-        <nav aria-label="Admin sections" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <nav aria-label="Admin sections" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {tabs.map((tab) => {
             const active = activeTab === tab.id;
             return (
@@ -186,6 +194,7 @@ const Dashboard = () => {
           />
         )}
         {activeTab === "social" && <SocialLinksTab />}
+        {activeTab === "settings" && <SettingsTab />}
         {activeTab === "blogs" && (
           <BlogsUpload
             editingBlog={editingBlog}

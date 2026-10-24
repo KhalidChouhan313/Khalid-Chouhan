@@ -12,11 +12,11 @@ interface Highlight {
 const HIGHLIGHTS: Highlight[] = [
   {
     icon: <Layers size={14} />,
-    text: "Shipped a fintech app (InstaPay) with multilingual support & 25% faster API load",
+    text: "Team Lead on the InstaPay Agency Panel — owning both frontend and backend",
   },
   {
     icon: <Target size={14} />,
-    text: "Frontend-first, full-stack capable — comfortable owning a feature end to end",
+    text: "Cut API response times to sub-300ms on a high-traffic global payments product",
   },
   {
     icon: <Sparkles size={14} />,
@@ -59,23 +59,24 @@ const AboutIntro = () => {
         variants={fadeUp}
         className="relative mt-6 font-sans text-base leading-relaxed text-[var(--color-text-muted)]"
       >
-        I&apos;m a Full Stack Developer based in Karachi, currently building
-        features for a fintech product at{" "}
-        <span className="text-white font-semibold">Tech Onventeurs</span>.
-        My core strength is frontend — turning interfaces into something that
-        feels fast, deliberate, and easy to use — but I&apos;m equally
-        comfortable working through the backend logic that makes a feature
-        actually work.
+        I&apos;m a Full Stack Developer at{" "}
+        <span className="text-white font-semibold">TechOn Ventures</span>,
+        building <span className="text-white font-semibold">InstaPay</span> — a
+        global fintech platform for international transfers, virtual cards
+        and real-time payments. I currently lead the team behind the{" "}
+        <span className="text-white font-semibold">InstaPay Agency Panel</span>,
+        working across both frontend and backend: from database design and
+        REST APIs to fast, polished interfaces.
       </motion.p>
 
       <motion.p
         variants={fadeUp}
         className="relative mt-4 font-sans text-base leading-relaxed text-[var(--color-text-muted)]"
       >
-        I started in Mansehra, finished my intermediate studies in Karachi,
-        and I&apos;m currently completing my BSCS at Virtual University while
-        working full-time — which has taught me to be deliberate with my
-        time and ruthless about what actually moves a project forward.
+        I work remotely with teams anywhere in the world, and I&apos;m
+        currently completing my BSCS at Virtual University while working
+        full-time — which has taught me to be deliberate with my time and
+        ruthless about what actually moves a project forward.
       </motion.p>
 
       <motion.p

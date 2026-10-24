@@ -13,11 +13,14 @@ export const skillCategories: SkillCategory[] = [
 
 export const detailedSkills: DetailedSkill[] = [
   { name: "JavaScript (ES6+)", category: "Server", tier: "Expert" },
+  { name: "TypeScript", category: "Server", tier: "Expert" },
   { name: "Python", category: "Server", tier: "Proficient" },
 
   { name: "React.js", category: "Laptop", tier: "Expert" },
   { name: "Next.js", category: "Laptop", tier: "Expert" },
-  { name: "Redux Toolkit / Zustand", category: "Laptop", tier: "Proficient" },
+  { name: "Angular", category: "Laptop", tier: "Proficient" },
+  { name: "Redux Toolkit / Zustand", category: "Laptop", tier: "Expert" },
+  { name: "RxJS", category: "Laptop", tier: "Proficient" },
   { name: "Tailwind CSS", category: "Laptop", tier: "Expert" },
   { name: "ShadCN / MUI", category: "Laptop", tier: "Proficient" },
   { name: "HTML5", category: "Laptop", tier: "Expert" },
@@ -28,7 +31,8 @@ export const detailedSkills: DetailedSkill[] = [
   { name: "REST API Design", category: "Code", tier: "Expert" },
   { name: "GraphQL", category: "Code", tier: "Proficient" },
   { name: "Authentication (JWT / OAuth)", category: "Code", tier: "Proficient" },
-  { name: "WebSockets / Real-time Apps", category: "Code", tier: "Proficient" },
+  { name: "WebSockets / Socket.IO", category: "Code", tier: "Proficient" },
+  { name: "Zod Validation", category: "Code", tier: "Proficient" },
 
   { name: "MongoDB", category: "Database", tier: "Proficient" },
   { name: "PostgreSQL", category: "Database", tier: "Proficient" },
@@ -47,7 +51,9 @@ export const detailedSkills: DetailedSkill[] = [
   { name: "Docker", category: "Cloud", tier: "Proficient" },
   { name: "Docker Compose", category: "Cloud", tier: "Proficient" },
   { name: "CI/CD (GitHub Actions)", category: "Cloud", tier: "Proficient" },
-  { name: "AWS (EC2, S3)", category: "Cloud", tier: "Familiar" },
+  { name: "AWS (EC2, S3)", category: "Cloud", tier: "Proficient" },
+  { name: "Microsoft Azure", category: "Cloud", tier: "Proficient" },
+  { name: "Firebase", category: "Cloud", tier: "Proficient" },
   { name: "Vercel Deployment", category: "Cloud", tier: "Expert" },
 
 
@@ -60,4 +66,5 @@ export const detailedSkills: DetailedSkill[] = [
 
   { name: "Figma (Collaboration)", category: "Wrench", tier: "Familiar" },
   { name: "Agile / Scrum", category: "Wrench", tier: "Proficient" },
+  { name: "Team Leadership", category: "Wrench", tier: "Proficient" },
 ];

@@ -46,9 +46,9 @@ const HomeContent = () => {
               </p>
             </div>
             <div className="flex items-center gap-6 py-4">
-              <span className="text-5xl md:text-6xl font-black text-white">1</span>
+              <span className="text-5xl md:text-6xl font-black text-white">2+</span>
               <p className="text-sm font-medium text-[var(--color-text-muted)] leading-snug">
-                Year Of <br />
+                Years Of <br />
                 <span className="text-[var(--color-text-secondary)] font-semibold">Experience</span>
               </p>
             </div>
