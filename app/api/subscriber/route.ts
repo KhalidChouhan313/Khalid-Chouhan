@@ -5,12 +5,13 @@ import Subscriber from "@/models/Subscribe";
 
 export const POST = async (req: NextRequest) => {
   try {
-    await connectDB
-    const { email } = await req.json();
-    if (!email) {
-      return NextResponse.json({ success: false, message: "Email is required" },
+    const body = await req.json();
+    const email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 200) {
+      return NextResponse.json({ success: false, message: "A valid email is required" },
         { status: 400 })
     }
+    await connectDB();
     const existing = await Subscriber.findOne({ email });
     if (existing) {
       return NextResponse.json(
@@ -26,6 +27,7 @@ export const POST = async (req: NextRequest) => {
         pass: process.env.EMAIL_PASS,
       },
     })
+    // subscriber is saved; a failed welcome mail shouldn't report the subscribe as failed
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
@@ -59,14 +61,14 @@ export const POST = async (req: NextRequest) => {
 
       <tr>
         <td style="background:#f1f5f9; padding:15px; text-align:center; font-size:12px; color:#64748b;">
-          © ${new Date().getFullYear()} MUHAMMAD KAHLID CHOUHAN . All rights reserved.
+          © ${new Date().getFullYear()} MUHAMMAD KHALID CHOUHAN . All rights reserved.
         </td>
       </tr>
 
     </table>
   </div>
   `,
-    });
+    }).catch((mailError) => console.error("Welcome email failed (subscriber saved):", mailError));
 
     const response = NextResponse.json({
       success: true,
@@ -74,15 +76,17 @@ export const POST = async (req: NextRequest) => {
     });
     response.cookies.set("subscribed_email", email, {
       httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
       path: "/",
       maxAge: 60 * 60 * 24 * 365,
     });
     return response
   } catch (error) {
-    console.log(error)
+    console.error("Subscriber API Error:", error)
     return NextResponse.json(
       {
-        success: false, error: "somthing gone wrong while subscribing"
+        success: false, error: "Something went wrong while subscribing"
       },
       { status: 500 }
     )

@@ -1,26 +1,84 @@
 "use client";
 
-import { Message, Project, SocialLinks } from "@/lib/types/Admin";
+import { Project, SocialLinks } from "@/lib/types/Admin";
 import {
   Briefcase,
   FileText,
   Link2,
+  LogOut,
   MessageSquare,
   Save,
   Trash2,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { BlogsUpload } from "./BlogsUpload";
 import ProjectsUpload from "./ProjectsUpload";
-import { Blog, Blog as BlogTypes } from "@/lib/types/blogs";
+import { Blog as BlogTypes } from "@/lib/types/blogs";
+import {
+  adminLogin,
+  adminLogout,
+  checkAdmin,
+  deleteMessage,
+  getMessages,
+  markMessageRead,
+} from "@/lib/api/admin";
+
+const AdminLogin: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
+  const { register, handleSubmit } = useForm<{ password: string }>();
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: ({ password }: { password: string }) => adminLogin(password),
+    onSuccess: onLogin,
+  });
+
+  return (
+    <div className="min-h-screen flex items-center justify-center text-white">
+      <form
+        onSubmit={handleSubmit((data) => mutate(data))}
+        className="bg-[#101828] p-8 rounded-lg shadow-2xl w-full max-w-sm space-y-4"
+      >
+        <h1 className="text-2xl font-bold">Admin Login</h1>
+        <label htmlFor="admin-password" className="block text-sm font-medium">
+          Password
+        </label>
+        <input
+          id="admin-password"
+          type="password"
+          autoComplete="current-password"
+          {...register("password", { required: true })}
+          className="w-full px-3 py-2 rounded-lg bg-transparent border border-gray-600 focus:ring-2 focus:ring-blue-500"
+        />
+        {error && <p className="text-red-400 text-sm">{error.message}</p>}
+        <button
+          type="submit"
+          disabled={isPending}
+          className="w-full bg-blue-600 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        >
+          {isPending ? "Checking..." : "Login"}
+        </button>
+      </form>
+    </div>
+  );
+};
 
 export const AdminPanel: React.FC = () => {
+  const queryClient = useQueryClient();
+  const { data: auth, isLoading: authLoading } = useQuery({
+    queryKey: ["admin"],
+    queryFn: checkAdmin,
+  });
+  const isAdmin = !!auth?.admin;
+
   const [activeTab, setActiveTab] = useState<
     "messages" | "projects" | "blogs" | "social"
   >("messages");
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const { data: messages = [] } = useQuery({
+    queryKey: ["messages"],
+    queryFn: getMessages,
+    enabled: isAdmin,
+  });
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({
     github: "",
     linkedin: "",
@@ -39,42 +97,43 @@ export const AdminPanel: React.FC = () => {
 
   const loadData = async () => {
     try {
-      const messagesData = localStorage.getItem("admin_messages");
-      const blogsData = localStorage.getItem("admin_blogs");
       const linksData = localStorage.getItem("admin_social_links");
-
-      if (messagesData) setMessages(JSON.parse(messagesData) as Message[]);
-      if (blogsData) setBlogs(JSON.parse(blogsData) as Blog[]);
       if (linksData) setSocialLinks(JSON.parse(linksData) as SocialLinks);
     } catch (error) {
       console.log("Loading initial data failed:", error);
     }
   };
 
-  const saveMessages = async (data: Message[]): Promise<void> => {
-    localStorage.setItem("admin_messages", JSON.stringify(data));
-    setMessages(data);
-  };
-
-
-
   const saveSocialLinks = async (data: SocialLinks): Promise<void> => {
     localStorage.setItem("admin_social_links", JSON.stringify(data));
     setSocialLinks(data);
   };
 
-  const MessagesTab: React.FC = () => {
-    const deleteMessage = async (id: number) => {
-      const updated = messages.filter((m) => m.id !== id);
-      saveMessages(updated);
-    };
+  const refreshMessages = () =>
+    queryClient.invalidateQueries({ queryKey: ["messages"] });
+  const { mutate: removeMessage } = useMutation({
+    mutationFn: deleteMessage,
+    onSuccess: refreshMessages,
+    onError: (e: Error) => toast.error(e.message),
+  });
+  const { mutate: readMessage } = useMutation({
+    mutationFn: markMessageRead,
+    onSuccess: refreshMessages,
+    onError: (e: Error) => toast.error(e.message),
+  });
 
-    const markAsRead = async (id: number) => {
-      const updated = messages.map((m) =>
-        m.id === id ? { ...m, read: true } : m,
-      );
-      saveMessages(updated);
-    };
+  if (authLoading) {
+    return <div className="min-h-screen flex items-center justify-center text-white">Loading...</div>;
+  }
+  if (!isAdmin) {
+    return (
+      <AdminLogin
+        onLogin={() => queryClient.invalidateQueries({ queryKey: ["admin"] })}
+      />
+    );
+  }
+
+  const MessagesTab: React.FC = () => {
 
     return (
       <div className="space-y-4">
@@ -88,12 +147,12 @@ export const AdminPanel: React.FC = () => {
         {messages.length === 0 ? (
           <div className="text-center py-12 bg-gray-50 rounded-lg">
             <MessageSquare className="mx-auto h-12 w-12 text-gray-400 mb-3" />
-            <p className="text-gray-500">Koi message nahi hai</p>
+            <p className="text-gray-500">No messages yet</p>
           </div>
         ) : (
           messages.map((msg) => (
             <div
-              key={msg.id}
+              key={msg._id}
               className={`p-4 rounded-lg border-2 ${msg.read
                 ? "bg-gray-50 border-gray-200"
                 : "bg-blue-50 border-blue-200"
@@ -107,7 +166,7 @@ export const AdminPanel: React.FC = () => {
                 <div className="flex gap-2">
                   {!msg.read && (
                     <button
-                      onClick={() => markAsRead(msg.id)}
+                      onClick={() => readMessage(msg._id)}
                       className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                     >
                       Mark Read
@@ -116,7 +175,7 @@ export const AdminPanel: React.FC = () => {
                   <button
                     aria-label="delete message"
                     title="delete"
-                    onClick={() => deleteMessage(msg.id)}
+                    onClick={() => removeMessage(msg._id)}
                     className="text-red-600 hover:text-red-800"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -124,27 +183,10 @@ export const AdminPanel: React.FC = () => {
                 </div>
               </div>
               <p className="text-gray-700 mt-2">{msg.message}</p>
-              <p className="text-xs text-gray-500 mt-2">{msg.date}</p>
+              <p className="text-xs text-gray-500 mt-2">{new Date(msg.createdAt).toLocaleString()}</p>
             </div>
           ))
         )}
-
-        <button
-          onClick={async () => {
-            const newMsg: Message = {
-              id: Date.now(),
-              name: "Test User",
-              email: "test@example.com",
-              message: "Yeh ek test message hai from portfolio contact form",
-              date: new Date().toLocaleString("ur-PK"),
-              read: false,
-            };
-            await saveMessages([...messages, newMsg]);
-          }}
-          className="w-full py-2 border-2 border-dashed border-gray-300 text-gray-600 rounded-lg hover:border-gray-400 hover:text-white"
-        >
-          + Add Test Message (Demo)
-        </button>
       </div>
     );
   };
@@ -226,8 +268,17 @@ export const AdminPanel: React.FC = () => {
   return (
     <div className="min-h-screen text-white">
       <div className="bg-[#101828] text-white p-6 ">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           <h1 className="text-3xl font-bold mb-2">Portfolio Admin Panel</h1>
+          <button
+            onClick={async () => {
+              await adminLogout();
+              queryClient.invalidateQueries({ queryKey: ["admin"] });
+            }}
+            className="flex items-center gap-2 text-sm hover:text-red-400"
+          >
+            <LogOut className="h-4 w-4" /> Logout
+          </button>
         </div>
       </div>
 

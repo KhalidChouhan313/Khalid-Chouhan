@@ -65,7 +65,7 @@ const IntroMain = () => {
           <button
             className="w-full border border-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[#0f0c09] text-[var(--color-accent)] font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2.5 transition-all duration-300 cursor-pointer text-sm"
           >
-            <span>Let's Talk</span>
+            <span>Let&apos;s Talk</span>
             <Mail size={16} className="stroke-[2.5]" />
           </button>
         </Link>

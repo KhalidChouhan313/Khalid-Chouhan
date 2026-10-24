@@ -39,30 +39,31 @@ const ProjectsUpload = ({
         imageUrls.push(res.url);
       }
 
-      const payload: any = {
+      return createProject({
         title: data.title,
         description: data.description,
         images: imageUrls,
         technologies,
         links: {
-          live: data.link,
-          github: data.github,
+          live: data.link ?? "",
+          github: data.github ?? "",
         },
-      };
-      toast.success("Project Created Succesfully");
-      return createProject(payload);
+      });
     },
     onSuccess: () => {
+      toast.success("Project created successfully");
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      reset();
+      setShowProjectForm(false);
+      setEditingProject(null);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || "Failed to create project");
     },
   });
 
-  const onSubmit: SubmitHandler<ProjectFormValues> = async (data) => {
-    await createMutation.mutateAsync(data);
-
-    reset();
-    setShowProjectForm(false);
-    setEditingProject(null);
+  const onSubmit: SubmitHandler<ProjectFormValues> = (data) => {
+    createMutation.mutate(data);
   };
 
   const startEdit = (project: Project) => {

@@ -6,7 +6,7 @@ export default function GoogleAnalyticsTracker() {
     const pathname = usePathname();
 
     useEffect(() => {
-        const w = window as any;
+        const w = window as Window & { gtag?: (...args: unknown[]) => void };
         if (w.gtag) {
             w.gtag("config", process.env.NEXT_PUBLIC_GA_ID, {
                 page_path: pathname,

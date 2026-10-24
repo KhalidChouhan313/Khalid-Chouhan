@@ -17,7 +17,6 @@ export const createProject = async (payload: CreateProjectPayload) => {
     endpoint: "/api/projects",
     method: "POST",
     payload,
-    isPublic: false,
   });
 };
 export const getProjects = async (): Promise<Project[]> => {
@@ -42,6 +41,5 @@ export const deleteProjectById = async (id: string) => {
   return apiWrapper({
     endpoint: `/api/projects/${id}`,
     method: "DELETE",
-    isPublic: false,
   });
 };

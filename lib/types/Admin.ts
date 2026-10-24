@@ -1,10 +1,10 @@
 export interface Message {
-  id: number;
+  _id: string;
   name: string;
   email: string;
   message: string;
-  date: string;
-  read: boolean;
+  createdAt: string;
+  read?: boolean;
 }
 
 export interface Project {

@@ -1,5 +1,13 @@
 import nodemailer from "nodemailer";
 
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
 export const sendEmail = async ({
   name,
   email,
@@ -20,6 +28,7 @@ export const sendEmail = async ({
   await transporter.sendMail({
     from: `"From Portfolio " <${process.env.EMAIL_USER}>`,
     to: process.env.EMAIL_USER,
+    replyTo: email,
     subject: "New  Message From Portfolio",
     html: `
   <div style="
@@ -70,7 +79,7 @@ export const sendEmail = async ({
             font-size:14px;
             font-weight:500;
           ">
-            ${name}
+            ${escapeHtml(name)}
           </p>
         </div>
 
@@ -88,7 +97,7 @@ export const sendEmail = async ({
             font-size:14px;
             font-weight:500;
           ">
-            ${email}
+            ${escapeHtml(email)}
           </p>
         </div>
 
@@ -110,7 +119,7 @@ export const sendEmail = async ({
             line-height:1.6;
             white-space:pre-line;
           ">
-            ${message}
+            ${escapeHtml(message)}
           </div>
         </div>
       </div>

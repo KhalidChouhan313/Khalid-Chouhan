@@ -1,6 +1,6 @@
 "use client";
 
-import { discordLogo, githuLogo, Linkedinlogo, Xlogo } from "@/Utils/BaseUrl";
+import { discordLogo, githubLogo, Linkedinlogo, Xlogo } from "@/Utils/BaseUrl";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
@@ -15,7 +15,7 @@ const socialLinks: SocialLink[] = [
   {
     href: "https://github.com/KhalidChouhan313",
     label: "GitHub",
-    icon: githuLogo,
+    icon: githubLogo,
   },
   {
     href: "https://www.linkedin.com/in/muhammad-khalid-chouhan-68b24738b",

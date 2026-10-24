@@ -2,29 +2,21 @@ import axios, { AxiosRequestConfig } from "axios";
 interface ApiWrapperOptions extends AxiosRequestConfig {
   endpoint: string;
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-  payload?: any;
-  isPublic?: boolean;
-  isEncrypted?: boolean;
+  payload?: unknown;
   isFormData?: boolean;
-  server?: string;
 }
+// Admin auth rides on the httpOnly admin_session cookie, sent automatically on same-origin requests.
 export const apiWrapper = async <T>({
   endpoint,
   method = "GET",
   payload,
   isFormData = false,
-  isPublic = true,
-  server,
   ...rest
 }: ApiWrapperOptions): Promise<T> => {
   try {
     const headers: Record<string, string> = {
       "Content-Type": isFormData ? "multipart/form-data" : "application/json",
     };
-    if (!isPublic) {
-      const token = process.env.NEXT_PUBLIC_API_TOKEN;
-      if (token) headers["Authorization"] = `Bearer ${token}`;
-    }
     const response = await axios.request<T>({
       url: endpoint,
       method,
@@ -33,11 +25,12 @@ export const apiWrapper = async <T>({
       ...rest,
     });
     return response.data;
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const data = axios.isAxiosError(err) ? err.response?.data : undefined;
     const message =
-      err?.response?.data?.message ||
-      err?.response?.data?.error ||
-      err.message ||
+      data?.message ||
+      data?.error ||
+      (err instanceof Error && err.message) ||
       "Something went wrong";
     console.error("API Error:", message);
     throw new Error(message);

@@ -7,7 +7,6 @@ export const CreateSubscriber = async (payload: subscriber) => {
     endpoint: "/api/subscriber",
     method: "POST",
     payload,
-    isPublic: false,
   });
 };
 export const useCheckSubscriber = () => {

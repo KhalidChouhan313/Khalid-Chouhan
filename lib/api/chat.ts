@@ -6,6 +6,5 @@ export const PostChat = async (payload: { message: string }) => {
     endpoint: "/api/chat",
     method: "POST",
     payload,
-    isPublic: true,
   });
 };

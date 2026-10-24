@@ -23,12 +23,12 @@ export const POST = async (req: NextRequest) => {
     const body = await req.json();
     const { title, description, images, links, technologies } = body;
     if (
-      !title ||
-      !description ||
-      images.length === 0 ||
+      typeof title !== "string" || !title ||
+      typeof description !== "string" || !description ||
+      !Array.isArray(images) || images.length === 0 ||
       !Array.isArray(technologies) ||
-      !links.live ||
-      !links.github
+      typeof links?.live !== "string" || !links.live ||
+      typeof links?.github !== "string" || !links.github
     ) {
       return NextResponse.json(
         { success: false, message: "All fields are required" },
@@ -47,7 +47,7 @@ export const POST = async (req: NextRequest) => {
     });
     return NextResponse.json(
       { success: true, data: projects },
-      { status: 200 }
+      { status: 201 }
     );
   } catch (error) {
     console.error("projects API Error:", error);

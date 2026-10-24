@@ -1,6 +1,6 @@
 "use client";
 import { GetBlog, GetBlogById, PatchBlog } from "@/lib/api/blogs";
-import { Blog, BlogResponse, SingBlogResponse } from "@/lib/types/blogs";
+import { Blog, BlogResponse } from "@/lib/types/blogs";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useBlogs = () => {

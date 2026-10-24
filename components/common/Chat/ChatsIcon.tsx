@@ -5,7 +5,7 @@ import Chat from "./Chat";
 import { useState } from "react";
 
 function ChatsIcon() {
-  const [showtChat, setShowChat] = useState<any>(false);
+  const [showtChat, setShowChat] = useState(false);
   return (
     <>
       {

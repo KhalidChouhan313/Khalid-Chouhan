@@ -28,9 +28,8 @@ const Contact = () => {
         endpoint: "/api/contact",
         method: "POST",
         payload: data,
-        isPublic: true,
       }),
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Message sent successfully!");
       reset();
     },
@@ -134,7 +133,7 @@ const Contact = () => {
         )}
         {isError && (
           <p className="text-red-400 text-center text-sm font-medium mt-2">
-            {(error as any)?.message || "Something went wrong. Please try again."}
+            {error?.message || "Something went wrong. Please try again."}
           </p>
         )}
       </form>

@@ -6,7 +6,6 @@ export const PostBlog = async (payload: BlogPayload) => {
     endpoint: "/api/blog",
     method: "POST",
     payload,
-    isPublic: false,
   });
 };
 export const GetBlog = async (): Promise<BlogResponse> => {

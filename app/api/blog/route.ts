@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/config/db";
+import mongoose from "mongoose";
 import BlogSchema from "@/models/BlogSchema";
 import { calculateReadTime } from "@/lib/utils/calculateReadTime";
 
@@ -8,10 +9,10 @@ export const GET = async (req: NextRequest) => {
     await connectDB();
     const { searchParams } = new URL(req.url);
     const search = searchParams.get("search");
-    let query: any = {};
+    let query: Record<string, unknown> = {};
     if (search) {
       query = {
-        title: { $regex: search, $options: "i" },
+        title: { $regex: search.slice(0, 100).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" },
       };
     }
     const blogs = await BlogSchema.find(query).sort({ createdAt: -1 });
@@ -40,7 +41,11 @@ export const POST = async (req: NextRequest) => {
     await connectDB();
     const body = await req.json();
     const { title, description, image } = body;
-    if (!title || !description || !image) {
+    if (
+      typeof title !== "string" || !title ||
+      typeof description !== "string" || !description ||
+      typeof image !== "string" || !image
+    ) {
       return NextResponse.json(
         {
           success: false,
@@ -84,7 +89,7 @@ export const DELETE = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
 
-    if (!id) {
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: "ID required" },
         { status: 400 },
@@ -119,19 +124,23 @@ export const PUT = async (req: NextRequest) => {
     const id = searchParams.get("id");
     const body = await req.json();
 
-    if (!id) {
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: "ID required" },
         { status: 400 },
       );
     }
-    if (body.description) {
-      body.readTime = calculateReadTime(body.description);
+    const update: Record<string, unknown> = {};
+    for (const key of ["title", "description", "image"] as const) {
+      if (typeof body[key] === "string" && body[key]) update[key] = body[key];
+    }
+    if (update.description) {
+      update.readTime = calculateReadTime(update.description as string);
     }
     const updatedBlog = await BlogSchema.findByIdAndUpdate(
       id,
-      { $set: body },
-      { new: true },
+      { $set: update },
+      { new: true, runValidators: true },
     );
 
     if (!updatedBlog) {
@@ -164,7 +173,7 @@ export const PATCH = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
 
-    if (!id) {
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: "ID required" },
         { status: 400 }
@@ -189,6 +198,7 @@ export const PATCH = async (req: NextRequest) => {
       { status: 200 }
     );
   } catch (error) {
+    console.error("Blog view API Error:", error);
     return NextResponse.json(
       { success: false, error: "Something went wrong" },
       { status: 500 }
