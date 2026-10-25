@@ -2,7 +2,7 @@ import ClientLayout from "@/components/layout/ClientLayout";
 import Footer from "@/components/layout/footer/Footer";
 import GoogleAnalyticsTracker from "@/components/layout/GoogleAnalyticsTracker";
 import { introProfile } from "@/Utils/BaseUrl";
-import { FULL_NAME, KEYWORDS, SITE_URL, rootSchema } from "@/lib/seo";
+import { FULL_NAME, SITE_DESCRIPTION, SITE_URL, rootSchema } from "@/lib/seo";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
@@ -31,12 +31,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Khalid Chouhan | Full Stack Developer & Team Lead (Muhammad Khalid Chouhan Gujjar)",
+    default: "Khalid Chouhan | Full Stack Developer",
     template: "%s | Khalid Chouhan",
   },
-  description:
-    "Official portfolio of Muhammad Khalid Chouhan (Khalid Chouhan Gujjar), Full Stack Developer & Team Lead from Pakistan at TechOn Ventures. React, Next.js, Node.js, MongoDB, fintech (InstaPay). Open to remote work worldwide.",
-  keywords: KEYWORDS,
+  description: SITE_DESCRIPTION,
   authors: [{ name: FULL_NAME, url: SITE_URL }],
   creator: FULL_NAME,
   publisher: FULL_NAME,
@@ -49,9 +47,8 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
   openGraph: {
-    title: "Khalid Chouhan | Full Stack Developer & Team Lead",
-    description:
-      "Portfolio of Muhammad Khalid Chouhan (Khalid Chouhan Gujjar) — Full Stack Developer building fintech apps with React, Next.js & Node.js.",
+    title: "Khalid Chouhan | Full Stack Developer",
+    description: SITE_DESCRIPTION,
     url: SITE_URL,
     siteName: "Khalid Chouhan Portfolio",
     locale: "en_US",
@@ -59,14 +56,13 @@ export const metadata: Metadata = {
     type: "profile",
     firstName: "Muhammad Khalid",
     lastName: "Chouhan",
-    username: "khalidchouhan313",
   },
   twitter: {
     card: "summary",
     site: "@Mkhalidcho8520M",
     creator: "@Mkhalidcho8520M",
-    title: "Khalid Chouhan | Full Stack Developer & Team Lead",
-    description: "Muhammad Khalid Chouhan (Khalid Chouhan Gujjar) — Full Stack Developer from Pakistan. React, Next.js, Node.js, fintech.",
+    title: "Khalid Chouhan | Full Stack Developer",
+    description: SITE_DESCRIPTION,
     images: [introProfile],
   },
   icons: {

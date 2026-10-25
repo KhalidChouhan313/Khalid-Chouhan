@@ -12,11 +12,11 @@ interface Highlight {
 const HIGHLIGHTS: Highlight[] = [
   {
     icon: <Layers size={14} />,
-    text: "Team Lead on the InstaPay Agency Panel — owning both frontend and backend",
+    text: "Work on the InstaPay Agency Panel, covering both frontend and backend",
   },
   {
     icon: <Target size={14} />,
-    text: "Cut API response times to sub-300ms on a high-traffic global payments product",
+    text: "Improved API response times to under 300ms on key endpoints of a global payments product",
   },
   {
     icon: <Sparkles size={14} />,
@@ -59,14 +59,13 @@ const AboutIntro = () => {
         variants={fadeUp}
         className="relative mt-6 font-sans text-base leading-relaxed text-[var(--color-text-muted)]"
       >
-        I&apos;m <span className="text-white font-semibold">Muhammad Khalid Chouhan</span> — many people
-        online know me as <span className="text-white font-semibold">Khalid Chouhan Gujjar</span>. I&apos;m a Full Stack Developer at{" "}
+        I&apos;m <span className="text-white font-semibold">Muhammad Khalid Chouhan</span>, a Full Stack Developer at{" "}
         <span className="text-white font-semibold">TechOn Ventures</span>,
         building <span className="text-white font-semibold">InstaPay</span> — a
         global fintech platform for international transfers, virtual cards
-        and real-time payments. I currently lead the team behind the{" "}
+        and real-time payments. I work on the{" "}
         <span className="text-white font-semibold">InstaPay Agency Panel</span>,
-        working across both frontend and backend: from database design and
+        covering both frontend and backend: from database design and
         REST APIs to fast, polished interfaces.
       </motion.p>
 

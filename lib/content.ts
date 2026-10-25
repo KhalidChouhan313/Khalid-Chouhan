@@ -4,6 +4,7 @@ import mongoose, { Model } from "mongoose";
 import { connectDB } from "@/config/db";
 import BlogSchema from "@/models/BlogSchema";
 import { SchemaProject } from "@/models/Projects";
+import type { Project } from "@/lib/types/projects";
 
 // keyword URLs for SEO: "/blog/how-i-secured-my-nextjs-api-routes" instead of "/blog/69f7..."
 export const slugify = (title: string) =>
@@ -63,6 +64,13 @@ export interface ProjectDoc {
   createdAt: Date;
   updatedAt?: Date;
 }
+
+/** Newest first, serialised so client components can take it as a prop. */
+export const listProjects = cache(async (): Promise<Project[]> => {
+  await ensureSlugs(SchemaProject);
+  const docs = await SchemaProject.find().sort({ createdAt: -1 }).lean();
+  return JSON.parse(JSON.stringify(docs));
+});
 
 // cache() dedupes the lookup between generateMetadata and the page in one request
 export const findBlog = cache((param: string) => findByParam<BlogDoc>(BlogSchema, param));

@@ -16,7 +16,7 @@ interface StatBadge {
 }
 
 const STAT_BADGES: StatBadge[] = [
-  { label: "Experience", value: "2+ Yrs" },
+  { label: "Experience", value: "2+ years" },
   { label: "Role", value: "Full Stack Developer" },
   { label: "Works", value: "Worldwide" },
 ];
@@ -56,7 +56,7 @@ const About = () => {
                 src={aboutImage}
                 fill
                 sizes="(max-width: 1024px) 360px, 420px"
-                alt="Khalid Chouhan, Full Stack Developer and Team Lead"
+                alt="Khalid Chouhan, Full Stack Developer"
                 className="object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-bg-base/70 via-bg-base/10 to-transparent pointer-events-none" />

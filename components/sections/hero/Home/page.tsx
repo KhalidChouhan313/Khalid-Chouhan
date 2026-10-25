@@ -2,8 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight, Download, MapPin } from "lucide-react";
 import { easings } from "@/lib/motion-variants";
 
@@ -12,11 +11,10 @@ const HeroScene = dynamic(() => import("./HeroScene"), {
   loading: () => <div className="absolute inset-[18%] rounded-full bg-[var(--color-accent)]/10 blur-3xl" />,
 });
 
-const ROLES = ["Full-Stack Developer", "Team Lead", "Fintech Engineer"];
 
 const STATS = [
   { value: "2+", label: "Years of experience" },
-  { value: "<300ms", label: "API responses shipped" },
+  { value: "<300ms", label: "on key API endpoints" },
   { value: "Global", label: "Fintech product (InstaPay)" },
 ];
 
@@ -41,13 +39,6 @@ const reveal = (delay: number) => ({
 });
 
 const HomeContent = () => {
-  const [role, setRole] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => setRole((r) => (r + 1) % ROLES.length), 2600);
-    return () => clearInterval(id);
-  }, []);
-
   return (
     <div className="relative w-full max-w-6xl px-6 pt-10 pb-12 md:pt-16 lg:py-10 flex flex-col gap-12">
       <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -73,24 +64,12 @@ const HomeContent = () => {
             >
               Khalid <span className="text-gradient">Chouhan</span>
             </motion.h1>
-            <motion.p {...reveal(0.22)} className="text-sm text-[var(--color-text-faint)]">
-              Muhammad Khalid Chouhan · also known as <span className="text-[var(--color-text-muted)]">Khalid Chouhan Gujjar</span>
+            <motion.p
+              {...reveal(0.28)}
+              className="font-display text-2xl md:text-3xl font-semibold leading-10 md:leading-[3rem] text-[var(--color-accent)]"
+            >
+              Full Stack Developer
             </motion.p>
-
-            <motion.div {...reveal(0.28)} className="h-10 md:h-12 overflow-hidden" aria-live="polite">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={ROLES[role]}
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: "-100%", opacity: 0 }}
-                  transition={{ duration: 0.45, ease: easings.smooth }}
-                  className="font-display text-2xl md:text-3xl font-semibold leading-10 md:leading-[3rem] text-[var(--color-accent)]"
-                >
-                  {ROLES[role]}
-                </motion.p>
-              </AnimatePresence>
-            </motion.div>
           </div>
 
           <motion.p
@@ -98,7 +77,7 @@ const HomeContent = () => {
             className="max-w-xl text-base md:text-lg leading-relaxed text-[var(--color-text-muted)]"
           >
             I build fast, secure, production-grade web apps — from database and REST APIs to polished
-            interfaces. Currently Full Stack  <span className="text-white font-medium">Engineer</span> at
+            interfaces. Currently <span className="text-white font-medium">Full Stack Developer</span> at
             TechOn Ventures, shipping fintech features used around the world.
           </motion.p>
 

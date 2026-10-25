@@ -28,8 +28,8 @@ export const POST = async (req: NextRequest) => {
       typeof description !== "string" || !description ||
       !Array.isArray(images) || images.length === 0 ||
       !Array.isArray(technologies) ||
-      typeof links?.live !== "string" || !links.live ||
-      (links.github !== undefined && typeof links.github !== "string")
+      (links?.live !== undefined && typeof links.live !== "string") ||
+      (links?.github !== undefined && typeof links.github !== "string")
     ) {
       return NextResponse.json(
         { success: false, message: "All fields are required" },
@@ -43,7 +43,7 @@ export const POST = async (req: NextRequest) => {
       images,
       technologies,
       links: {
-        live: links.live,
+        live: links?.live ?? "",
         github: links.github ?? "",
       },
     });

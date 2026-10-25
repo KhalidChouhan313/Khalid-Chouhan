@@ -6,22 +6,14 @@ import { viewportOnce } from "@/lib/motion-variants";
 
 const EXPERIENCE = [
   {
-    role: "Team Lead — InstaPay Agency Panel",
-    company: "TechOn Ventures",
-    period: "Current role",
-    current: true,
-    points: [
-      "Lead the team building the InstaPay Agency Panel, owning both frontend and backend.",
-      "Plan features, review code and keep delivery steady on a live global fintech product.",
-    ],
-  },
-  {
-    role: "Full Stack Developer (MERN)",
+    role: "Full Stack Developer",
     company: "TechOn Ventures",
     period: "Jan 2025 — Present",
+    current: true,
     points: [
-      "Build InstaPay — international transfers, virtual cards, activity feeds and transaction workflows.",
-      "Develop REST APIs and auth flows; improved API response times to sub-300ms on key endpoints.",
+      "Build InstaPay, a global fintech platform covering international transfers, virtual cards, QR payments, invoicing and multi-channel withdrawals.",
+      "Work on the InstaPay Agency Panel across frontend and backend.",
+      "Develop REST APIs and authentication flows; improved API response times to under 300ms on key endpoints.",
       "Own the admin panel: new features, integrations and production issue resolution.",
     ],
   },

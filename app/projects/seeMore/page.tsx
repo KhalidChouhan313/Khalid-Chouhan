@@ -1,11 +1,10 @@
-"use client";
-
-import ProjectCardSkeleton from "@/components/common/Loading/ProjectCardSkeleton";
-import { useProjects } from "@/hooks/project";
 import ProjectCard from "@/components/sections/projects/ProjectCard";
+import { listProjects } from "@/lib/content";
 
-export default function SeeMoreProjects() {
-  const { data, isLoading, isError } = useProjects();
+export const revalidate = 60;
+
+export default async function SeeMoreProjects() {
+  const projects = await listProjects();
 
   return (
     <main className="min-h-screen px-6 py-20 bg-transparent text-white">
@@ -22,23 +21,13 @@ export default function SeeMoreProjects() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {isLoading &&
-            Array.from({ length: 6 }).map((_, i) => (
-              <ProjectCardSkeleton key={i} />
+        {projects.length === 0 ? (
+          <p className="text-center text-sm text-[var(--color-text-muted)]">No projects yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map((project) => (
+              <ProjectCard key={project._id} project={project} />
             ))}
-
-          {!isLoading &&
-            data?.map((project) => (
-              <ProjectCard key={project?._id} project={project} />
-            ))}
-        </div>
-
-        {isError && (
-          <div className="flex justify-center mt-12">
-            <p className="px-6 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-semibold">
-              Failed to load projects. Please try reloading the page.
-            </p>
           </div>
         )}
       </div>

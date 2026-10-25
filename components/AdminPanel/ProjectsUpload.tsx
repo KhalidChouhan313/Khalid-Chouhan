@@ -184,14 +184,14 @@ const ProjectForm = ({ project, onDone }: ProjectFormProps) => {
       </Field>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Field label="Live URL" htmlFor="project-live" error={errors.link?.message}>
+        <Field label="Live URL (optional)" htmlFor="project-live" error={errors.link?.message}>
           <input
             id="project-live"
             type="url"
             placeholder="https://example.com"
             aria-invalid={!!errors.link}
             className={inputClass}
-            {...register("link", { required: "Live URL is required", pattern: URL_PATTERN })}
+            {...register("link", { validate: (v) => !v || URL_PATTERN.value.test(v) || URL_PATTERN.message })}
           />
         </Field>
         <Field label="GitHub URL (optional)" htmlFor="project-github" error={errors.github?.message}>
@@ -356,9 +356,11 @@ const ProjectsUpload = ({
                 </div>
                 <div className="mt-auto flex items-center justify-between pt-3">
                   <div className="flex gap-2">
-                    <a href={project.links?.live} target="_blank" rel="noopener noreferrer" aria-label="Open live site" title="Live site" className={iconButtonClass}>
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
+                    {project.links?.live && (
+                      <a href={project.links.live} target="_blank" rel="noopener noreferrer" aria-label="Open live site" title="Live site" className={iconButtonClass}>
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    )}
                     {project.links?.github && (
                       <a href={project.links.github} target="_blank" rel="noopener noreferrer" aria-label="Open GitHub repo" title="GitHub" className={iconButtonClass}>
                         <Github className="h-4 w-4" />

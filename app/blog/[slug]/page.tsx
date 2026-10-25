@@ -121,7 +121,7 @@ export default async function BlogPostPage({ params }: Params) {
           <div className="flex-1">
             <p className="font-bold text-white">Written by {FULL_NAME}</p>
             <p className="text-sm text-[var(--color-text-muted)]">
-              Full Stack Developer &amp; Team Lead building fintech apps with React, Next.js and Node.js.
+              Full Stack Developer building fintech apps with React, Next.js and Node.js.
             </p>
           </div>
           <Link

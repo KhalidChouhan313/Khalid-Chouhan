@@ -79,7 +79,7 @@ const Footer = () => {
               </span>
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-[var(--color-text-muted)]">
-              Muhammad Khalid Chouhan (Khalid Chouhan Gujjar) — Full-Stack Developer & Team Lead building fintech-grade web apps. Based in Pakistan, working worldwide.
+              Full Stack Developer building fintech-grade web apps with React, Next.js and Node.js. Based in Pakistan, working worldwide.
             </p>
           </div>
 
@@ -124,7 +124,7 @@ const Footer = () => {
         </div>
 
         <div className="relative flex flex-col-reverse items-center justify-between gap-4 border-t border-[var(--color-border-subtle)] px-6 py-5 text-xs text-[var(--color-text-faint)] sm:flex-row sm:px-10">
-          <p>&copy; {new Date().getFullYear()} Muhammad Khalid Chouhan (Khalid Chouhan Gujjar). All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Khalid Chouhan. All rights reserved.</p>
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

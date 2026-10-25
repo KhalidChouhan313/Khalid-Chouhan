@@ -23,7 +23,7 @@ const ProjectSchema = new Schema(
     links: {
       live: {
         type: String,
-        required: true,
+        default: "",
       },
       github: {
         type: String,

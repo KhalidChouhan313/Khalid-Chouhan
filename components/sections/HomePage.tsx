@@ -1,0 +1,89 @@
+"use client";
+
+import Pagination from "@/components/layout/Pagination/pagination";
+import HomeHomeContent from "@/components/sections/hero/Home/page";
+import About from "@/app/about/page";
+import Skills from "@/app/skills/page";
+import Blog from "@/app/blog/page";
+import Contact from "@/app/contact/page";
+import ProjectsSection from "@/components/sections/projects/ProjectsSection";
+import { Project } from "@/lib/types/projects";
+import { motion } from "framer-motion";
+import { fadeUp, viewportOnce } from "@/lib/motion-variants";
+
+export default function HomePage({ projects }: { projects: Project[] }) {
+  return (
+    <div className="h-full w-full flex justify-center items-center relative">
+      <Pagination />
+
+      {/* xl:px-24 keeps a gutter for the fixed left nav (Pagination) so it never covers content */}
+      <main className="w-full flex flex-col items-center xl:px-24">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          viewport={viewportOnce}
+          id="home"
+          className="lg:min-h-[calc(100vh-80px)] h-auto bg-transparent w-full flex items-center justify-center"
+        >
+          <HomeHomeContent />
+        </motion.div>
+
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          id="about"
+          className="h-auto w-full px-4 relative z-0 flex items-start justify-center"
+        >
+          <About />
+        </motion.section>
+
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          id="skills"
+          className="h-auto w-full px-4 relative z-0 flex items-start justify-center"
+        >
+          <Skills />
+        </motion.section>
+
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          id="projects"
+          className="h-auto bg-transparent w-full flex items-center justify-center"
+        >
+          <ProjectsSection projects={projects} />
+        </motion.section>
+
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          id="blog"
+          className="h-auto bg-transparent w-full flex items-center justify-center"
+        >
+          <Blog />
+        </motion.section>
+
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          id="contact"
+          className="h-auto bg-transparent w-full flex items-center justify-center"
+        >
+          <Contact />
+        </motion.section>
+      </main>
+    </div>
+  );
+}
