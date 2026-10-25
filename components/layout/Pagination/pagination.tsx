@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Code, EditIcon, Folder, LayoutGrid, Mail, User } from "lucide-react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils/utils";
 
 interface Section {
   id: string;
@@ -19,8 +20,10 @@ const sections: Section[] = [
   { id: "contact", name: "Contact", icon: <Mail size={18} /> },
 ];
 
+// shown from xl up only; app/page.tsx gives <main> an xl:px-24 gutter so content never sits under it
 const Pagination = () => {
   const [active, setActive] = useState<string>("home");
+  const [footerVisible, setFooterVisible] = useState(false);
   const ratiosRef = useRef<Map<string, number>>(new Map());
 
   useEffect(() => {
@@ -55,78 +58,78 @@ const Pagination = () => {
       if (el) observer.observe(el);
     });
 
+    const footer = document.querySelector("footer");
+    const footerObserver = new IntersectionObserver(([entry]) => setFooterVisible(entry.isIntersecting));
+    if (footer) footerObserver.observe(footer);
+
     return () => {
       observer.disconnect();
+      footerObserver.disconnect();
       ratios.clear();
     };
   }, []);
 
   return (
-    <div className="xl:block hidden fixed left-6 top-1/2 -translate-y-1/2 z-40">
-      <motion.ul
-        initial={{ opacity: 0, x: -16 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="glass relative p-2 flex flex-col items-center gap-3 rounded-full border border-[var(--color-border)] shadow-lg"
+    <div
+      className="hidden xl:block fixed left-5 top-1/2 z-40 -translate-y-1/2"
+      style={{ perspective: 900 }}
+    >
+      <motion.nav
+        aria-label="Page sections"
+        initial={{ opacity: 0, x: -24 }}
+        animate={footerVisible ? { opacity: 0, x: -24, pointerEvents: "none" } : { opacity: 1, x: 0, pointerEvents: "auto" }}
+        transition={{ type: "spring", stiffness: 220, damping: 24 }}
         style={{ transformStyle: "preserve-3d" }}
+        className="border-gradient glass-strong relative flex flex-col items-center gap-1.5 rounded-full p-1.5
+          shadow-[0_20px_50px_-18px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.08)]"
       >
+        {/* light sweep gives the pill a curved, glossy feel */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-white/[0.08] via-transparent to-[var(--color-accent)]/[0.06]"
+        />
+
         {sections.map((sec) => {
           const isActive = active === sec.id;
           return (
-            <li key={sec.id} className="group relative cursor-pointer list-none">
-              <motion.button
-                onClick={() =>
-                  document.getElementById(sec.id)?.scrollIntoView({
-                    behavior: "smooth",
-                  })
-                }
-                whileHover={{ scale: 1.12, rotateY: 12 }}
-                whileTap={{ scale: 0.92 }}
-                animate={{
-                  scale: isActive ? 1.1 : 1,
-                  boxShadow: isActive
-                    ? "0 0 16px var(--color-accent-glow), 0 4px 12px rgba(0,0,0,0.4)"
-                    : "0 0 0px rgba(0,0,0,0)",
-                }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className={`relative w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-300 ${
-                  isActive
-                    ? "bg-[var(--color-accent)] text-[#0f0c09]"
-                    : "text-[var(--color-text-muted)] hover:text-white hover:bg-[var(--color-bg-surface)]"
-                }`}
-                style={{ transformStyle: "preserve-3d" }}
-                aria-label={`Scroll to ${sec.name}`}
-                aria-current={isActive ? "true" : undefined}
-              >
+            <motion.button
+              key={sec.id}
+              type="button"
+              onClick={() => document.getElementById(sec.id)?.scrollIntoView({ behavior: "smooth" })}
+              whileHover={{ scale: 1.12, z: 24 }}
+              whileTap={{ scale: 0.94 }}
+              style={{ transformStyle: "preserve-3d" }}
+              aria-label={`Scroll to ${sec.name}`}
+              aria-current={isActive ? "true" : undefined}
+              className={cn(
+                "group relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full transition-colors duration-300",
+                isActive ? "text-[#0f0c09]" : "text-[var(--color-text-muted)] hover:text-white",
+              )}
+            >
+              {isActive && (
+                <motion.span
+                  layoutId="sideNavActive"
+                  className="absolute inset-0 rounded-full bg-[var(--color-accent)]
+                    shadow-[0_0_22px_var(--color-accent-glow),0_6px_14px_-4px_rgba(0,0,0,0.6),inset_0_-2px_0_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.5)]"
+                  style={{ transform: "translateZ(14px)" }}
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10" style={{ transform: "translateZ(18px)" }}>
                 {sec.icon}
+              </span>
 
-                {isActive && (
-                  <motion.span
-                    layoutId="activePulse"
-                    className="absolute inset-0 rounded-full border border-[var(--color-accent)]"
-                    initial={{ opacity: 0.6, scale: 1 }}
-                    animate={{ opacity: 0, scale: 1.6 }}
-                    transition={{
-                      duration: 1.4,
-                      repeat: Infinity,
-                      ease: "easeOut",
-                    }}
-                  />
-                )}
-              </motion.button>
-
-              <span className="absolute left-14 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-xs font-semibold bg-[var(--color-bg-elevated)] border border-[var(--color-border)] text-[var(--color-text-secondary)] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 pointer-events-none transition-all duration-200 shadow-md whitespace-nowrap">
+              <span
+                className="pointer-events-none absolute left-14 top-1/2 -translate-x-2 -translate-y-1/2 whitespace-nowrap rounded-lg border border-[var(--color-border)]
+                  bg-[var(--color-bg-elevated)] px-3 py-1.5 text-xs font-semibold text-[var(--color-text-secondary)] opacity-0 shadow-lg
+                  transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
+              >
                 {sec.name}
               </span>
-            </li>
+            </motion.button>
           );
         })}
-
-        <div
-          className="absolute left-1/2 top-2 bottom-2 -translate-x-1/2 w-px bg-[var(--color-border)] -z-10"
-          aria-hidden="true"
-        />
-      </motion.ul>
+      </motion.nav>
     </div>
   );
 };

@@ -77,7 +77,7 @@ const HomeContent = () => {
               Muhammad Khalid Chouhan · also known as <span className="text-[var(--color-text-muted)]">Khalid Chouhan Gujjar</span>
             </motion.p>
 
-            <motion.div {...reveal(0.28)} className="h-9 md:h-10 overflow-hidden" aria-live="polite">
+            <motion.div {...reveal(0.28)} className="h-10 md:h-12 overflow-hidden" aria-live="polite">
               <AnimatePresence mode="wait">
                 <motion.p
                   key={ROLES[role]}
@@ -85,7 +85,7 @@ const HomeContent = () => {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: "-100%", opacity: 0 }}
                   transition={{ duration: 0.45, ease: easings.smooth }}
-                  className="font-display text-2xl md:text-3xl font-semibold text-[var(--color-accent)]"
+                  className="font-display text-2xl md:text-3xl font-semibold leading-10 md:leading-[3rem] text-[var(--color-accent)]"
                 >
                   {ROLES[role]}
                 </motion.p>

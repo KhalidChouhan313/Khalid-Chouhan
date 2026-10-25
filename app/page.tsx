@@ -15,6 +15,7 @@ export default function Home() {
     <div className="h-full w-full flex justify-center items-center relative">
       <Pagination />
 
+      {/* xl:px-24 keeps a gutter for the fixed left nav (Pagination) so it never covers content */}
       <main className="w-full flex flex-col items-center xl:px-24">
         <motion.div
           variants={fadeUp}
