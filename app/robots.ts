@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/lib/seo";
+
 export default function robots() {
   return {
     rules: {
@@ -5,6 +7,6 @@ export default function robots() {
       allow: "/",
       disallow: ["/adminKhalid", "/api/"],
     },
-    sitemap: "https://khalid-chouhan.vercel.app/sitemap.xml",
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

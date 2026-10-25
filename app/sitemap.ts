@@ -3,8 +3,7 @@ import { connectDB } from "@/config/db";
 import BlogSchema from "@/models/BlogSchema";
 import { SchemaProject } from "@/models/Projects";
 import { ensureSlugs } from "@/lib/content";
-
-const BASE = "https://khalid-chouhan.vercel.app";
+import { SITE_URL as BASE } from "@/lib/seo";
 
 export const revalidate = 3600;
 

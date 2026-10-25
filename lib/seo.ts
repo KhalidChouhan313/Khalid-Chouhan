@@ -1,5 +1,5 @@
 // Single source of truth for identity/SEO data used in metadata and JSON-LD.
-export const SITE_URL = "https://khalid-chouhan.vercel.app";
+export const SITE_URL = "https://khalidchouhan.me";
 export const SITE_NAME = "Khalid Chouhan";
 export const FULL_NAME = "Muhammad Khalid Chouhan";
 export const JOB_TITLE = "Full Stack Developer & Team Lead";
